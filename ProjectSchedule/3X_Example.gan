@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?><project name="PCM" company="McMaster, CAS Department" webLink="" view-date="2015-11-03" view-index="1" gantt-divider-location="354" resource-divider-location="300" version="2.7.1" locale="en_US">
+    <description><![CDATA[Simulation of temperature over time for a solar water heating tank incorporating phase change material (PCM).]]></description>
+    <view zooming-state="default:2" id="gantt-chart">
+        <field id="tpd3" name="Name" width="57" order="0"/>
+        <field id="tpd4" name="Begin date" width="21" order="1"/>
+        <field id="tpd5" name="End date" width="21" order="2"/>
+    </view>
+    <view id="resource-table">
+        <field id="0" name="Name" width="52" order="0"/>
+        <field id="1" name="Default role" width="47" order="1"/>
+    </view>
+    <!-- -->
+    <calendars>
+        <day-types>
+            <day-type id="0"/>
+            <day-type id="1"/>
+            <default-week id="1" name="default" sun="0" mon="0" tue="0" wed="0" thu="0" fri="0" sat="0"/>
+            <only-show-weekends value="false"/>
+            <overriden-day-types/>
+            <days/>
+        </day-types>
+    </calendars>
+    <tasks empty-milestones="true">
+        <taskproperties>
+            <taskproperty id="tpd0" name="type" type="default" valuetype="icon"/>
+            <taskproperty id="tpd1" name="priority" type="default" valuetype="icon"/>
+            <taskproperty id="tpd2" name="info" type="default" valuetype="icon"/>
+            <taskproperty id="tpd3" name="name" type="default" valuetype="text"/>
+            <taskproperty id="tpd4" name="begindate" type="default" valuetype="date"/>
+            <taskproperty id="tpd5" name="enddate" type="default" valuetype="date"/>
+            <taskproperty id="tpd6" name="duration" type="default" valuetype="int"/>
+            <taskproperty id="tpd7" name="completion" type="default" valuetype="int"/>
+            <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
+            <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
+        </taskproperties>
+        <task id="0" name="Write Design Doc" color="#8cb6ce" meeting="false" start="2015-11-03" duration="4" complete="0" expand="true" cost-manual-value="20.0" cost-calculated="false">
+            <task id="29" name="MG" color="#8cb6ce" meeting="false" start="2015-11-03" duration="2" complete="0" expand="true">
+                <depend id="31" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="31" name="MIS" color="#8cb6ce" meeting="false" start="2015-11-05" duration="2" complete="0" expand="true">
+                <depend id="44" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="32" name="Schedule" color="#8cb6ce" meeting="false" start="2015-11-03" duration="4" complete="0" expand="true"/>
+        </task>
+        <task id="2" name="Design Doc Due" color="#8cb6ce" meeting="true" start="2015-11-06" duration="0" complete="0" expand="true"/>
+        <task id="44" name="Implementation" color="#8cb6ce" meeting="false" start="2015-11-07" duration="5" complete="0" expand="true">
+            <task id="20" name="Input Hiding Module" color="#8cb6ce" meeting="false" start="2015-11-07" duration="5" complete="0" expand="true"/>
+            <task id="49" name="Input Parameter Module" color="#8cb6ce" meeting="false" start="2015-11-07" duration="5" complete="0" expand="true"/>
+            <task id="51" name="Output Format Module" color="#8cb6ce" meeting="false" start="2015-11-07" duration="5" complete="0" expand="true"/>
+            <task id="53" name="Temperature ODEs Module" meeting="false" start="2015-11-07" duration="5" complete="0" expand="true"/>
+            <task id="55" name="Energy Equations Module" meeting="false" start="2015-11-07" duration="5" complete="0" expand="true"/>
+            <task id="57" name="Control Module" meeting="false" start="2015-11-07" duration="5" complete="0" expand="true"/>
+        </task>
+        <task id="61" name="Unit Testing" color="#8cb6ce" meeting="false" start="2015-11-12" duration="4" complete="0" expand="true">
+            <task id="62" name="Input Hiding Module" color="#8cb6ce" meeting="false" start="2015-11-12" duration="4" complete="0" expand="true"/>
+            <task id="63" name="Input Parameter Module" meeting="false" start="2015-11-12" duration="4" complete="0" expand="true"/>
+            <task id="64" name="Output Format Module" meeting="false" start="2015-11-12" duration="4" complete="0" expand="true"/>
+            <task id="65" name="Temperature ODEs Module" meeting="false" start="2015-11-12" duration="4" complete="0" expand="true"/>
+            <task id="66" name="Energy Equations Module" meeting="false" start="2015-11-12" duration="4" complete="0" expand="true"/>
+        </task>
+        <task id="68" name="System Testing" color="#8cb6ce" meeting="false" start="2015-11-15" duration="3" complete="0" expand="true"/>
+        <task id="21" name="Rev 0 Demo" color="#8cb6ce" meeting="true" start="2015-11-18" duration="0" complete="0" expand="true"/>
+        <task id="69" name="Revise SRS" color="#8cb6ce" meeting="false" start="2015-11-19" duration="2" complete="0" expand="true"/>
+        <task id="83" name="Revise Test Plan" color="#8cb6ce" meeting="false" start="2015-11-19" duration="2" complete="0" expand="true"/>
+        <task id="70" name="Revise MG" color="#8cb6ce" meeting="false" start="2015-11-20" duration="2" complete="0" expand="true"/>
+        <task id="71" name="Revise MIS" color="#8cb6ce" meeting="false" start="2015-11-20" duration="2" complete="0" expand="true"/>
+        <task id="72" name="Revise Implementation" color="#8cb6ce" meeting="false" start="2015-11-20" duration="2" complete="0" expand="true"/>
+        <task id="73" name="Testing" color="#8cb6ce" meeting="false" start="2015-11-19" duration="8" complete="0" expand="true"/>
+        <task id="74" name="Usability Test" color="#8cb6ce" meeting="false" start="2015-11-23" duration="3" complete="0" expand="true"/>
+        <task id="6" name="Test Report Due" color="#8cb6ce" meeting="true" start="2015-11-27" duration="0" complete="0" expand="true"/>
+        <task id="98" name="Prepare Final Demo" color="#8cb6ce" meeting="false" start="2015-11-28" duration="4" complete="0" expand="true"/>
+        <task id="8" name="Final Demo" color="#8cb6ce" meeting="true" start="2015-12-01" duration="0" complete="0" expand="true"/>
+        <task id="100" name="Revise Existing Documentation" color="#8cb6ce" meeting="false" start="2015-12-02" duration="7" complete="0" expand="true"/>
+        <task id="10" name="Final Doc Due" color="#8cb6ce" meeting="true" start="2015-12-08" duration="0" complete="0" expand="true"/>
+        <task id="76" name="New Requirements" color="#8cb6ce" meeting="false" start="2015-12-09" duration="3" complete="0" expand="true"/>
+        <task id="77" name="Second Usability Test" color="#8cb6ce" meeting="false" start="2015-12-14" duration="5" complete="0" expand="true"/>
+    </tasks>
+    <resources>
+        <resource id="0" name="Student 1" function="Default:0" contacts="" phone=""/>
+        <resource id="1" name="Student 2" function="Default:0" contacts="" phone=""/>
+        <resource id="2" name="Student 3" function="Default:0" contacts="" phone=""/>
+    </resources>
+    <allocations>
+        <allocation task-id="31" resource-id="0" function="Default:0" responsible="true" load="90.0"/>
+        <allocation task-id="29" resource-id="0" function="Default:0" responsible="true" load="90.0"/>
+        <allocation task-id="32" resource-id="0" function="Default:0" responsible="true" load="10.0"/>
+        <allocation task-id="29" resource-id="1" function="Default:0" responsible="false" load="50.0"/>
+        <allocation task-id="31" resource-id="1" function="Default:0" responsible="false" load="50.0"/>
+        <allocation task-id="32" resource-id="1" function="Default:0" responsible="false" load="50.0"/>
+        <allocation task-id="29" resource-id="2" function="Default:0" responsible="false" load="50.0"/>
+        <allocation task-id="31" resource-id="2" function="Default:0" responsible="false" load="50.0"/>
+        <allocation task-id="32" resource-id="2" function="Default:0" responsible="false" load="50.0"/>
+    </allocations>
+    <vacations/>
+    <taskdisplaycolumns>
+        <displaycolumn property-id="tpd2" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd6" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd3" order="0" width="190" visible="true"/>
+        <displaycolumn property-id="tpd4" order="1" width="72" visible="true"/>
+        <displaycolumn property-id="tpd7" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd8" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd12" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd5" order="2" width="71" visible="true"/>
+        <displaycolumn property-id="tpd10" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd11" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd9" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd1" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd13" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd0" order="-1" width="75" visible="false"/>
+    </taskdisplaycolumns>
+    <previous/>
+    <roles roleset-name="Default"/>
+</project>
