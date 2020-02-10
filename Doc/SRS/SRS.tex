@@ -1,5 +1,18 @@
 \documentclass[12pt, titlepage]{article}
-
+\usepackage{amssymb}
+\usepackage{amstext}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{extarrows}
+\usepackage{setspace}
+\usepackage[section]{placeins}
+\usepackage{float}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{hyperref}
@@ -12,17 +25,18 @@
 }
 \usepackage[round]{natbib}
 
-\title{SE 3XA3: Software Requirements Specification\\Title of Project}
+\title{SE 3XA3: Software Requirements Specification\\OpenCameraRefined}
 
-\author{Team \#, Team Name
-		\\ Student 1 name and macid
-		\\ Student 2 name and macid
-		\\ Student 3 name and macid
+\author{Group \#211, CAMERACREW
+		\\ Faisal Jaffer, jaffem1
+		\\ Dominik Buszowiecki, buszowid
+		\\ Pedram Yazdinia, yazdinip
+		\\ Zayed Sheet, sheetz
 }
 
 \date{\today}
 
-\input{../Comments}
+%\input{../Comments}
 
 \begin{document}
 
@@ -38,8 +52,7 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+02/09/2020 & 1.0 & Initial requirements specification\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -48,26 +61,43 @@ Date 2 & 1.1 & Notes\\
 
 \pagenumbering{arabic}
 
-This document describes the requirements for ....  The template for the Software
-Requirements Specification (SRS) is a subset of the Volere
-template~\citep{RobertsonAndRobertson2012}.  If you make further modifications
-to the template, you should explicity state what modifications were made.
-
 \section{Project Drivers}
 
 \subsection{The Purpose of the Project}
+
+The purpose of OpenCameraRefined is to improve the accessibility of features in the Open-Camera application. By adding the ability to capture images hands-free, and the ability to have filters while maintaining a clean UI we hope to attract more users to use the refined application.
 
 \subsection{The Stakeholders}
 
 \subsubsection{The Client}
 
+\begin{itemize}
+\item Dr. Asghar Bokhari
+\item TAs
+\end{itemize}
+
 \subsubsection{The Customers}
 
+\begin{itemize}
+\item The stakeholders include any user that requires accessible features in their camera application, as well as a clean UI for their day-to-day capturing needs
+\end{itemize}
+
 \subsubsection{Other Stakeholders}
+
+\begin{itemize}
+\item Core developer team of OpenCameraRefined
+\item Other developers collaborating on the open source Open Camera application
+\end{itemize}
 
 \subsection{Mandated Constraints}
 
 \subsection{Naming Conventions and Terminology}
+
+\begin{enumerate}
+\item  TFLite:  TensorFlowLite is a machine learning framework used to train models to predict smiling faces.
+\item Bounding Box:  A square box displayed in the camera view around the faces detected
+\item OpenCV:  A framework that provides image manipulation functions.
+\end{enumerate}
 
 \subsection{Relevant Facts and Assumptions}
 
@@ -81,70 +111,223 @@ User characteristics should go under assumptions.
 
 \subsubsection{Work Partitioning}
 
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{|l|l|}
+\hline
+Event Number & Summary of BUC                                                                                                                      \\ \hline
+1            & \begin{tabular}[c]{@{}l@{}}Create an object detection function in the camera app that can\\ detect a user and gestures\end{tabular} \\ \hline
+2            & Create designs of filters that can be applied to a user/setting                                                                     \\ \hline
+3            & \begin{tabular}[c]{@{}l@{}}Create an editing function that will have a palette of filters that\\ the user can apply\end{tabular}    \\ \hline
+4            & Finishing edits to the project                                                                                                      \\ \hline
+\end{tabular}
+\caption{\label{tab:table-name}Work Partitioning Part 1}
+\end{center}
+\end{table}
+
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{|l|l|l|l|}
+\hline
+Event Number & Event Name                & Input                      & Output       \\ \hline
+1            & Object Detection Creation & Developer Code, TensorFlow & Phone Screen \\ \hline
+2            & Camera Filter Design      & Photoshop                  & Screen       \\ \hline
+3            & Camera Filter Application & Filter, Developer Code     & Phone Screen \\ \hline
+4            & Camera Final Edits        & Developer Code             & Phone Screen \\ \hline
+\end{tabular}
+\caption{\label{tab:table-name}Work Partitioning Part 2}
+\end{center}
+\end{table}
+
 \subsubsection{Individual Product Use Cases}
 
+% \begin{table}[h!]
+% \begin{center}
+% \begin{tabular}{|l|l|l|l|}
+% \hline
+% Use Case  & Trigger & Pre-Condition & Outcome  \\ \hline
+% User wants to capture an image from far & Smiling face in the view of camera  &  User has feature turned on & Image is captured \\ \hline
+% User wants to add a filter &   & . & .   \\\hline
+
+% \end{tabular}
+% \caption{\label{tab:table-name}Sub-tasks}
+% \end{center}
+% \end{table}
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{|l|l|l|l|}
+\hline
+Use Case                                                                          & Trigger                                                                      & Pre-Condition                                                        & Outcome                                                                        \\ \hline
+\begin{tabular}[c]{@{}l@{}}User wants to capture\\ an image from far\end{tabular} & \begin{tabular}[c]{@{}l@{}}Smiling face in view\\ of the camera\end{tabular} & \begin{tabular}[c]{@{}l@{}}User has feature\\ turned on\end{tabular} & Image is captured                                                              \\ \hline
+\begin{tabular}[c]{@{}l@{}}User wants to add a\\ filter\end{tabular}              & User selects a filter                                                        & \begin{tabular}[c]{@{}l@{}}User has selected\\ a filter\end{tabular} & \begin{tabular}[c]{@{}l@{}}Filter is applied to\\ the camera view\end{tabular} \\ \hline
+\end{tabular}
+\caption{\label{tab:table-name}Use Cases}
+\end{center}
+\end{table}
+
+\newpage
 \subsection{Functional Requirements}
+\begin{enumerate}[{VP}1.]
+	\item User 
+	\begin{enumerate}[{BE1}.1]
+	    \item The user wants to take a picture using a gesture.
+	    \begin{enumerate}
+	        \item The system shall detect the target object. 
+	        \item The system shall "look" for the selected gesture.
+	        \item The system shall save the taken picture. 
+	        \item The system shall allow the user to zoom in and out. 
+	        \item The system shall allow the user to change the resolution.
+	        \item The system shall allow the user to apply a filter in "real-time".
+	    \end{enumerate}
+	    
+	    \item The user wants to apply a "real time" filter. 
+	    \begin{enumerate}
+	        \item The system must display a menu of filters
+	        \item The system must allow the user to select from the menu of filters.
+	        \item The system must show a preview of a selected filter.
+	        \item The system must allow the user to close the filters menu.
+	        \item They system must detect and place the filter in the correct context. 
+	    \end{enumerate}
+	    
+	    \item The user wants to edit a saved picture.
+	    \begin{enumerate}
+            \item The system must allow the user to simply preview the original picture.
+            \item The system must allow the user to change the properties of the picture such as contrast.
+            \item The system shall create a copy of the original picture before each edition.
+            \item The system shall offer a menu of after effects that can be reversed. 
+	    \end{enumerate}
+	\end{enumerate}
+\end{enumerate}
 
 \section{Non-functional Requirements}
 
 \subsection{Look and Feel Requirements}
+\begin{enumerate}[{LF}1. ]
+	\item The overall look and feel will remain unchanged from the original Open Camera application.
+	\item The additional features shall seamlessly integrate with the existing look and feel.
+\end{enumerate}
 
 \subsection{Usability and Humanity Requirements}
+\begin{enumerate}[{UH}1. ]
+	\item The ease of use of the existing features will remain unchanged.
+	\item The gesture photo feature shall allows a user to take a
+\end{enumerate}
 
 \subsection{Performance Requirements}
+\begin{enumerate}[{PR}1. ]
+	\item The performance of the existing features must not be affected by the additional features being added.
+	\item Real time camera filters shall be activated immediately after the user selects one.
+	\item Saving a photo that is being edited shall take no more than 5 seconds.
+	\item If a photo is being taken using the gesture feature, the app shall detect the gesture at least 75 percent of the time.
+\end{enumerate}
 
 \subsection{Operational and Environmental Requirements}
+\begin{enumerate}[{OE}1. ]
+	\item The product shall be operable in any location provided that the camera is functional on the users device.
+\end{enumerate}
 
 \subsection{Maintainability and Support Requirements}
+\begin{enumerate}[{MS}1. ]
+	\item Maintenance as a result of the additional features shall be kept minimal.
+	\item The hardware and software support for the application shall remain unchanged from the original application.
+\end{enumerate}
 
 \subsection{Security Requirements}
+\begin{enumerate}[{SR}1. ]
+	\item The application shall be available to download by the general public.
+	\item The app shall not transmit any user data or user photos to a external source unless authorized.
+\end{enumerate}
 
 \subsection{Cultural Requirements}
+\begin{enumerate}[{CP}1. ]
+	\item This product shall not offend any religious or ethnic group.
+\end{enumerate}
 
 \subsection{Legal Requirements}
+\begin{enumerate}[{LR}1. ]
+	\item The application shall conform to all applicable laws and regulations.
+\end{enumerate}
 
 \subsection{Health and Safety Requirements}
-
-This section is not in the original Volere template, but health and safety are
-issues that should be considered for every engineering project.
+\begin{enumerate}[{HS}1. ]
+	\item The gestures required to take a photo shall be subtle and not endanger those around the user. 
+\end{enumerate}
 
 \section{Project Issues}
 
 \subsection{Open Issues}
 
+Documentation
+\begin{itemize}
+\item The original project git lacks proper documentation.
+\end{itemize}
+
 \subsection{Off-the-Shelf Solutions}
+ Smile Capture
+\begin{itemize}
+\item An Android application that only lets you capture an image when a smiling face is in view. This application does not have any UI buttons but only a camera view.
+\end{itemize}
+
+Native Android Camera Application
+\begin{itemize}
+\item This is the native camera application that has a hidden feature in the settings. It lets the user smile to capture a picture.
+
+\end{itemize}
 
 \subsection{New Problems}
 
+A new problem that might be arise when a user wants to capture an image without smiling. This might create accessibility issues where the user would have to turn off the feature.
+
 \subsection{Tasks}
+
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+Task & Assignee & Timeline  \\\hline
+Import TF + OpenCV and refactor & Software Engineers &   Feb 5th  \\\hline
+Model Training  &  Software Engineers  &  Feb 8th   \\\hline
+UI Face Bounding Box Implementation  &  Software Engineers  &  Feb 10th   \\\hline
+PoC  &  Software Engineers  &  Feb 11th   \\\hline
+PoC Review  &  Client  &  Feb 11th   \\\hline
+Live Filter Implementation  &  Software Engineers  &   Feb 16th  \\\hline
+Unit Testing  &  Software Engineers  &   Feb 21st  \\\hline
+\end{tabular}
+\caption{\label{tab:table-name}Sub-tasks}
+\end{center}
+\end{table}
+
 
 \subsection{Migration to the New Product}
 
+None. The model trained to detect different gestures and faces will have a general understanding and will be exported in terms of weights in the APK deployed to each device. Therefore no special migration needed to export to different devices. 
+
 \subsection{Risks}
+
+None.
 
 \subsection{Costs}
 
+None.
+
 \subsection{User Documentation and Training}
+
+None. The new features added will have intuitive user flow and easy to understand icons to help user navigate the application.
 
 \subsection{Waiting Room}
 
 \subsection{Ideas for Solutions}
+TFLite + OpenCV
+\begin{itemize}
+\item Tensorflow lite is a framework used to make ML predictions on device. It trains the model on a computer with a dedicated GPU and then saves that model into weights and an inference that can be recompiled on the mobile device to make predictions. In our solution this method can be trained on a wide variety of images with smiling faces and various of gestures to make a highly accurate prediction. This model can be imported into the OpenCamera application where the camera view will be fed in as the input image. The output from the model will assign a label with an accuracy percentage. We will accept any prediction that is made over 85\%. OpenCV can be used to add live filters into the app. This framework has built in functions that convert a BGR image into gray-scale and allow other image manipulations. 
+\end{itemize}
 
-\bibliographystyle{plainnat}
-
-\bibliography{SRS}
-
-\newpage
-
-\section{Appendix}
-
-This section has been added to the Volere template.  This is where you can place
-additional information.
-
-\subsection{Symbolic Parameters}
-
-The definition of the requirements will likely call for SYMBOLIC\_CONSTANTS.
-Their values are defined in this section for easy maintenance.
-
+Face Detector API
+\begin{itemize}
+\item FaceDetector API is built into Android 6.0 and later to help find faces in images. Since it is built into the OS, it is highly optimized and is pre-trained on Googles servers for high accuracy. Although it is highly effeicnt at finding faces, it offers APIs that can distinguish between a smiling and a normal face. Also it lacks support for detecting other gestures like a 'thumbs-up'.
+\end{itemize}
 
 \end{document}
