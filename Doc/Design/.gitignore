@@ -1,0 +1,12 @@
+.DS_store
+*.aux
+*.log
+*.out
+*.pag
+*.pdf
+!*MooOinkQuack.pdf
+*.pdfsync
+*.toc
+*.synctex*
+*.bbl
+*.blg
