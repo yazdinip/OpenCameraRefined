@@ -79,6 +79,14 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.ZoomControls;
+import net.sourceforge.opencamera.tensorflow.Classifier;
+import net.sourceforge.opencamera.tensorflow.TensorFlowObjectDetectionAPIModel;
+import android.util.Size;
+import net.sourceforge.opencamera.tensorflow.env.Logger;
+import android.widget.Toast;
+import android.graphics.Canvas;
+
+
 
 /** The main Activity for Open Camera.
  */
@@ -133,7 +141,24 @@ public class MainActivity extends Activity implements AudioListener.AudioListene
 	public volatile boolean test_have_angle;
 	public volatile float test_angle;
 	public volatile String test_last_saved_image;
-	
+
+	// Configuration values for the prepackaged SSD model.
+	private static final int TF_OD_API_INPUT_SIZE = 300;
+	private static final boolean TF_OD_API_IS_QUANTIZED = true;
+	private static final String TF_OD_API_MODEL_FILE = "file:///android_asset/frozen_inference_graph.pb";
+
+	private static final String TF_OD_API_LABELS_FILE = "file:///android_asset/labelmap.txt";
+	// Minimum detection confidence to track a detection.
+	private static final float MINIMUM_CONFIDENCE_TF_OD_API = 0.5f;
+	private static final boolean MAINTAIN_ASPECT = false;
+	private static final Size DESIRED_PREVIEW_SIZE = new Size(640, 480);
+	private static final boolean SAVE_PREVIEW_BITMAP = false;
+	private static final float TEXT_SIZE_DIP = 10;
+
+	private static final Logger LOGGER = new Logger();
+
+	public Classifier classifier;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		long debug_time = 0;
@@ -344,7 +369,22 @@ public class MainActivity extends Activity implements AudioListener.AudioListene
         }
 
 		setModeFromIntents(savedInstanceState);
-
+		try {
+			classifier = TensorFlowObjectDetectionAPIModel.create(
+							getAssets(),
+							TF_OD_API_MODEL_FILE,
+							TF_OD_API_LABELS_FILE,
+							TF_OD_API_INPUT_SIZE);
+		} catch (final IOException e) {
+			e.printStackTrace();
+			LOGGER.e(e, "Exception initializing classifier!");
+			Toast toast =
+					Toast.makeText(
+							getApplicationContext(), "Classifier could not be initialized", Toast.LENGTH_SHORT);
+			toast.show();
+			finish();
+		}
+//		LOGGER.e(classifier.recognizeImage(loadBitmapFromView(preview.getView(), preview)).get(0).getTitle());
         // load icons
         preloadIcons(R.array.flash_icons);
         preloadIcons(R.array.focus_mode_icons);
@@ -378,6 +418,7 @@ public class MainActivity extends Activity implements AudioListener.AudioListene
 		if( MyDebug.LOG )
 			Log.d(TAG, "onCreate: total time for Activity startup: " + (System.currentTimeMillis() - debug_time));
 	}
+
 
 	/* This method sets the preference defaults which are set specific for a particular device.
 	 * This method should be called when Open Camera is run for the very first time after installation,

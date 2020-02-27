@@ -45,6 +45,7 @@ import android.util.SizeF;
 import android.view.Display;
 import android.view.Surface;
 import android.view.SurfaceHolder;
+import android.hardware.Camera;
 
 /** Provides support using Android 5's Camera 2 API
  *  android.hardware.camera2.*.
@@ -596,8 +597,8 @@ public class CameraController2 extends CameraController {
 	private class OnRawImageAvailableListener implements ImageReader.OnImageAvailableListener {
 		private CaptureResult capture_result;
 		private Image image;
-		
 		void setCaptureResult(CaptureResult capture_result) {
+
 			if( MyDebug.LOG )
 				Log.d(TAG, "setCaptureResult()");
 			synchronized( image_reader_lock ) {
@@ -2103,6 +2104,8 @@ public class CameraController2 extends CameraController {
 		imageReader.setOnImageAvailableListener(new ImageReader.OnImageAvailableListener() {
 			@Override
 			public void onImageAvailable(ImageReader reader) {
+				Log.i("hereeee:::", "hello");
+				Log.i("length: ", Integer.toString(reader.acquireNextImage().getPlanes().length));
 				if( MyDebug.LOG )
 					Log.d(TAG, "new still image available");
 				if( jpeg_cb == null ) {
@@ -3285,6 +3288,12 @@ public class CameraController2 extends CameraController {
 	public void setFaceDetectionListener(final FaceDetectionListener listener) {
 		this.face_detection_listener = listener;
 	}
+
+	@Override
+	public Camera getCamera() {
+		return getCamera();
+	}
+
 
 	/* If do_af_trigger_for_continuous is false, doing an autoFocus() in continuous focus mode just
 	   means we call the autofocus callback the moment focus is not scanning (as with old Camera API).

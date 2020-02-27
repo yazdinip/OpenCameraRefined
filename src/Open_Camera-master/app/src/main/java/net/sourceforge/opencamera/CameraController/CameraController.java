@@ -12,6 +12,7 @@ import android.media.Image;
 import android.media.MediaRecorder;
 import android.util.Log;
 import android.view.SurfaceHolder;
+import android.hardware.Camera;
 
 /** CameraController is an abstract class that wraps up the access/control to
  *  the Android camera, so that the rest of the application doesn't have to
@@ -306,6 +307,8 @@ public abstract class CameraController {
 	public abstract void startPreview() throws CameraControllerException;
 	public abstract void stopPreview();
 	public abstract boolean startFaceDetection();
+	public  abstract Camera getCamera();
+
 	public abstract void setFaceDetectionListener(final CameraController.FaceDetectionListener listener);
 
 	/**

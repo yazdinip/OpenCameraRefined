@@ -15,6 +15,8 @@ import net.sourceforge.opencamera.Preview.ApplicationInterface.NoFreeStorageExce
 import net.sourceforge.opencamera.Preview.CameraSurface.CameraSurface;
 import net.sourceforge.opencamera.Preview.CameraSurface.MySurfaceView;
 import net.sourceforge.opencamera.Preview.CameraSurface.MyTextureView;
+import net.sourceforge.opencamera.tensorflow.Classifier;
+import net.sourceforge.opencamera.tensorflow.TensorFlowObjectDetectionAPIModel;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,6 +45,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
+import android.hardware.Camera;
 import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
 import android.hardware.camera2.DngCreator;
@@ -60,6 +63,7 @@ import android.provider.DocumentsContract;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.util.Pair;
+import android.util.Size;
 import android.view.Display;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -73,6 +77,9 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.View.MeasureSpec;
 import android.widget.Toast;
+import android.content.Context;
+import net.sourceforge.opencamera.tensorflow.env.Logger;
+
 
 /** This class was originally named due to encapsulating the camera preview,
  *  but in practice it's grown to more than this, and includes most of the
@@ -264,6 +271,25 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 	public volatile boolean test_video_failure;
 	public volatile boolean test_ticker_called; // set from MySurfaceView or CanvasView
 
+	// classifier
+	public Classifier classifier;
+	// Camera Frame
+	public byte[] CameraFrame;
+	// Configuration values for the prepackaged SSD model.
+	private static final int TF_OD_API_INPUT_SIZE = 300;
+	private static final boolean TF_OD_API_IS_QUANTIZED = true;
+	private static final String TF_OD_API_MODEL_FILE = "file:///android_asset/frozen_inference_graph.pb";
+
+	private static final String TF_OD_API_LABELS_FILE = "file:///android_asset/labelmap.txt";
+	// Minimum detection confidence to track a detection.
+	private static final float MINIMUM_CONFIDENCE_TF_OD_API = 0.5f;
+	private static final boolean MAINTAIN_ASPECT = false;
+	public static final Size DESIRED_PREVIEW_SIZE = new Size(640, 480);
+	private static final boolean SAVE_PREVIEW_BITMAP = false;
+	private static final float TEXT_SIZE_DIP = 10;
+
+	private static final Logger LOGGER = new Logger();
+
 	public Preview(ApplicationInterface applicationInterface, ViewGroup parent) {
 		if( MyDebug.LOG ) {
 			Log.d(TAG, "new Preview");
@@ -293,6 +319,7 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 
         if( using_texture_view ) {
     		this.cameraSurface = new MyTextureView(getContext(), this);
+//    		cameraSurface.getView().
     		// a TextureView can't be used both as a camera preview, and used for drawing on, so we use a separate CanvasView
     		this.canvasView = new CanvasView(getContext(), this);
     		camera_controller_manager = new CameraControllerManager2(getContext());
@@ -310,6 +337,23 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 		if( canvasView != null ) {
 			parent.addView(canvasView);
 		}
+
+		try {
+			this.classifier = TensorFlowObjectDetectionAPIModel.create(
+					getResources().getAssets(),
+					TF_OD_API_MODEL_FILE,
+					TF_OD_API_LABELS_FILE,
+					TF_OD_API_INPUT_SIZE);
+		} catch (final IOException e) {
+			e.printStackTrace();
+			LOGGER.e(e, "Exception initializing classifier!");
+//			Toast toast =
+//					Toast.makeText(
+//							getApplicationContext(), "Classifier could not be initialized", Toast.LENGTH_SHORT);
+//			toast.show();
+//			finish();
+		}
+		CameraFrame = null;
 	}
 	
 	/*private void previewToCamera(float [] coords) {
@@ -677,6 +721,13 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 	
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
+		camera_controller.getCamera().setPreviewCallback(
+				new Camera.PreviewCallback(){
+					public void onPreviewFrame(byte[] data, Camera camera){
+						CameraFrame = data;
+						cameraSurface.detect();
+					}
+				});
 		if( MyDebug.LOG )
 			Log.d(TAG, "surfaceChanged " + w + ", " + h);
         if( holder.getSurface() == null ) {
@@ -685,7 +736,7 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
         }
 		mySurfaceChanged();
 	}
-	
+
 	@Override
 	public void onSurfaceTextureAvailable(SurfaceTexture arg0, int width, int height) {
 		if( MyDebug.LOG )

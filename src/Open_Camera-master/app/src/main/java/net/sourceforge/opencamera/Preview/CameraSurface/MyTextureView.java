@@ -38,6 +38,9 @@ public class MyTextureView extends TextureView implements CameraSurface {
 	public View getView() {
 		return this;
 	}
+
+	@Override
+	public void detect(){}
 	
 	@Override
 	public void setPreviewDisplay(CameraController camera_controller) {
