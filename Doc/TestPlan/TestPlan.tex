@@ -12,17 +12,17 @@
 }
 \usepackage[round]{natbib}
 
-\title{SE 3XA3: Test Plan\\Title of Project}
+\title{SE 3XA3: Test Plan\\OpenCameraRefined}
 
-\author{Team \#, Team Name
-		\\ Student 1 name and macid
-		\\ Student 2 name and macid
-		\\ Student 3 name and macid
+\author{Team \#211, CAMERACREW
+		\\ Faisal Jaffer, jaffem1
+		\\ Dominik Buszowiecki, buszowid
+		\\ Pedram Yazdinia, yazdinip
+		\\ Zayed Sheet, sheetz
 }
 
 \date{\today}
 
-\input{../Comments}
 
 \begin{document}
 
@@ -48,13 +48,13 @@ Date 2 & 1.1 & Notes\\
 
 \pagenumbering{arabic}
 
-This document ...
-
 \section{General Information}
 
 \subsection{Purpose}
+    The purpose of this document is to describe the process and techniques that will be used to verify the correctness of the system.
 
 \subsection{Scope}
+    The scope of the document is to describe the testing techniques that will be used to verify the additional features that will be implemented specifically. This includes performing unit testing, integrated testing and automated testing on any additional functions that have been implemented as well as on the system as a whole.
 
 \subsection{Acronyms, Abbreviations, and Symbols}
 	
@@ -75,113 +75,184 @@ Abbreviation2 & Definition2\\
 \begin{table}[!htbp]
 \caption{\textbf{Table of Definitions}} \label{Table}
 
-\begin{tabularx}{\textwidth}{p{3cm}X}
+\begin{tabularx}{\textwidth}{p{4cm}X}
 \toprule
 \textbf{Term} & \textbf{Definition}\\
 \midrule
-Term1 & Definition1\\
-Term2 & Definition2\\
+OpenCamera & A open source camera application for Android\\
+OpenCameraRefined & Our teams version of the OpenCamera application\\
+Gesture & A movement of a body part used to express something\\
+Filter & The process of changing the appearance of an image by manipulating its colours and shades.\\
+Machine Learning & The process of using computer software to find a relationship between a input and a output typically based on provided input output pairs.\\
+TensorFlow & A open source machine learning library\\
+Real Time & A system is real time if it responds to input immediately as it happens (in other words live)\\
 \bottomrule
 \end{tabularx}
 
 \end{table}	
 
 \subsection{Overview of Document}
+    Our team will be developing two additional features to the open source camera app called OpenCamera.  The first feature will allow the user to take a photo through the use a gesture. The second feature allows the user to apply a photo filter either before or after the photo has been taken. This document will outline the tests to be performed for both of these features.
 
 \section{Plan}
 	
 \subsection{Software Description}
+This software is designed to change the way we capture pictures through our phones. Using image processing algorithms and machine learning, the team is focused on enabling the software to process and recognize a certain gesture in real time. In addition, the software is designed to offer the user with real time filters, mainly using existing packages such as OpenCV. Some initial gestures recognized by the software can include Smile, Thumbs up or Wave. Future gestures can be added by retraining the Object Classification algorithm through machine learning frameworks such as TensorFlow. The purpose is to gain accessibility and functionality through the use of “hands-free” picture capture and real time filters. The Software is developed using Android Studio and written prominently in Java. The user is also given the opportunity to change the configuration of the automatic image capture. For example, the user can mandate the application to only take a picture when a defined gesture is performed by the user for a certain period of time. 
 
 \subsection{Test Team}
+The following team members are responsible for scheduling, planning and executing different test phases, covering the entire code:
+\begin{enumerate}
+    \item Zayed Sheet
+    \item Pedram Yazdinia
+\end{enumerate}
 
 \subsection{Automated Testing Approach}
+The Testing process for each module is initiated by extracting the requirements that are affected by the test cases. These requirements should be recorded and verified. The team is then responsible to determine the testing level. The traditional testing levels include, Unit Testing, Integration Testing and System Testing. Developers group the tests into a certain level by looking at where they are added in the software development process or by checking how specific they are in the context of the entire implementation.  Once the testing level is determined, the developers brainstorm on different testing methods based on the scope of the testing. The testing methods mainly include White-box, Black-box or Grey-box testing which is a combination of the other two. In the execution stage, the team first compares different testing tools available, and selects the ones that are most compatible with our level and method of testing. Finally, the tests run, and the defects are one by one reviewed. In the final stages, it is crucial that the team updates the Requirements Traceability Matrix that shows the completeness of our validation through Software Testing. Finally, the developers are responsible to revise and review the effected requirements if an error has been fund. The implementation will change accordingly to the test cases results and the new requirements.  
 
 \subsection{Testing Tools}
-
+Open Camera is mainly developed using Android Studio and TensorFlow. Android Studio is the official IDE for android development which includes a comprehensive set of features used for unit testing, code coverage and debugging. As a result, the test team will mainly use Android Studio for testing purposes as well. 	Other tools such as Epxeritest and Robotinum were considered which offer a more advanced way to test the code, however for time consuming purposes we have decided to use Android Studio. 
+		
 \subsection{Testing Schedule}
 		
-See Gantt Chart at the following url ...
+See Gantt Chart at the following url \href{https://gitlab.cas.mcmaster.ca/yazdinip/opencamerarefined/-/blob/master/Doc/DevelopmentPlan/Gantt.png}{Gantt-Proj}
+
 
 \section{System Test Description}
 	
 \subsection{Tests for Functional Requirements}
 
-\subsubsection{Area of Testing1}
+\subsubsection{Input through gestures}
 		
-\paragraph{Title for Test}
+\paragraph{Perform actions based on trained gestures}
 
 \begin{enumerate}
 
-\item{test-id1\\}
+\item{test-smile-capture\\}
 
-Type: Functional, Dynamic, Manual, Static etc.
+Type: Manual
 					
 Initial State: 
+    ML model and label files in correct directory. Camera view is initialized. Preview width and height is known. Inception model is initialized. 
 					
-Input: 
+Input: Face in the view of the selected camera. (Image is the input)
 					
-Output: 
+Output: Green bounding box around the face in the preview. Following a successful detection, a picture is captured after 2 seconds. 
 					
-How test will be performed: 
-					
-\item{test-id2\\}
+How test will be performed: A tester will hold the Android device running our version of the OpenCamera application and verify that a green bounding box is displayed around the face on the preview and a picture is captured 2 seconds after the detection.
 
-Type: Functional, Dynamic, Manual, Static etc.
+\item{test-face-detect\\}
+
+Type: Manual
 					
 Initial State: 
+    ML model and label files in correct directory. Camera view is initialized. Preview width and height is known. Inception model is initialized. 
 					
-Input: 
+Input: Face in the view of the selected camera. (Image is the input)
 					
-Output: 
+Output: Green bounding box around the face in the preview. 
 					
-How test will be performed: 
+How test will be performed: A tester will hold the Android device running our version of the OpenCamera application and verify that a green bounding box is displayed around the face on the preview.
+
+\item{test-thumb-filter\\}
+
+Type: Manual
+					
+Initial State: 
+    ML model and label files in correct directory. Camera view is initialized. Preview width and height is known. Inception model is initialized. OpenCV is initialized. 
+					
+Input: "Thumbs Up" in the view of the selected camera. (Image is the input)
+					
+Output: Orange bounding box around the detected thumb following a filter displayed on the preview. 
+					
+How test will be performed: A tester will hold the Android device running our version of the OpenCamera application and verify that they are able to use the "live filter" when they show "thumbs up".
 
 \end{enumerate}
 
-\subsubsection{Area of Testing2}
+\subsubsection{Live Filter}
 
-...
+\begin{enumerate}
+
+\item{test-cycle-through-filters\\}
+
+Type: Manual
+					
+Initial State: 
+    ML model and label files in correct directory. Camera view is initialized. Preview width and height is known. Inception model is initialized. OpenCV is initialized. 
+					
+Input: "Thumbs Up" in the view of the selected camera. (Image is the input)
+					
+Output: Every time a new "thumbs up" is detected, the system displays a new filter (cycles through the 4 filters available.)
+					
+How test will be performed: A tester will hold the Android device running our version of the OpenCamera application and verify that they are able to scroll through the "live filters" every time they show a "thumbs up".
+
+\end{enumerate}
 
 \subsection{Tests for Nonfunctional Requirements}
 
-\subsubsection{Area of Testing1}
+\subsubsection{Performance of gesture detection}
 		
-\paragraph{Title for Test}
+\paragraph{Performance measured through speed and reliability}
 
 \begin{enumerate}
 
-\item{test-id1\\}
+\item{test-reliability\\}
 
-Type: 
+Type: Manual
 					
-Initial State: 
+Initial State: Application being operated in an poorly lit environment
+				
+Input/Condition: A poorly lit gesture is found in the image.
 					
-Input/Condition: 
+Output/Result: The system is able to detect the gesture and perform relevant action.
 					
-Output/Result: 
+How test will be performed: A tester will hold the Android device in a poorly lit room running our version of the OpenCamera application and verify that the application is able to perform the corresponding actions relevant to the gesture.
 					
-How test will be performed: 
-					
-\item{test-id2\\}
+\item{test-speed\\}
 
-Type: Functional, Dynamic, Manual, Static etc.
+Type: Dynamic
 					
-Initial State: 
+Initial State: ML model and label files in correct directory. Camera view is initialized. Preview width and height is known. Inception model is initialized. 
 					
-Input: 
+Input: Bitmap image of a gesture
 					
-Output: 
+Output: Detection of the gesture in the image under 200ms.
 					
-How test will be performed: 
+How test will be performed: After initializing the Inception model, we feed in an image with a gesture. Then measure the time it takes for the model to make a classification.
 
 \end{enumerate}
 
-\subsubsection{Area of Testing2}
-
-...
-
 \subsection{Traceability Between Test Cases and Requirements}
 
+\subsubsection{Functional Requirements}
+
+\begin{center}
+\begin{tabular}{ |c|c| } 
+ \hline
+ FR Trace & Test ID \\ 
+  \hline
+   \hline
+BE1.1 & test-smile-capture \\ 
+  \hline
+BE1.2 & test-thumb-filter \\ 
+ \hline
+\end{tabular}
+\end{center}
+
+\subsubsection{Non-Functional Requirements}
+\begin{center}
+\begin{tabular}{ |c|c| } 
+ \hline
+ NFR Trace & Test ID \\ 
+  \hline
+   \hline
+PR1 & test-speed \\ 
+  \hline
+PR2 & test-speed \\ 
+  \hline
+OE1 & test-reliability \\ 
+ \hline
+\end{tabular}
+\end{center}
 \section{Tests for Proof of Concept}
 
 \subsection{Area of Testing1}
@@ -224,28 +295,29 @@ How test will be performed:
 \section{Comparison to Existing Implementation}	
 				
 \section{Unit Testing Plan}
+% Unit testing for this project will be done in a JAVA environment using the JUnit 5 library.
 		
-\subsection{Unit testing of internal functions}
+\subsection{Unit testing of internal functions} 
+
+\hspace{\parindent} Internal functions that return, filter or parse data and have objective outputs which can be manually predicted or derived will be tested in the Java environment using the JUnit 5 library. This will involve testing individual methods by providing them with an input or data to be used, and comparing the output with the expected output.
+
+Internal functions that don't have objective outputs will be tested manually by making sure the output makes sense.
+
+The inputs used to test these methods will either be proper data that is expected to be used in a real-life scenario, or improper/unexpected data that is meant to test the robustness of the program.
+
+This project does not require any outside drivers, or stubs to be installed for the purposes of testing. All required drivers or stubs will already be available within the individual classes or project as a whole.
+
+In terms of the metrics used to ensure adequate testing of internal functions, we will be using coverage metrics with a goal of 75\% code coverage
 		
-\subsection{Unit testing of output files}		
+\subsection{Unit testing of output files}
+\hspace{\parindent}Output files will be manually tested by making sure they make sense. This means they will visually be looked over by software testers to be approved.
+
+For the filter output pictures, we will have example photos of what it should look like and compare it to the output. For gesture based actions we will have a user perform the gesture in a natural manner and ensure the software captures the gesture.
+
+Per filter and gesture, we will take 10 or more pictures, using at least three different users and ensuring at least one photo is taken in a dark background environment and one in a light background environment. In addition, these tests will take place with all four test developers present to ensure the picture quality adheres to the standards of all four testers. Each filter and gesture must have a 100\% success rate, meaning all tests will have the approval of all four testers.
 
 \bibliographystyle{plainnat}
 
 \bibliography{SRS}
-
-\newpage
-
-\section{Appendix}
-
-This is where you can place additional information.
-
-\subsection{Symbolic Parameters}
-
-The definition of the test cases will call for SYMBOLIC\_CONSTANTS.
-Their values are defined in this section for easy maintenance.
-
-\subsection{Usability Survey Questions?}
-
-This is a section that would be appropriate for some teams.
 
 \end{document}
