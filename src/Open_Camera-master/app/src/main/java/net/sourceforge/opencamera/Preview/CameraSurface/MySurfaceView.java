@@ -130,7 +130,7 @@ public class MySurfaceView extends SurfaceView implements CameraSurface {
 			Log.i("image: ", Float.toString(rec.getConfidence()));
 			RectF rect = rec.getLocation();
 			cropToFrameTransform.mapRect(rect);
-			if (rec.getConfidence() > 0.35) {
+			if (rec.getConfidence() > 0.85) {
 				detection = new Rect((int) rect.left, (int) rect.top, (int) rect.right, (int) rect.bottom);
 			} else {
 				detection = new Rect((int) 0, (int) 0, (int) 0, (int) 0);
