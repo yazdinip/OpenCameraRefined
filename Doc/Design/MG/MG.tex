@@ -31,15 +31,16 @@
 
 \title{SE 3XA3: Software Requirements Specification\\Title of Project}
 
-\author{Team \#, Team Name
-		\\ Student 1 name and macid
-		\\ Student 2 name and macid
-		\\ Student 3 name and macid
+\author{Team \# 211, Camera Crew
+		\\ Faisal Jaffer, jaffem1
+		\\ Dominik Buszowiecki, buszowid
+		\\ Pedram Yazdinia, yazdinip
+		\\ Zayed Sheet, sheetz
 }
 
 \date{\today}
 
-\input{../../Comments}
+%\input{../../Comments}
 
 \begin{document}
 
@@ -50,7 +51,9 @@
 \listoftables
 \listoffigures
 
-\begin{table}[bp]
+\newpage
+
+\begin{table}[h]
 \caption{\bf Revision History}
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
@@ -62,6 +65,7 @@ Date 2 & 1.1 & Notes\\
 \end{table}
 
 \newpage
+
 
 \pagenumbering{arabic}
 
@@ -115,7 +119,10 @@ modules. Section \ref{SecTM} includes two traceability matrices. One checks
 the completeness of the design against the requirements provided in the SRS. The
 other shows the relation between anticipated changes and the modules. Section
 \ref{SecUse} describes the use relation between modules.
+\subsection{Software Overview}
+OpenCameraRefined is designed to change the way we capture pictures through our phones. Using image processing algorithms and machine learning, the team is focused on enabling the software to process and recognize a certain gesture in real time. In addition, the software is designed to offer the user with real time filters, mainly using existing packages such as OpenCV. Some initial gestures recognized by the software can include Smile, Thumbs up or Wave. 
 
+OpenCamera is an open-source Andorid application that provides Camera functionality outside the stock camera applications in varous phones. Android system initiates its program within an Activity starting with a call on onCreate() callback method. There is a sequence of callback methods that start up an activity and a sequence of callback methods that tear down an activity. This model is loosely based on MVC architecture with the controller being the Activity class, View being the resources and widgets and model being the entities or Classes with main Business Logic. Consequently, the modifications made follow the same principles. 
 \section{Anticipated and Unlikely Changes} \label{SecChange}
 
 This section lists possible changes to the system. According to the likeliness
@@ -131,29 +138,28 @@ require changing the one module that hides the associated decision. The approach
 adapted here is called design for
 change.
 
+
 \begin{description}
 \item[\refstepcounter{acnum} \actheacnum \label{acHardware}:] The specific
   hardware on which the software is running.
 \item[\refstepcounter{acnum} \actheacnum \label{acInput}:] The format of the
   initial input data.
-\item ...
+\item[\refstepcounter{acnum} \actheacnum \label{acGestureNumber}:] The number of gestures recognized at any time.
+\item[\refstepcounter{acnum} \actheacnum \label{acGesture}:] The gestures recognized by the algorithm.
+\item[\refstepcounter{acnum} \actheacnum \label{acFilterNumber}:] The number of filters available to be applied. 
+\item[\refstepcounter{acnum} \actheacnum \label{acUI}:] Modifications to the UI, including a button that would toggle filters. 
 \end{description}
 
 \subsection{Unlikely Changes} \label{SecUchange}
 
-The module design should be as general as possible. However, a general system is
-more complex. Sometimes this complexity is not necessary. Fixing some design
-decisions at the system architecture stage can simplify the software design. If
-these decision should later need to be changed, then many parts of the design
-will potentially need to be modified. Hence, it is not intended that these
-decisions will be changed.
-
 \begin{description}
 \item[\refstepcounter{ucnum} \uctheucnum \label{ucIO}:] Input/Output devices
-  (Input: File and/or Keyboard, Output: File, Memory, and/or Screen).
+  (Input: Camera, Output: Memory, Screen) will remain the same.
 \item[\refstepcounter{ucnum} \uctheucnum \label{ucInput}:] There will always be
-  a source of input data external to the software.
-\item ...
+  a source of input data external to the software as this is directly related to the purpose of the app.
+\item[\refstepcounter{ucnum} \uctheucnum \label{ucInput}:] The implementation and output of gesture recognition will remain the same as this is used throughout several modules, and will require many modifications to change.
+\item[\refstepcounter{ucnum} \uctheucnum \label{ucInput}:] The user interface and settings will remain the same as the original Open Source Camera application in order to keep the application consistent and straightforward.
+\item[\refstepcounter{ucnum} \uctheucnum \label{ucInput}:] Zoom and slow motion features will remain the same as this is outside the scope of this project.
 \end{description}
 
 \section{Module Hierarchy} \label{SecMH}
@@ -164,8 +170,14 @@ below, which are leaves in the hierarchy tree, are the modules that will
 actually be implemented.
 
 \begin{description}
-\item [\refstepcounter{mnum} \mthemnum \label{mHH}:] Hardware-Hiding Module
-\item ...
+
+\item [\refstepcounter{mnum} \mthemnum \label{mGC}:] Gesture Controller
+\item [\refstepcounter{mnum} \mthemnum \label{mR}:] Recognition
+\item [\refstepcounter{mnum} \mthemnum \label{mC}:] Classifier 
+\item [\refstepcounter{mnum} \mthemnum \label{mCC}:] Classifier Constants
+\item [\refstepcounter{mnum} \mthemnum \label{mF}:] Filter 
+\item [\refstepcounter{mnum} \mthemnum \label{mFC}:] Filter Constants
+\item [\refstepcounter{mnum} \mthemnum \label{mHH}:] Hardware Hiding Module
 \end{description}
 
 
@@ -179,20 +191,20 @@ actually be implemented.
 {Hardware-Hiding Module} & ~ \\
 \midrule
 
-\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\ 
-& ?\\
+\multirow{2}{0.3\textwidth}{Behaviour-Hiding Modules} & Classifier Constants\\
+~ & Recognition\\
+~ & Filter Constants\\
 \midrule
 
-\multirow{3}{0.3\textwidth}{Software Decision Module} & {?}\\
-& ?\\
-& ?\\
+\multirow{2}{0.3\textwidth}{Software Decision Modules} & Classifier\\
+~ & Gesture Controller\\
+~ & Filter\\
 \bottomrule
+
+
+
+
+
 
 \end{tabular}
 \caption{Module Hierarchy}
@@ -246,16 +258,29 @@ selected.
 \item[Implemented By:] --
 \end{description}
 
-\subsubsection{Input Format Module (\mref{mInput})}
+\subsubsection{Recognition Module(\mref{mR})}
 
 \begin{description}
-\item[Secrets:]The format and structure of the input data.
-\item[Services:]Converts the input data into the data structure used by the
-  input parameters module.
-\item[Implemented By:] [Your Program Name Here]
+\item[Secrets:]The data and the state stored in the object.
+\item[Services:]Provides access to the location, title and confidence of self.
+\item[Implemented By:] OpenCameraRefined
 \end{description}
 
-\subsubsection{Etc.}
+\subsubsection{Filter Constants Module(\mref{mFC})}
+
+\begin{description}
+\item[Secrets:]The predefined stored filter matrices 
+\item[Services:]Provides access to the predefined filters.
+\item[Implemented By:] OpenCameraRefined
+\end{description}
+
+\subsubsection{Classifier Constants Module (\mref{mCC})}
+
+\begin{description}
+\item[Secrets:]The file location of the model inference and the label.
+\item[Services:]Provides access to the file location strings.
+\item[Implemented By:] OpenCameraRefined
+\end{description}
 
 
 \subsection{Software Decision Module}
@@ -271,7 +296,30 @@ selected.
 \item[Implemented By:] --
 \end{description}
 
-\subsubsection{Etc.}
+\subsubsection{Classifier Module(\mref{mC})}
+
+\begin{description}
+\item[Secrets:]The current sate of the running TensforFlow model.
+\item[Services:]Provides methods to run classifications on images.
+\item[Implemented By:] OpenCameraRefined
+\end{description}
+
+\subsubsection{Filter Module(\mref{mF})}
+
+\begin{description}
+\item[Secrets:]The state of the current filter in view.
+\item[Services:]Provides method to change the current filter.
+\item[Implemented By:] OpenCameraRefined
+\end{description}
+
+\subsubsection{Gesture Controller Module (\mref{mGC})}
+
+\begin{description}
+\item[Secrets:]The flow of the information from module to module.
+\item[Services:]Responsible for dispatching classification and actions based on the classification.
+\item[Implemented By:] OpenCameraRefined
+\end{description}
+
 
 \section{Traceability Matrix} \label{SecTM}
 
@@ -286,17 +334,15 @@ requirements and between the modules and the anticipated changes.
 \toprule
 \textbf{Req.} & \textbf{Modules}\\
 \midrule
-R1 & \mref{mHH}, \mref{mInput}, \mref{mParams}, \mref{mControl}\\
-R2 & \mref{mInput}, \mref{mParams}\\
-R3 & \mref{mVerify}\\
-R4 & \mref{mOutput}, \mref{mControl}\\
-R5 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}, \mref{mSeqDS}, \mref{mSolver}, \mref{mPlot}\\
-R6 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}, \mref{mSeqDS}, \mref{mSolver}, \mref{mPlot}\\
-R7 & \mref{mOutput}, \mref{mEnergy}, \mref{mControl}, \mref{mSeqDS}, \mref{mPlot}\\
-R8 & \mref{mOutput}, \mref{mEnergy}, \mref{mControl}, \mref{mSeqDS}, \mref{mPlot}\\
-R9 & \mref{mVerifyOut}\\
-R10 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}\\
-R11 & \mref{mOutput}, \mref{mODEs}, \mref{mEnergy}, \mref{mControl}\\
+BE1.FR1 & \mref{mR}\\
+BE1.FR2 & \mref{mGC}, \mref{mC}, \mref{mCC}\\
+BE1.FR6 & \mref{mF}, \mref{mFC}\\
+BE2.FR1 & \mref{mF}, \mref{mFC}\\
+BE2.FR2 & \mref{mF}, \mref{mFC}\\
+BE2.FR3 & \mref{mF}, \mref{mFC}\\
+BE2.FR4 & \mref{mF}, \mref{mFC}\\
+BE2.FR5 & \mref{mF}, \mref{mFC}\\
+BE3.FR2 & \mref{mF}, \mref{mFC}\\
 \bottomrule
 \end{tabular}
 \caption{Trace Between Requirements and Modules}
@@ -310,17 +356,11 @@ R11 & \mref{mOutput}, \mref{mODEs}, \mref{mEnergy}, \mref{mControl}\\
 \textbf{AC} & \textbf{Modules}\\
 \midrule
 \acref{acHardware} & \mref{mHH}\\
-\acref{acInput} & \mref{mInput}\\
-\acref{acParams} & \mref{mParams}\\
-\acref{acVerify} & \mref{mVerify}\\
-\acref{acOutput} & \mref{mOutput}\\
-\acref{acVerifyOut} & \mref{mVerifyOut}\\
-\acref{acODEs} & \mref{mODEs}\\
-\acref{acEnergy} & \mref{mEnergy}\\
-\acref{acControl} & \mref{mControl}\\
-\acref{acSeqDS} & \mref{mSeqDS}\\
-\acref{acSolver} & \mref{mSolver}\\
-\acref{acPlot} & \mref{mPlot}\\
+\acref{acInput} & \mref{mR}, \mref{mF}, \\
+\acref{acGestureNumber} & \mref{mGC}\\
+\acref{acGesture} & \mref{mGC}, \mref{mC}, \mref{mCC}\\
+\acref{acFilterNumber} & \mref{mF}, \mref{mFC}\\
+\acref{acUI} & \mref{mF}, \mref{mFC} \\
 \bottomrule
 \end{tabular}
 \caption{Trace Between Anticipated Changes and Modules}
@@ -342,7 +382,7 @@ because they use modules from the lower levels.
 
 \begin{figure}[H]
 \centering
-%\includegraphics[width=0.7\textwidth]{UsesHierarchy.png}
+\includegraphics[width=0.7\textwidth]{UsesHierarchy.png}
 \caption{Use hierarchy among modules}
 \label{FigUH}
 \end{figure}

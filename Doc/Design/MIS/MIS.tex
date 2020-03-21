@@ -1,0 +1,592 @@
+\documentclass[12pt, titlepage]{article}
+
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=red,
+    urlcolor=blue
+}
+\usepackage[round]{natbib}
+
+\usepackage{graphicx}
+\usepackage{paralist}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{hhline}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage[normalem]{ulem}
+\usepackage{xcolor}
+
+\oddsidemargin 0mm
+\evensidemargin 0mm
+\textwidth 160mm
+\textheight 200mm
+\renewcommand\baselinestretch{1.0}
+
+\pagestyle {plain}
+\pagenumbering{arabic}
+
+\newcounter{stepnum}
+
+\usepackage{color}
+
+\newif\ifcomments\commentstrue
+
+\ifcomments
+\newcommand{\authornote}[3]{\textcolor{#1}{[#3 ---#2]}}
+\newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
+\else
+\newcommand{\authornote}[3]{}
+\newcommand{\todo}[1]{}
+\fi
+
+\newcommand{\wss}[1]{\authornote{blue}{SS}{#1}}
+
+\title{SE 3XA3: MIS\\OpenCameraRefined}
+
+\author{Team \#211, CAMERACREW
+		\\ Faisal Jaffer, jaffem1
+		\\ Dominik Buszowiecki, buszowid
+		\\ Pedram Yazdinia, yazdinip
+		\\ Zayed Sheet, sheetz
+}
+
+\date{\today}
+
+
+\begin{document}
+
+\maketitle
+
+\pagenumbering{roman}
+% \tableofcontents
+% \listoftables
+% \listoffigures
+
+\begin{table}[hp]
+\caption{\bf Revision History}
+\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
+\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
+\midrule
+March 14, 2020 & 1.0 & Initial document\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\newpage
+
+\section* {Gesture Controller Module}
+
+\subsection*{Module}
+
+GestureController
+
+\subsection* {Uses}
+
+TensorflowObjectDetectionAPI \\
+ClassifierConstants \\
+CameraController \\
+Filter \\
+Classifier
+
+\subsection* {Syntax}
+
+\subsubsection* {Exported Constants}
+
+N/A
+
+\subsubsection* {Exported Types}
+
+GestureController = ?
+
+\subsubsection* {Exported Access Programs}
+
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+\hline
+GestureController &$  $ &  GestureController & classifier\_initialize\_failure\\
+\hline
+processImage &$  $ &  & \\
+\hline
+setFrame & $byte$[] &  & \\
+\hline
+captureImage &  &  & \\
+\hline
+showFilter &  &  & \\
+\hline
+\end{tabular}
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+
+imageFrame: $byte []$  \texit{\# current camera frame} \\
+classifier: $Classifier $ \texit{\# TensforFlow model}\\
+filter: $Filter $ \\
+recognition: $Recognition[]$ \texit{\# classification on the current frame}\\
+\subsubsection* {Environment Variables}
+
+None
+
+\subsubsection* {State Invariant}
+
+None
+
+\subsubsection* {Assumptions}
+
+\begin{itemize}
+\item The mathematical operator $\backslash$ represents integer division. For example $ 8 \backslash 5 = 1$.
+\end{itemize}
+
+\subsubsection* {Access Routine Semantics}
+
+\noindent GestureController():
+\begin{itemize}
+\item transition: $classifier, filter:= Classifier(ClassifierConstants.getInferenceName(),\break ClassifierConstants.getLabelName()), Filter()$
+\item output: $out := self$\\
+\item exception: $exc := ((ClassifierConstants.getInferenceName() == null | \break ClassifierConstants.getLabelName() == null) \Rightarrow classifier\_initialize\_failure)\\$
+
+\end{itemize}
+
+\noindent processImage():
+\begin{itemize}
+\item transition: $recognition := classifier.recognizeImage(bitmapFromByte(imageFrame)) \Rightarrow \break (recognition.title == ClassifierConstants.Smile \rightarrow captureImage() | recognition.title == ClassifierConstants.Thumb \rightarrow filter.changeFilter())$
+\item output: None\\
+\item exception: None\\
+
+\end{itemize}
+
+\noindent setFrame($byte$[] data):
+\begin{itemize}
+\item transition: imageFrame:= data
+\item output: None\\
+\item exception: None\\
+\end{itemize}
+
+\noindent captureImage():
+\begin{itemize}
+\item transition: $CameraController.captureImage()$\\
+\item output: None\\
+\item exception: None\\
+\end{itemize}
+
+\noindent showFilter():
+\begin{itemize}
+\item transition: None\\
+\item output: None\\
+\item exception: None\\
+\end{itemize}
+
+\subsection*{Local Functions}
+
+
+\noindent bitmapFromByte($byte$[] data):
+\begin{itemize}
+\item transition: Matrix mat := ImageUtils.convertYUV420SPToARGB8888(data)
+\item output: $out := $ mat\\
+\item exception: None\\
+\end{itemize}
+
+
+\medskip
+\medskip
+
+
+\newpage
+
+\section* {Recognition Module}
+
+\subsection*{Module}
+
+Recognition
+
+\subsection* {Uses}
+
+RectF
+
+\subsection* {Syntax}
+
+\subsubsection* {Exported Constants}
+
+N/A
+
+\subsubsection* {Exported Types}
+
+Recognition = ?
+
+\subsubsection* {Exported Access Programs}
+
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+\hline
+Recognition &$ String, String, \mathbb{Q}, RectF $ &  Recognition & \\
+\hline
+getID &$  $ & $String$ & \\
+\hline
+getTitle &$ $ & $String$ & \\
+\hline
+getConfidence &$  $ & $\mathbb{Q}$ & \\
+\hline
+getLocation &$ Bitmap $ & $RectF$ & \\
+\hline
+\end{tabular}
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+
+id: $String$ \texit{\# unique id assignment since multiple recognitions possible} \\ 
+title: $String$ \texit{\# label of the recognition}\\
+confidence: $\mathbb{Q}$ \texit{\# confidence level of the classification}\\
+location: RectF \texit{\# pixel location of the recognition }\\
+
+\subsubsection* {Environment Variables}
+
+None
+
+\subsubsection* {State Invariant}
+
+None
+
+\subsubsection* {Assumptions}
+
+\begin{itemize}
+\item Invalid arguments will not be provided into the Recognition and getLocation routines.
+\end{itemize}
+
+\subsubsection* {Access Routine Semantics}
+
+\noindent Recognition(id, title, confidence, location):
+\begin{itemize}
+\item transition: $ id, title, confidence,location := id, title, confidence, location$
+\item output: $out := self$ \\
+\item exception:None \\
+
+\end{itemize}
+
+\noindent getID():
+\begin{itemize}
+\item transition: None\\
+\item output: $out := id$\\
+\item exception: None\\
+
+\end{itemize}
+
+\noindent getTitle():
+\begin{itemize}
+\item transition: None\\
+\item output: $out := title$\\
+\item exception: None\\
+
+\end{itemize}
+
+\noindent getConfidence():
+\begin{itemize}
+\item transition: None\\
+\item output: $out := confidence$\\
+\item exception: None\\
+
+\end{itemize}
+
+\noindent getLocation():
+\begin{itemize}
+\item transition: None\\
+\item output: $location$\\
+\item exception: None\\
+
+\end{itemize}
+
+\subsection*{Local Functions}
+
+None
+
+\medskip
+\medskip
+
+
+\newpage
+
+\section* {Classifier Module}
+
+\subsection*{Module}
+
+Classifier
+
+\subsection* {Uses}
+
+Recognition  \\
+ClassifierConstants \\
+Bitmap \\
+TF \\
+
+\subsection* {Syntax}
+
+\subsubsection* {Exported Constants}
+
+N/A
+
+\subsubsection* {Exported Types}
+
+None
+
+\subsubsection* {Exported Access Programs}
+
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+\hline
+Classifier &$ String, String, (\mathbb{Z}, \mathbb{Z}) $ & Classifier & classifier\_initialize\_failure\\
+\hline
+recognizeImage &$ Bitmap $ & $Recognition$ & \\
+\hline
+\end{tabular}
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+
+modelFilename: $String$ \texit{\# link to the model inference }\\
+labelFilename: $String$ \texit{\# link to the model labels }\\
+inputSize: $(\mathbb{Z}, \mathbb{Z})$ \texit{\# size of model input} \\
+model: TF.model\texit{\# stored model} \\
+
+\subsubsection* {Environment Variables}
+
+None
+
+\subsubsection* {State Invariant}
+
+None
+
+\subsubsection* {Assumptions}
+
+\begin{itemize}
+\item Invalid arguments will not be provided to the Classifier and recognizeImage routines.
+\end{itemize}
+
+
+\subsubsection* {Access Routine Semantics}
+
+\noindent  Classifier(modelFilename, labelFilename, inputSize):
+\begin{itemize}
+\item transition: $model := new TF.model(modelFilename, labelFilename)$
+\item output: $out := self$\\
+\item exception: $exc := new TF.model(modelFilename, labelFilename) == null \break \Rightarrow (classifier\_initialize\_failure)\\$
+
+\end{itemize}
+
+\noindent recognizeImage(b):
+\begin{itemize}
+\item transition: None\\
+\item output: $out := model.detect(b)$\\
+\item exception: None\\
+
+\end{itemize}
+
+\subsection*{Local Functions}
+
+None
+
+\medskip
+\medskip
+
+
+\newpage
+
+\section* {Classifier Constants Module}
+
+\subsection*{Module}
+
+ClassifierConstants
+
+\subsection* {Uses}
+
+
+\subsection* {Syntax}
+
+\subsubsection* {Exported Constants}
+
+inferenceName: $String$ \\
+labelName: $String$
+
+\subsubsection* {Exported Types}
+
+None
+
+\subsubsection* {Exported Access Programs}
+
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+\hline
+getInferenceName & & $String$ & \\
+\hline
+getLabelName & & $String$ & \\
+\hline
+\end{tabular}
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+
+
+\subsubsection* {Environment Variables}
+
+None
+
+\subsubsection* {State Invariant}
+
+None
+
+\subsubsection* {Assumptions}
+
+None
+
+\subsubsection* {Access Routine Semantics}
+
+\noindent getInferenceName():
+\begin{itemize}
+\item transition: None\\
+\item output: $out := $ inferenceName\\
+\item exception: None\\
+
+\end{itemize}
+
+\noindent getLabelName():
+\begin{itemize}
+\item transition: None\\
+\item output: $out := $ labelName\\
+\item exception: None\\
+
+\end{itemize}
+
+\subsection*{Local Functions}
+
+None
+
+\medskip
+\medskip
+
+
+\newpage
+
+\section* {Filter Module}
+
+\subsection*{Module}
+
+Filter
+
+\subsection* {Uses}
+
+Filter Constants
+
+\subsection* {Syntax}
+
+\subsubsection* {Exported Constants}
+
+N/A
+
+
+\subsubsection* {Exported Types}
+
+N/A
+
+\subsubsection* {Exported Access Programs}
+
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+\hline
+changeFilter &  &  & \\
+\hline
+getFilter &  & $\mathbb{Z}$ & \\
+\hline
+\end{tabular}
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+
+filterIndex : $\mathbb{Z}$ \textit{\#Which index in the FILTERS constant from the filters module is selected}
+
+\subsubsection* {Environment Variables}
+
+None
+
+\subsubsection* {State Invariant}
+
+$\text{filterIndex} < |FILTERS|$
+
+\subsubsection* {Assumptions}
+
+The $\%$ operator represents the mathematical modulus operator
+
+\subsubsection* {Access Routine Semantics}
+
+changeFilter():
+\begin{itemize}
+\item transition: $\text{filterIndex} := (\text{filterIndex} + 1) \% |FILTERS|$
+\item output: None
+
+\end{itemize}
+
+\noindent getFilter():
+\begin{itemize}
+\item transition: None
+\item output: $out := \text{filterIndex}$
+\end{itemize}
+
+\newpage
+
+\section* {Filter Constants Module}
+
+\subsection*{Module}
+
+Constants
+
+\subsection* {Uses}
+
+OpenCV
+
+\subsection* {Syntax}
+
+\subsubsection* {Exported Constants}
+
+GRAYSCALE: ($\mathbb{Z}$[], $\mathbb{Z}$[])\\
+RED\_FILTER: ($\mathbb{Z}$[], $\mathbb{Z}$[]) \\
+BLUE\_FILTER: ($\mathbb{Z}$[], $\mathbb{Z}$[])\\
+\textit{\# The values of the filters will be obtained from the OpenCV lookup tables. They are 2xN matrices which map a source colour of a pixel to a final colour after applying a filter. The value of N depends on the total number of possible colours}\\
+FILTERS = [GRAYSCALE, RED\_FILTER, BLUE\_FILTER]\\
+
+\subsubsection* {Exported Types}
+
+None
+
+\subsubsection* {Exported Access Programs}
+
+None
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+
+None
+
+\subsubsection* {State Invariant}
+
+None
+
+\newpage
+
+
+
+\end {document}
+
