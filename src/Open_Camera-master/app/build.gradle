@@ -18,6 +18,10 @@ android {
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
 
+    aaptOptions {
+        noCompress "tflite"
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -34,4 +38,7 @@ dependencies {
     compile 'com.android.support:support-v4:24.0.0'
     testCompile 'junit:junit:4.12'
     implementation 'org.tensorflow:tensorflow-android:1.5.0'
+    implementation 'org.tensorflow:tensorflow-lite:0.0.0-nightly'
+
+
 }

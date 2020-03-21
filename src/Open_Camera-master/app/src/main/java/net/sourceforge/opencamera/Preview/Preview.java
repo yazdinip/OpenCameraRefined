@@ -16,7 +16,7 @@ import net.sourceforge.opencamera.Preview.CameraSurface.CameraSurface;
 import net.sourceforge.opencamera.Preview.CameraSurface.MySurfaceView;
 import net.sourceforge.opencamera.Preview.CameraSurface.MyTextureView;
 import net.sourceforge.opencamera.tensorflow.Classifier;
-import net.sourceforge.opencamera.tensorflow.TensorFlowObjectDetectionAPIModel;
+import net.sourceforge.opencamera.tensorflow.TFLiteObjectDetectionAPIModel;
 
 import java.io.File;
 import java.io.IOException;
@@ -277,10 +277,9 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 	public byte[] CameraFrame;
 	// Configuration values for the prepackaged SSD model.
 	private static final int TF_OD_API_INPUT_SIZE = 300;
-	private static final boolean TF_OD_API_IS_QUANTIZED = true;
-	private static final String TF_OD_API_MODEL_FILE = "file:///android_asset/frozen_inference_graph.pb";
-
-	private static final String TF_OD_API_LABELS_FILE = "file:///android_asset/labelmap.txt";
+	private static final boolean TF_OD_API_IS_QUANTIZED = false;
+	private static final String TF_OD_API_MODEL_FILE = "detect.tflite";
+	private static final String TF_OD_API_LABELS_FILE = "file:///android_asset/label_map.txt";
 	// Minimum detection confidence to track a detection.
 	private static final float MINIMUM_CONFIDENCE_TF_OD_API = 0.5f;
 	private static final boolean MAINTAIN_ASPECT = false;
@@ -339,11 +338,12 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 		}
 
 		try {
-			this.classifier = TensorFlowObjectDetectionAPIModel.create(
+			this.classifier = TFLiteObjectDetectionAPIModel.create(
 					getResources().getAssets(),
 					TF_OD_API_MODEL_FILE,
 					TF_OD_API_LABELS_FILE,
-					TF_OD_API_INPUT_SIZE);
+					TF_OD_API_INPUT_SIZE,
+					TF_OD_API_IS_QUANTIZED);
 		} catch (final IOException e) {
 			e.printStackTrace();
 			LOGGER.e(e, "Exception initializing classifier!");
@@ -721,13 +721,6 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 	
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
-		camera_controller.getCamera().setPreviewCallback(
-				new Camera.PreviewCallback(){
-					public void onPreviewFrame(byte[] data, Camera camera){
-						CameraFrame = data;
-						cameraSurface.detect();
-					}
-				});
 		if( MyDebug.LOG )
 			Log.d(TAG, "surfaceChanged " + w + ", " + h);
         if( holder.getSurface() == null ) {
@@ -991,6 +984,7 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 			Log.d(TAG, "closeCamera()");
 			debug_time = System.currentTimeMillis();
 		}
+
 		removePendingContinuousFocusReset();
 		has_focus_area = false;
 		focus_success = FOCUS_DONE;
@@ -1028,6 +1022,8 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 				if( MyDebug.LOG ) {
 					Log.d(TAG, "closeCamera: about to release camera controller: " + (System.currentTimeMillis() - debug_time));
 				}
+
+				camera_controller.getCamera().setPreviewCallback(null);
 				camera_controller.release();
 				camera_controller = null;
 			}
@@ -4816,6 +4812,13 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 				camera_controller.startFaceDetection();
 				faces_detected = null;
 			}
+			camera_controller.getCamera().setPreviewCallback(
+					new Camera.PreviewCallback(){
+						public void onPreviewFrame(byte[] data, Camera camera){
+							CameraFrame = data;
+							cameraSurface.detect();
+						}
+					});
 		}
 		this.setPreviewPaused(false);
 		this.setupContinuousFocusMove();

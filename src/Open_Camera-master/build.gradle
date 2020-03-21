@@ -15,3 +15,5 @@ allprojects {
         google()
     }
 }
+
+def nativeBuildSystem = 'none'

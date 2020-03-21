@@ -22,6 +22,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.graphics.Color;
+import android.graphics.BitmapFactory;
 
 import android.graphics.Paint;
 
@@ -34,6 +35,10 @@ import android.view.ViewGroup;
 import net.sourceforge.opencamera.R;
 import net.sourceforge.opencamera.tensorflow.*;
 import net.sourceforge.opencamera.tensorflow.env.Logger;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 /** Provides support for the surface used for the preview, using a SurfaceView.
@@ -50,7 +55,12 @@ public class MySurfaceView extends SurfaceView implements CameraSurface {
 	private Rect detection = new Rect((int) 0,(int)0,(int)0,(int)0);
 	private Matrix frameToCropTransform = null;
 	private Matrix cropToFrameTransform;
-	Classifier.Recognition rec = null;
+
+	Bitmap c=BitmapFactory.decodeResource(getResources(), R.drawable.cat);
+	Bitmap d=BitmapFactory.decodeResource(getResources(), R.drawable.dog);
+	List<Bitmap> filters = Arrays.asList(c,d,d);
+	int filterIndex = 0;
+	List<Classifier.Recognition> rec = null;
 
 	private static final Logger LOGGER = new Logger();
 
@@ -121,21 +131,11 @@ public class MySurfaceView extends SurfaceView implements CameraSurface {
 		AsyncTask.execute(new Runnable() {
 			@Override
 			public void run() {
-				rec = preview.classifier.recognizeImage(loadBitmapFromView(preview.getView(), preview)).get(0);
+				rec = preview.classifier.recognizeImage(loadBitmapFromView(preview.getView(), preview));
 
 			}
 		});
-		if (rec != null) {
-			Log.i("image: ", rec.getTitle());
-			Log.i("image: ", Float.toString(rec.getConfidence()));
-			RectF rect = rec.getLocation();
-			cropToFrameTransform.mapRect(rect);
-			if (rec.getConfidence() > 0.85) {
-				detection = new Rect((int) rect.left, (int) rect.top, (int) rect.right, (int) rect.bottom);
-			} else {
-				detection = new Rect((int) 0, (int) 0, (int) 0, (int) 0);
-			}
-		}
+
 	}
 
 	public Bitmap loadBitmapFromView(View v, Preview preview) {
@@ -177,24 +177,52 @@ public class MySurfaceView extends SurfaceView implements CameraSurface {
 
 	@Override
 	public void onDraw(Canvas canvas) {
+		Canvas TextCanvas = canvas;
 		Paint  paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-
 		paint.setStyle(Paint.Style.STROKE);
-
 		paint.setColor(Color.GREEN);
-
 		paint.setStrokeWidth(3);
+		if (rec != null) {
+			int smileCount = 0;
+			int thumbCount = 0;
+			for (int i = 0; i < rec.size(); i++) {
+//				Log.i("image: ", rec.get(i).getTitle());
+//				Log.i("image: ", Float.toString(rec.get(i).getConfidence()));
+				RectF rect = rec.get(i).getLocation();
+				cropToFrameTransform.mapRect(rect);
+				if (rec.get(i).getConfidence() > 0.93) {
+					if (rec.get(i).getTitle().contains("smile")){
+						Bitmap filter = Bitmap.createScaledBitmap(filters.get(filterIndex), (int) rect.right - (int) rect.left, (int) rect.bottom - (int) rect.top, true);
+						canvas.drawBitmap(filter, (int) rect.left, (int) rect.top, paint);
+						if (!preview.isOnTimer()) {
+//							preview.takePicturePressed();
+						}
+						smileCount +=1;
+					} else if (rec.get(i).getTitle().contains("thumbup")){
+						if (filterIndex==filters.size()-1) {
+							filterIndex = 0;
+						}else{
+							filterIndex +=1;
+						}
+						thumbCount +=1;
+					}
+					detection = new Rect((int) rect.left, (int) rect.top, (int) rect.right, (int) rect.bottom);
+				} else {
+					detection = new Rect((int) 0, (int) 0, (int) 0, (int) 0);
+				}
+				canvas.drawRect(detection,paint);
+				paint.setTextSize(20);
+				canvas.drawText(rec.get(i).getTitle() + " " + rec.get(i).getConfidence().toString(), detection.centerX(), detection.centerY(), paint);
+			}
 
-		float RectLeft = 1;
 
-		float RectTop = 200 ;
 
-		float RectRight = RectLeft+ Resources.getSystem().getDisplayMetrics().widthPixels -100;
-
-		float RectBottom =RectTop+ 200;
-
-		canvas.drawRect(detection,paint);
-
+			TextCanvas.rotate(-90, canvas.getWidth()/2, canvas.getHeight()/2);
+			paint.setTextSize(40);
+			TextCanvas.drawText("# of Smiles detected: " + smileCount, 200, 0, paint);
+			TextCanvas.drawText("# of Thumb detected: " + thumbCount, 200, 50, paint);
+		}
+		preview.draw(TextCanvas);
 		preview.draw(canvas);
 	}
 

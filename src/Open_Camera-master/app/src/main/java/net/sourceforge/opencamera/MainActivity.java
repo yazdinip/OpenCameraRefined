@@ -80,7 +80,6 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.ZoomControls;
 import net.sourceforge.opencamera.tensorflow.Classifier;
-import net.sourceforge.opencamera.tensorflow.TensorFlowObjectDetectionAPIModel;
 import android.util.Size;
 import net.sourceforge.opencamera.tensorflow.env.Logger;
 import android.widget.Toast;
@@ -145,7 +144,7 @@ public class MainActivity extends Activity implements AudioListener.AudioListene
 	// Configuration values for the prepackaged SSD model.
 	private static final int TF_OD_API_INPUT_SIZE = 300;
 	private static final boolean TF_OD_API_IS_QUANTIZED = true;
-	private static final String TF_OD_API_MODEL_FILE = "file:///android_asset/frozen_inference_graph.pb";
+	private static final String TF_OD_API_MODEL_FILE = "file:///android_asset/frozen_inference_graph1.pb";
 
 	private static final String TF_OD_API_LABELS_FILE = "file:///android_asset/labelmap.txt";
 	// Minimum detection confidence to track a detection.
@@ -369,21 +368,21 @@ public class MainActivity extends Activity implements AudioListener.AudioListene
         }
 
 		setModeFromIntents(savedInstanceState);
-		try {
-			classifier = TensorFlowObjectDetectionAPIModel.create(
-							getAssets(),
-							TF_OD_API_MODEL_FILE,
-							TF_OD_API_LABELS_FILE,
-							TF_OD_API_INPUT_SIZE);
-		} catch (final IOException e) {
-			e.printStackTrace();
-			LOGGER.e(e, "Exception initializing classifier!");
-			Toast toast =
-					Toast.makeText(
-							getApplicationContext(), "Classifier could not be initialized", Toast.LENGTH_SHORT);
-			toast.show();
-			finish();
-		}
+//		try {
+//			classifier = TensorFlowObjectDetectionAPIModel.create(
+//							getAssets(),
+//							TF_OD_API_MODEL_FILE,
+//							TF_OD_API_LABELS_FILE,
+//							TF_OD_API_INPUT_SIZE);
+//		} catch (final IOException e) {
+//			e.printStackTrace();
+//			LOGGER.e(e, "Exception initializing classifier!");
+//			Toast toast =
+//					Toast.makeText(
+//							getApplicationContext(), "Classifier could not be initialized", Toast.LENGTH_SHORT);
+//			toast.show();
+//			finish();
+//		}
 //		LOGGER.e(classifier.recognizeImage(loadBitmapFromView(preview.getView(), preview)).get(0).getTitle());
         // load icons
         preloadIcons(R.array.flash_icons);
