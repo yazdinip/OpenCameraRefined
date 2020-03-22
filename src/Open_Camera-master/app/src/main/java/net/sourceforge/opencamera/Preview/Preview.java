@@ -1,5 +1,6 @@
 package net.sourceforge.opencamera.Preview;
 
+import net.sourceforge.opencamera.Gesture.GestureController;
 import net.sourceforge.opencamera.MyDebug;
 import net.sourceforge.opencamera.R;
 import net.sourceforge.opencamera.TakePhoto;
@@ -95,7 +96,7 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 	private final boolean using_android_l;
 
 	private final ApplicationInterface applicationInterface;
-	private final CameraSurface cameraSurface;
+	public final CameraSurface cameraSurface;
 	private CanvasView canvasView;
 	private boolean set_preview_size;
 	private int preview_w, preview_h;
@@ -275,17 +276,15 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 	public Classifier classifier;
 	// Camera Frame
 	public byte[] CameraFrame;
+
+
 	// Configuration values for the prepackaged SSD model.
 	private static final int TF_OD_API_INPUT_SIZE = 300;
 	private static final boolean TF_OD_API_IS_QUANTIZED = false;
 	private static final String TF_OD_API_MODEL_FILE = "detect.tflite";
 	private static final String TF_OD_API_LABELS_FILE = "file:///android_asset/label_map.txt";
-	// Minimum detection confidence to track a detection.
-	private static final float MINIMUM_CONFIDENCE_TF_OD_API = 0.5f;
-	private static final boolean MAINTAIN_ASPECT = false;
-	public static final Size DESIRED_PREVIEW_SIZE = new Size(640, 480);
-	private static final boolean SAVE_PREVIEW_BITMAP = false;
-	private static final float TEXT_SIZE_DIP = 10;
+
+	public GestureController gesture_controller;
 
 	private static final Logger LOGGER = new Logger();
 
@@ -353,6 +352,7 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 //			toast.show();
 //			finish();
 		}
+
 		CameraFrame = null;
 	}
 	
@@ -370,7 +370,7 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 		coords[1] = beta * (float)this.getHeight();
 	}*/
 
-	private Resources getResources() {
+	public Resources getResources() {
 		return cameraSurface.getView().getResources();
 	}
 	
@@ -1285,6 +1285,7 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 			if( MyDebug.LOG ) {
 				Log.d(TAG, "openCamera: time after setting preview display: " + (System.currentTimeMillis() - debug_time));
 			}
+
 
 		    setupCamera(take_photo);
 		}
@@ -4812,11 +4813,14 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 				camera_controller.startFaceDetection();
 				faces_detected = null;
 			}
+			gesture_controller = new GestureController(this);
 			camera_controller.getCamera().setPreviewCallback(
 					new Camera.PreviewCallback(){
 						public void onPreviewFrame(byte[] data, Camera camera){
-							CameraFrame = data;
-							cameraSurface.detect();
+//							CameraFrame = data;
+//							cameraSurface.detect();
+							gesture_controller.setFrame(data);
+							gesture_controller.processImage();
 						}
 					});
 		}

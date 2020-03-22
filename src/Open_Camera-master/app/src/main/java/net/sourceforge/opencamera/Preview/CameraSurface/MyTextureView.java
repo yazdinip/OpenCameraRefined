@@ -7,6 +7,7 @@ import net.sourceforge.opencamera.Preview.Preview;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.media.MediaRecorder;
 import android.util.Log;
@@ -41,6 +42,11 @@ public class MyTextureView extends TextureView implements CameraSurface {
 
 	@Override
 	public void detect(){}
+
+	@Override
+	public Bitmap loadBitmapFromView(Preview preview){
+		return null;
+	}
 	
 	@Override
 	public void setPreviewDisplay(CameraController camera_controller) {
@@ -55,6 +61,7 @@ public class MyTextureView extends TextureView implements CameraSurface {
 			e.printStackTrace();
 		}
 	}
+
 
 	@Override
 	public void setVideoRecorder(MediaRecorder video_recorder) {

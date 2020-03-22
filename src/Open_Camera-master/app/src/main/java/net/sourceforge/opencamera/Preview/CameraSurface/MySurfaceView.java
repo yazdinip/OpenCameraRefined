@@ -55,6 +55,7 @@ public class MySurfaceView extends SurfaceView implements CameraSurface {
 	private Rect detection = new Rect((int) 0,(int)0,(int)0,(int)0);
 	private Matrix frameToCropTransform = null;
 	private Matrix cropToFrameTransform;
+	Bitmap filter;
 
 	Bitmap c=BitmapFactory.decodeResource(getResources(), R.drawable.cat);
 	Bitmap d=BitmapFactory.decodeResource(getResources(), R.drawable.dog);
@@ -131,14 +132,15 @@ public class MySurfaceView extends SurfaceView implements CameraSurface {
 		AsyncTask.execute(new Runnable() {
 			@Override
 			public void run() {
-				rec = preview.classifier.recognizeImage(loadBitmapFromView(preview.getView(), preview));
+				rec = preview.classifier.recognizeImage(loadBitmapFromView(preview));
 
 			}
 		});
 
 	}
 
-	public Bitmap loadBitmapFromView(View v, Preview preview) {
+	@Override
+	public Bitmap loadBitmapFromView(Preview preview) {
 //		classifier.
 		int previewWidth = preview.getCurrentPreviewSize().width;
 		int previewHeight = preview.getCurrentPreviewSize().height;
@@ -182,48 +184,31 @@ public class MySurfaceView extends SurfaceView implements CameraSurface {
 		paint.setStyle(Paint.Style.STROKE);
 		paint.setColor(Color.GREEN);
 		paint.setStrokeWidth(3);
-		if (rec != null) {
-			int smileCount = 0;
-			int thumbCount = 0;
-			for (int i = 0; i < rec.size(); i++) {
-//				Log.i("image: ", rec.get(i).getTitle());
-//				Log.i("image: ", Float.toString(rec.get(i).getConfidence()));
-				RectF rect = rec.get(i).getLocation();
-				cropToFrameTransform.mapRect(rect);
-				if (rec.get(i).getConfidence() > 0.93) {
-					if (rec.get(i).getTitle().contains("smile")){
-						Bitmap filter = Bitmap.createScaledBitmap(filters.get(filterIndex), (int) rect.right - (int) rect.left, (int) rect.bottom - (int) rect.top, true);
-						canvas.drawBitmap(filter, (int) rect.left, (int) rect.top, paint);
-						if (!preview.isOnTimer()) {
-//							preview.takePicturePressed();
-						}
-						smileCount +=1;
-					} else if (rec.get(i).getTitle().contains("thumbup")){
-						if (filterIndex==filters.size()-1) {
-							filterIndex = 0;
-						}else{
-							filterIndex +=1;
-						}
-						thumbCount +=1;
-					}
-					detection = new Rect((int) rect.left, (int) rect.top, (int) rect.right, (int) rect.bottom);
-				} else {
-					detection = new Rect((int) 0, (int) 0, (int) 0, (int) 0);
-				}
-				canvas.drawRect(detection,paint);
-				paint.setTextSize(20);
-				canvas.drawText(rec.get(i).getTitle() + " " + rec.get(i).getConfidence().toString(), detection.centerX(), detection.centerY(), paint);
+		Rect rect;
+		if (preview.gesture_controller.getSmiles() != null) {
+			for (int i = 0; i < preview.gesture_controller.getSmiles().size(); i++) {
+				rect = preview.gesture_controller.convertRectF(preview.gesture_controller.getSmiles().get(i).getLocation());
+				canvas.drawRect(rect, paint);
+				filter = Bitmap.createScaledBitmap(preview.gesture_controller.getFilter(),  rect.bottom - rect.top, rect.right - rect.left,  true);
+				filter = RotateBitmap(filter, -90);
+				canvas.drawBitmap(filter, (int) rect.left, (int) rect.top, paint);
 			}
-
-
-
-			TextCanvas.rotate(-90, canvas.getWidth()/2, canvas.getHeight()/2);
-			paint.setTextSize(40);
-			TextCanvas.drawText("# of Smiles detected: " + smileCount, 200, 0, paint);
-			TextCanvas.drawText("# of Thumb detected: " + thumbCount, 200, 50, paint);
 		}
-		preview.draw(TextCanvas);
+		if (preview.gesture_controller.getThumbup() != null) {
+			paint.setColor(Color.RED);
+			for (int i = 0; i < preview.gesture_controller.getThumbup().size(); i++) {
+				canvas.drawRect(preview.gesture_controller.convertRectF(preview.gesture_controller.getThumbup().get(i).getLocation()), paint);
+			}
+		}
+		preview.gesture_controller.doneDrawing();
 		preview.draw(canvas);
+	}
+
+	public static Bitmap RotateBitmap(Bitmap source, float angle)
+	{
+		Matrix matrix = new Matrix();
+		matrix.postRotate(angle);
+		return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
 	}
 
     @Override
