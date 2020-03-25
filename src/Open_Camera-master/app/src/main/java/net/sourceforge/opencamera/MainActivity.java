@@ -865,13 +865,17 @@ public class MainActivity extends Activity implements AudioListener.AudioListene
         preview.setCameraDisplayOrientation();
         super.onConfigurationChanged(newConfig);
     }
+
+    public void toggleFilter(View view){
+		Log.d("toggle", "toggle");
+	}
     
     public void waitUntilImageQueueEmpty() {
 		if( MyDebug.LOG )
 			Log.d(TAG, "waitUntilImageQueueEmpty");
         applicationInterface.getImageSaver().waitUntilDone();
     }
-    
+
     public void clickedTakePhoto(View view) {
 		if( MyDebug.LOG )
 			Log.d(TAG, "clickedTakePhoto");

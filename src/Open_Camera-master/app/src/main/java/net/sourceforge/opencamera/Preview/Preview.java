@@ -1529,6 +1529,7 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 			this.view_angle_y = camera_features.view_angle_y;
 			this.video_quality_handler.setVideoSizes(camera_features.video_sizes);
 	        this.supported_preview_sizes = camera_features.preview_sizes;
+
 		}
 		if( MyDebug.LOG ) {
 			Log.d(TAG, "setupCameraParameters: time after getting read only info: " + (System.currentTimeMillis() - debug_time));
@@ -1590,6 +1591,9 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 			CameraController.SupportedValues supported_values = camera_controller.setColorEffect(value);
 			if( supported_values != null ) {
 				color_effects = supported_values.values;
+				for (String s: color_effects){
+					Log.d("color", s);
+				}
 	    		// now save, so it's available for PreferenceActivity
 				applicationInterface.setColorEffectPref(supported_values.selected_value);
 			}
@@ -4793,6 +4797,7 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 			}
 			setPreviewFps();
     		try {
+//TODO    			camera_controller.setColorEffect("mono");
     			camera_controller.startPreview();
 		    	count_cameraStartPreview++;
     		}

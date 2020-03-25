@@ -99,7 +99,7 @@ public class MySurfaceView extends SurfaceView implements CameraSurface {
 	}
 	
 	@Override
-	public void setPreviewDisplay(CameraController camera_controller) {
+	public void setPreviewDisplay(CameraController camera_controller){
 		if( MyDebug.LOG )
 			Log.d(TAG, "setPreviewDisplay");
 		try {
@@ -110,7 +110,7 @@ public class MySurfaceView extends SurfaceView implements CameraSurface {
 				Log.e(TAG, "Failed to set preview display: " + e.getMessage());
 			e.printStackTrace();
 		}
-
+		Log.d("TAG", "DONE!");
 	}
 
 	@Override
