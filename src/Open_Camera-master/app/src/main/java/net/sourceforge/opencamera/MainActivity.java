@@ -5,6 +5,7 @@ import net.sourceforge.opencamera.CameraController.CameraControllerManager2;
 import net.sourceforge.opencamera.Preview.Preview;
 import net.sourceforge.opencamera.UI.FolderChooserDialog;
 import net.sourceforge.opencamera.UI.MainUI;
+import net.sourceforge.opencamera.ImgFilter.ImgFilter;
 
 import java.io.File;
 import java.io.IOException;
@@ -82,9 +83,6 @@ import android.widget.ZoomControls;
 import net.sourceforge.opencamera.tensorflow.Classifier;
 import android.util.Size;
 import net.sourceforge.opencamera.tensorflow.env.Logger;
-import android.widget.Toast;
-import android.graphics.Canvas;
-
 
 
 /** The main Activity for Open Camera.
@@ -866,8 +864,10 @@ public class MainActivity extends Activity implements AudioListener.AudioListene
         super.onConfigurationChanged(newConfig);
     }
 
+    //TODO toggle filter logic
     public void toggleFilter(View view){
-		Log.d("toggle", "toggle");
+		ImgFilter.changeFilter();
+		Log.d("toggle", "" + ImgFilter.getFilter());
 	}
     
     public void waitUntilImageQueueEmpty() {

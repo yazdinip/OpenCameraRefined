@@ -1,4 +1,4 @@
-package net.sourceforge.opencamera.Filter;
+package net.sourceforge.opencamera.ImgFilter;
 
 /**
  * Provides filter values for image filters
