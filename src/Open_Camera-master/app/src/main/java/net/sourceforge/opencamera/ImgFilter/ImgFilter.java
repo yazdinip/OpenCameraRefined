@@ -41,14 +41,14 @@ public class ImgFilter {
     public ImgFilter(Preview preview){
         //setup
         this.preview = preview;
-        //initialize classifier
-
+        //initialize constants
+        FilterConstants.initFilters();
         //initialize filter
 
     }
 
     public static void changeFilter(){
-        int[][][] FILTERS = FilterConstants.FILTERS;
+        ColorMatrixColorFilter[] FILTERS = FilterConstants.FILTERS;
         filterIndex = (filterIndex + 1)%(FILTERS.length + 1);
     }
     public static int getFilter(){
@@ -80,16 +80,14 @@ public class ImgFilter {
 
     public Bitmap toGrayscale(Bitmap bmpOriginal)
     {
+        ColorMatrixColorFilter[] FILTERS = FilterConstants.FILTERS;
         int width, height;
         height = bmpOriginal.getHeight();
         width = bmpOriginal.getWidth();
         Bitmap bmpGrayscale = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(bmpGrayscale);
         Paint paint = new Paint();
-        ColorMatrix cm = new ColorMatrix();
-        cm.setSaturation(0);
-        ColorMatrixColorFilter f = new ColorMatrixColorFilter(cm);
-        paint.setColorFilter(f);
+        paint.setColorFilter(FILTERS[filterIndex]);
         c.drawBitmap(bmpOriginal, 0, 0, paint);
         return bmpGrayscale;
     }
