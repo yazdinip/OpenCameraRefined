@@ -1,6 +1,7 @@
 package net.sourceforge.opencamera.Preview;
 
 import net.sourceforge.opencamera.Gesture.GestureController;
+import net.sourceforge.opencamera.ImgFilter.ImgFilter;
 import net.sourceforge.opencamera.MyDebug;
 import net.sourceforge.opencamera.R;
 import net.sourceforge.opencamera.TakePhoto;
@@ -21,6 +22,7 @@ import net.sourceforge.opencamera.tensorflow.TFLiteObjectDetectionAPIModel;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.Policy;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,6 +40,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -285,6 +288,7 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 	private static final String TF_OD_API_LABELS_FILE = "file:///android_asset/label_map.txt";
 
 	public GestureController gesture_controller;
+	public ImgFilter img_filter;
 
 	private static final Logger LOGGER = new Logger();
 
@@ -439,6 +443,10 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 		calculatePreviewToCameraMatrix();
 		return preview_to_camera_matrix;
 	}*/
+
+	public void setColor(String eff){
+		//TODO
+	}
 
 	private ArrayList<CameraController.Area> getAreas(float x, float y) {
 		float [] coords = {x, y};
@@ -4798,8 +4806,9 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 			setPreviewFps();
     		try {
 //TODO    			camera_controller.setColorEffect("mono");
+
     			camera_controller.startPreview();
-		    	count_cameraStartPreview++;
+
     		}
     		catch(CameraControllerException e) {
     			if( MyDebug.LOG )
@@ -4819,11 +4828,15 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 				faces_detected = null;
 			}
 			gesture_controller = new GestureController(this);
+			img_filter = new ImgFilter(this);
 			camera_controller.getCamera().setPreviewCallback(
 					new Camera.PreviewCallback(){
 						public void onPreviewFrame(byte[] data, Camera camera){
 //							CameraFrame = data;
 //							cameraSurface.detect();
+							img_filter.setFrame(data);
+							img_filter.processImage();
+
 							gesture_controller.setFrame(data);
 							gesture_controller.processImage();
 						}

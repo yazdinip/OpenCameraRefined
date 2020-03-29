@@ -867,6 +867,7 @@ public class MainActivity extends Activity implements AudioListener.AudioListene
     //TODO toggle filter logic
     public void toggleFilter(View view){
 		ImgFilter.changeFilter();
+		preview.setColor("mono");
 		Log.d("toggle", "" + ImgFilter.getFilter());
 	}
     
@@ -2028,7 +2029,10 @@ public class MainActivity extends Activity implements AudioListener.AudioListene
 		this.takePicturePressed();
     }
 
-    void takePicturePressed() {
+
+
+
+	void takePicturePressed() {
 		if( MyDebug.LOG )
 			Log.d(TAG, "takePicturePressed");
 

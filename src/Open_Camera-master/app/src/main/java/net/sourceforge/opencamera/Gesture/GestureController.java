@@ -174,7 +174,6 @@ public class GestureController {
                 final Canvas canvas = new Canvas(croppedBitmap);
                 canvas.scale(-1, 1, canvas.getWidth()/2, canvas.getHeight()/2);
                 canvas.drawBitmap(rgbFrameBitmap, frameToCropTransform, null);
-
             }
             cropToFrameTransform = new Matrix();
             frameToCropTransform.invert(cropToFrameTransform);
