@@ -1,16 +1,43 @@
 package net.sourceforge.opencamera.ImgFilter;
 
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+
 /**
  * Provides filter values for image filters
  * @author Dominik Buszowiecki
  */
 class FilterConstants {
 
-    //TODO init
-    static final int[][] GRAYSCALE = new int[2][2];
-    static final int[][] RED_FILTER = new int[2][2];
-    static final int[][] BLUE_FILTER = new int[2][2];
+    static ColorMatrixColorFilter GRAYSCALE;
+    static ColorMatrixColorFilter RED_FILTER;
+    static ColorMatrixColorFilter BLUE_FILTER;
 
-    static int[][][] FILTERS = new int[][][]{GRAYSCALE, RED_FILTER, BLUE_FILTER};
+    static ColorMatrixColorFilter[] FILTERS;
+
+    public static void initFilters(){
+        GRAYSCALE = getGrayscale();
+        //TODO
+        RED_FILTER = getGrayscale();
+        BLUE_FILTER = getGrayscale();
+
+        FILTERS = new ColorMatrixColorFilter[]{GRAYSCALE, RED_FILTER, BLUE_FILTER};
+
+    }
+
+    private static ColorMatrixColorFilter getGrayscale(){
+        ColorMatrix cm = new ColorMatrix();
+        cm.setSaturation(0);
+        return new ColorMatrixColorFilter(cm);
+    }
+    private static ColorMatrixColorFilter getBlueFilter(){
+        //TODO
+        return null;
+    }
+    private static ColorMatrixColorFilter getRedFilter(){
+        //TODO
+        return null;
+    }
+
 
 }
