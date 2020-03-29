@@ -1,36 +1,5 @@
 package net.sourceforge.opencamera.Preview;
 
-import net.sourceforge.opencamera.Gesture.GestureController;
-import net.sourceforge.opencamera.ImgFilter.ImgFilter;
-import net.sourceforge.opencamera.MyDebug;
-import net.sourceforge.opencamera.R;
-import net.sourceforge.opencamera.TakePhoto;
-import net.sourceforge.opencamera.ToastBoxer;
-import net.sourceforge.opencamera.CameraController.CameraController;
-import net.sourceforge.opencamera.CameraController.CameraController1;
-import net.sourceforge.opencamera.CameraController.CameraController2;
-import net.sourceforge.opencamera.CameraController.CameraControllerException;
-import net.sourceforge.opencamera.CameraController.CameraControllerManager;
-import net.sourceforge.opencamera.CameraController.CameraControllerManager1;
-import net.sourceforge.opencamera.CameraController.CameraControllerManager2;
-import net.sourceforge.opencamera.Preview.ApplicationInterface.NoFreeStorageException;
-import net.sourceforge.opencamera.Preview.CameraSurface.CameraSurface;
-import net.sourceforge.opencamera.Preview.CameraSurface.MySurfaceView;
-import net.sourceforge.opencamera.Preview.CameraSurface.MyTextureView;
-import net.sourceforge.opencamera.tensorflow.Classifier;
-import net.sourceforge.opencamera.tensorflow.TFLiteObjectDetectionAPIModel;
-
-import java.io.File;
-import java.io.IOException;
-import java.security.Policy;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -67,7 +36,6 @@ import android.provider.DocumentsContract;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.util.Pair;
-import android.util.Size;
 import android.view.Display;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -77,12 +45,42 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.TextureView;
 import android.view.View;
+import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.View.MeasureSpec;
 import android.widget.Toast;
-import android.content.Context;
+
+import net.sourceforge.opencamera.CameraController.CameraController;
+import net.sourceforge.opencamera.CameraController.CameraController1;
+import net.sourceforge.opencamera.CameraController.CameraController2;
+import net.sourceforge.opencamera.CameraController.CameraControllerException;
+import net.sourceforge.opencamera.CameraController.CameraControllerManager;
+import net.sourceforge.opencamera.CameraController.CameraControllerManager1;
+import net.sourceforge.opencamera.CameraController.CameraControllerManager2;
+import net.sourceforge.opencamera.Gesture.GestureController;
+import net.sourceforge.opencamera.ImgFilter.ImgFilter;
+import net.sourceforge.opencamera.MyDebug;
+import net.sourceforge.opencamera.Preview.ApplicationInterface.NoFreeStorageException;
+import net.sourceforge.opencamera.Preview.CameraSurface.CameraSurface;
+import net.sourceforge.opencamera.Preview.CameraSurface.MySurfaceView;
+import net.sourceforge.opencamera.Preview.CameraSurface.MyTextureView;
+import net.sourceforge.opencamera.R;
+import net.sourceforge.opencamera.TakePhoto;
+import net.sourceforge.opencamera.ToastBoxer;
+import net.sourceforge.opencamera.tensorflow.Classifier;
+import net.sourceforge.opencamera.tensorflow.TFLiteObjectDetectionAPIModel;
 import net.sourceforge.opencamera.tensorflow.env.Logger;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 /** This class was originally named due to encapsulating the camera preview,
@@ -2887,9 +2885,7 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 		int n_cameras = camera_controller_manager.getNumberOfCameras();
 		if( MyDebug.LOG )
 			Log.d(TAG, "found " + n_cameras + " cameras");
-		if( n_cameras == 0 )
-			return false;
-		return true;
+		return n_cameras != 0;
 	}
 	
 	public void setCamera(int cameraId) {
@@ -4467,7 +4463,12 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 					Log.d(TAG, "onPictureTaken");
     	    	// n.b., this is automatically run in a different thread
 				initDate();
-				if( !applicationInterface.onPictureTaken(data, current_date) ) {
+				Bitmap bmp = img_filter.getFiltered();
+				ByteArrayOutputStream stream = new ByteArrayOutputStream();
+				bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+				byte[] byteArray = stream.toByteArray();
+				bmp.recycle();
+				if( !applicationInterface.onPictureTaken(byteArray, current_date) ) {
 					if( MyDebug.LOG )
 						Log.e(TAG, "applicationInterface.onPictureTaken failed");
 					success = false;
