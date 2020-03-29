@@ -21,7 +21,7 @@ class FilterConstants {
         RED_FILTER = getGrayscale();
         BLUE_FILTER = getGrayscale();
 
-        FILTERS = new ColorMatrixColorFilter[]{GRAYSCALE, RED_FILTER, BLUE_FILTER};
+        FILTERS = new ColorMatrixColorFilter[]{null, GRAYSCALE, RED_FILTER, BLUE_FILTER};
 
     }
 
