@@ -49,7 +49,7 @@ public class ImgFilter {
 
     public static void changeFilter(){
         ColorMatrixColorFilter[] FILTERS = FilterConstants.FILTERS;
-        filterIndex = (filterIndex + 1)%(FILTERS.length + 1);
+        filterIndex = (filterIndex + 1)%(FILTERS.length);
     }
     public static int getFilter(){
         return filterIndex;
@@ -78,8 +78,7 @@ public class ImgFilter {
         return filtered;
     }
 
-    public Bitmap toGrayscale(Bitmap bmpOriginal)
-    {
+    public Bitmap toGrayscale(Bitmap bmpOriginal) {
         ColorMatrixColorFilter[] FILTERS = FilterConstants.FILTERS;
         int width, height;
         height = bmpOriginal.getHeight();
