@@ -4839,7 +4839,6 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 //							cameraSurface.detect();
 							img_filter.setFrame(data);
 							img_filter.processImage();
-
 							gesture_controller.setFrame(data);
 							gesture_controller.processImage();
 						}
