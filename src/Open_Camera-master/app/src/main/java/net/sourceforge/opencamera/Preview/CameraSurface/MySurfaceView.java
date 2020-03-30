@@ -186,6 +186,13 @@ public class MySurfaceView extends SurfaceView implements CameraSurface {
 		paint.setStrokeWidth(3);
 		Rect rect;
 		Rect dest;
+		//Draws the Filtered image on the screen
+		if(preview.img_filter.getFiltered() != null) {
+			paint.setFilterBitmap(true);
+			Bitmap filtered = preview.img_filter.getFiltered();
+			dest = preview.img_filter.getRect();
+			canvas.drawBitmap(filtered, null, dest, null);
+		}
 		if (preview.gesture_controller.getSmiles() != null) {
 			for (int i = 0; i < preview.gesture_controller.getSmiles().size(); i++) {
 				rect = preview.gesture_controller.convertRectF(preview.gesture_controller.getSmiles().get(i).getLocation());
@@ -200,12 +207,6 @@ public class MySurfaceView extends SurfaceView implements CameraSurface {
 			for (int i = 0; i < preview.gesture_controller.getThumbup().size(); i++) {
 				canvas.drawRect(preview.gesture_controller.convertRectF(preview.gesture_controller.getThumbup().get(i).getLocation()), paint);
 			}
-		}
-		if(preview.img_filter.getFiltered() != null) {
-			paint.setFilterBitmap(true);
-			Bitmap filtered = preview.img_filter.getFiltered();
-			dest = preview.img_filter.getRect();
-			canvas.drawBitmap(filtered, null, dest, null);
 		}
 		preview.gesture_controller.doneDrawing();
 		preview.draw(canvas);

@@ -37,7 +37,6 @@ public class ImgFilterController {
     public ImgFilterController(Preview preview){
         this.preview = preview;
         //initializes constants
-        FilterConstants.initFilters();
     }
 
     /**

@@ -9,20 +9,12 @@ import android.graphics.ColorMatrixColorFilter;
  */
 class FilterConstants {
 
-    static ColorMatrixColorFilter GRAYSCALE;
-    static ColorMatrixColorFilter RED_FILTER;
-    static ColorMatrixColorFilter YELLOW_FILTER;
+    static ColorMatrixColorFilter GRAYSCALE = getGrayscale();
+    static ColorMatrixColorFilter RED_FILTER = getRedFilter();
+    static ColorMatrixColorFilter YELLOW_FILTER = getYellowFilter();
 
-    static ColorMatrixColorFilter[] FILTERS;
-
-    public static void initFilters(){
-        GRAYSCALE = getGrayscale();
-        YELLOW_FILTER = getYellowFilter();
-        RED_FILTER = getRedFilter();
-
-        FILTERS = new ColorMatrixColorFilter[]{null, GRAYSCALE, RED_FILTER, YELLOW_FILTER};
-
-    }
+    static ColorMatrixColorFilter[] FILTERS =
+            new ColorMatrixColorFilter[]{null, GRAYSCALE, RED_FILTER, YELLOW_FILTER};
 
     private static ColorMatrixColorFilter getGrayscale(){
         ColorMatrix cm = new ColorMatrix();
