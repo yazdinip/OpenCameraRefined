@@ -11,17 +11,17 @@ class FilterConstants {
 
     static ColorMatrixColorFilter GRAYSCALE;
     static ColorMatrixColorFilter RED_FILTER;
-    static ColorMatrixColorFilter BLUE_FILTER;
+    static ColorMatrixColorFilter YELLOW_FILTER;
 
     static ColorMatrixColorFilter[] FILTERS;
 
     public static void initFilters(){
         GRAYSCALE = getGrayscale();
         //TODO
-        RED_FILTER = getGrayscale();
-        BLUE_FILTER = getGrayscale();
+        YELLOW_FILTER = getYellowFilter();
+        RED_FILTER = getRedFilter();
 
-        FILTERS = new ColorMatrixColorFilter[]{null, GRAYSCALE, RED_FILTER, BLUE_FILTER};
+        FILTERS = new ColorMatrixColorFilter[]{null, GRAYSCALE, RED_FILTER, YELLOW_FILTER};
 
     }
 
@@ -30,13 +30,17 @@ class FilterConstants {
         cm.setSaturation(0);
         return new ColorMatrixColorFilter(cm);
     }
-    private static ColorMatrixColorFilter getBlueFilter(){
-        //TODO
-        return null;
-    }
     private static ColorMatrixColorFilter getRedFilter(){
         //TODO
-        return null;
+        ColorMatrix cm = new ColorMatrix();
+        cm.setRGB2YUV();
+        return new ColorMatrixColorFilter(cm);
+    }
+    private static ColorMatrixColorFilter getYellowFilter(){
+        //TODO
+        ColorMatrix cm = new ColorMatrix();
+        cm.setRotate(0,30f);
+        return new ColorMatrixColorFilter(cm);
     }
 
 
