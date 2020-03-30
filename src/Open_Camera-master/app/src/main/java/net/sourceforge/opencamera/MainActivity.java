@@ -866,9 +866,8 @@ public class MainActivity extends Activity implements AudioListener.AudioListene
 
     //TODO toggle filter logic
     public void toggleFilter(View view){
-		ImgFilter.changeFilter();
-		preview.setColor("mono");
-		Log.d("toggle", "" + ImgFilter.getFilter());
+		preview.img_filter.changeFilter();
+		Log.d("toggle", "" + preview.img_filter.getFilter());
 	}
     
     public void waitUntilImageQueueEmpty() {

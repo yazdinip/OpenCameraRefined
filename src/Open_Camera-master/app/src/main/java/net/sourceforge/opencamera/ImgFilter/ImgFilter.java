@@ -47,11 +47,11 @@ public class ImgFilter {
 
     }
 
-    public static void changeFilter(){
+    public void changeFilter(){
         ColorMatrixColorFilter[] FILTERS = FilterConstants.FILTERS;
         filterIndex = (filterIndex + 1)%(FILTERS.length);
     }
-    public static int getFilter(){
+    public int getFilter(){
         return filterIndex;
     }
 
@@ -65,7 +65,7 @@ public class ImgFilter {
                 };
 //                Bitmap newmap = preview.cameraSurface.loadBitmapFromView(preview);
                 loadBitmapFromView(imageFrame);
-                filtered = toGrayscale(rgbFrameBitmap);
+                filtered = setFiltered(rgbFrameBitmap);
             }
         });
     }
@@ -78,7 +78,7 @@ public class ImgFilter {
         return filtered;
     }
 
-    public Bitmap toGrayscale(Bitmap bmpOriginal) {
+    public Bitmap setFiltered(Bitmap bmpOriginal) {
         ColorMatrixColorFilter[] FILTERS = FilterConstants.FILTERS;
         int width, height;
         height = bmpOriginal.getHeight();
