@@ -206,9 +206,6 @@ public class MySurfaceView extends SurfaceView implements CameraSurface {
 			Bitmap filtered = preview.img_filter.getFiltered();
 			dest = preview.img_filter.getRect();
 			canvas.drawBitmap(filtered, null, dest, null);
-			Log.d("DRAW", "Drawing");
-		}else {
-			Log.d("DRAW", "Not Drawing");
 		}
 		preview.gesture_controller.doneDrawing();
 		preview.draw(canvas);

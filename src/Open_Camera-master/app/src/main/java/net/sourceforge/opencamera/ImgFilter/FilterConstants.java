@@ -17,7 +17,6 @@ class FilterConstants {
 
     public static void initFilters(){
         GRAYSCALE = getGrayscale();
-        //TODO
         YELLOW_FILTER = getYellowFilter();
         RED_FILTER = getRedFilter();
 
@@ -31,13 +30,11 @@ class FilterConstants {
         return new ColorMatrixColorFilter(cm);
     }
     private static ColorMatrixColorFilter getRedFilter(){
-        //TODO
         ColorMatrix cm = new ColorMatrix();
         cm.setRGB2YUV();
         return new ColorMatrixColorFilter(cm);
     }
     private static ColorMatrixColorFilter getYellowFilter(){
-        //TODO
         ColorMatrix cm = new ColorMatrix();
         cm.setRotate(0,30f);
         return new ColorMatrixColorFilter(cm);
