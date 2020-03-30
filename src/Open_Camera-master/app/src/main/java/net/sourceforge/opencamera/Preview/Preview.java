@@ -58,7 +58,7 @@ import net.sourceforge.opencamera.CameraController.CameraControllerManager;
 import net.sourceforge.opencamera.CameraController.CameraControllerManager1;
 import net.sourceforge.opencamera.CameraController.CameraControllerManager2;
 import net.sourceforge.opencamera.Gesture.GestureController;
-import net.sourceforge.opencamera.ImgFilter.ImgFilter;
+import net.sourceforge.opencamera.ImgFilter.ImgFilterController;
 import net.sourceforge.opencamera.MyDebug;
 import net.sourceforge.opencamera.Preview.ApplicationInterface.NoFreeStorageException;
 import net.sourceforge.opencamera.Preview.CameraSurface.CameraSurface;
@@ -286,7 +286,7 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 	private static final String TF_OD_API_LABELS_FILE = "file:///android_asset/label_map.txt";
 
 	public GestureController gesture_controller;
-	public ImgFilter img_filter;
+	public ImgFilterController img_filter;
 
 	private static final Logger LOGGER = new Logger();
 
@@ -4831,7 +4831,7 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 				faces_detected = null;
 			}
 			gesture_controller = new GestureController(this);
-			img_filter = new ImgFilter(this);
+			img_filter = new ImgFilterController(this);
 			camera_controller.getCamera().setPreviewCallback(
 					new Camera.PreviewCallback(){
 						public void onPreviewFrame(byte[] data, Camera camera){
