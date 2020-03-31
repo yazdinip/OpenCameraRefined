@@ -27,10 +27,10 @@ public class GestureController {
     private final Preview preview;
     private Classifier classifier;
     private static final Logger LOGGER = new Logger();
-    private Filter filter;
+//    private Filter filter;
     private byte[] imageFrame;
     private List<Classifier.Recognition> recognitions;
-    private float minConfidence = 0.95f; // min confidence
+    private float minConfidence = 0.85f; // min confidence
     private List<Classifier.Recognition> smiles = new ArrayList<Classifier.Recognition>();
     private List<Classifier.Recognition> thumbup = new ArrayList<Classifier.Recognition>();
     //////////////////////
@@ -65,7 +65,7 @@ public class GestureController {
         }
 
         //initialize filter
-        filter = new Filter(preview.getResources());
+//        filter = new Filter(preview.getResources());
 
     }
 
@@ -96,7 +96,7 @@ public class GestureController {
                         smiles.add(recognitions.get(i));
                     } else if (recognitions.get(i).getTitle().contains("thumbup")){
                         if (thumbup.size() == 0){
-                            filter.changeFilter();
+//                            filter.changeFilter();
                         }
                         thumbup.add(recognitions.get(i));
                     }
@@ -124,9 +124,6 @@ public class GestureController {
         return thumbup;
     }
 
-    public Bitmap getFilter(){
-        return filter.getFilter();
-    }
 
     public void setFrame(byte[] frame){
         imageFrame = frame;

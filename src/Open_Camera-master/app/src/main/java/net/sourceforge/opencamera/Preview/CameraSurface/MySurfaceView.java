@@ -200,11 +200,11 @@ public class MySurfaceView extends SurfaceView implements CameraSurface {
 		}
 		if (preview.gesture_controller.getSmiles() != null) {
 			for (int i = 0; i < preview.gesture_controller.getSmiles().size(); i++) {
-				rect = preview.gesture_controller.convertRectF(preview.gesture_controller.getSmiles().get(i).getLocation());
-				canvas.drawRect(rect, paint);
-				filter = Bitmap.createScaledBitmap(preview.gesture_controller.getFilter(),  rect.bottom - rect.top, rect.right - rect.left,  true);
-				filter = RotateBitmap(filter, -90);
-				canvas.drawBitmap(filter, (int) rect.left, (int) rect.top, paint);
+//				rect = preview.gesture_controller.convertRectF(preview.gesture_controller.getSmiles().get(i).getLocation());
+//				canvas.drawRect(rect, paint);
+//				filter = Bitmap.createScaledBitmap(preview.gesture_controller.getFilter(),  rect.bottom - rect.top, rect.right - rect.left,  true);
+//				filter = RotateBitmap(filter, -90);
+//				canvas.drawBitmap(filter, (int) rect.left, (int) rect.top, paint);
 			}
 		}
 		if (preview.gesture_controller.getThumbup() != null) {
