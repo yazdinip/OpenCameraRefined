@@ -1,13 +1,14 @@
 package net.sourceforge.opencamera.ImgFilter;
 
 import android.graphics.Bitmap;
+import android.hardware.Camera;
 import android.graphics.Canvas;
-import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import net.sourceforge.opencamera.Preview.Preview;
 import net.sourceforge.opencamera.tensorflow.ImageUtils;
@@ -18,10 +19,12 @@ import net.sourceforge.opencamera.tensorflow.ImageUtils;
  */
 public class ImgFilterController {
 
+
     private static int filterIndex = 0; //0 = OFF, 1 = 1st filter, etc
+    private static byte[] imageFrame;
+    private static Bitmap filtered;
+
     private final Preview preview;
-    private byte[] imageFrame;
-    private Bitmap filtered;
     ////
     private Bitmap croppedBitmap = null;
     private Bitmap rgbFrameBitmap = null;
@@ -59,7 +62,10 @@ public class ImgFilterController {
      * Sets the image frame from the camera preview to be processed
      * @param frame - frame from a camera controller
      */
-    public void setFrame(byte[] frame){ imageFrame = frame; }
+    public void setFrame(byte[] frame){
+        imageFrame = frame;
+        Log.d("IMG", "setFrame: frame is "+  frame.toString());
+    }
 
     /**
      * Processes the current imageFrame and applies the selected filter
@@ -68,14 +74,20 @@ public class ImgFilterController {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                if (filterIndex == 0) {
-                    filtered = null;
+                if (filterIndex == 0){
+                    destroyFiltered();
                     return;
-                };
+                }
                 loadBitmapFromView(imageFrame);
                 filtered = setFiltered(rgbFrameBitmap);
+                if (filtered == null) Log.d("IMG", "Process Image: Filter is null");
             }
         });
+    }
+
+    synchronized public void destroyFiltered(){
+        if (filtered != null) filtered.recycle();
+        filtered = null;
     }
 
     /**
@@ -83,7 +95,7 @@ public class ImgFilterController {
      * @return - A Rect object that is the size of the entire preview screen
      */
     public Rect getRect(){
-        return new Rect(0, 0, previewWidth + 200, previewHeight + 300);
+        return new Rect(0, 0, filtered.getWidth()+160, filtered.getHeight()+150);
     }
 
     /**
@@ -114,16 +126,6 @@ public class ImgFilterController {
             if (rgbFrameBitmap == null) {
                 rgbFrameBitmap = Bitmap.createBitmap(previewWidth, previewHeight, Bitmap.Config.ARGB_8888);
             }
-            if (croppedBitmap == null) {
-                croppedBitmap = Bitmap.createBitmap(cropSize, cropSize, Bitmap.Config.ARGB_8888);
-            }
-            if (frameToCropTransform == null) {
-                frameToCropTransform =
-                        ImageUtils.getTransformationMatrix(
-                                previewWidth, previewHeight,
-                                cropSize, cropSize,
-                                0, MAINTAIN_ASPECT);
-            }
             int[] rgbBytes = null;
             rgbBytes = new int[previewWidth * previewHeight];
 //            Log.i("q: ", Integer.toString(preview.CameraFrame.length));
@@ -131,11 +133,9 @@ public class ImgFilterController {
                 ImageUtils.convertYUV420SPToARGB8888(frame, previewWidth, previewHeight, rgbBytes);
                 rgbFrameBitmap.setPixels(rgbBytes, 0, previewWidth, 0, 0, previewWidth, previewHeight);
                 final Canvas canvas = new Canvas(rgbFrameBitmap);
-                canvas.scale(0, 0, canvas.getWidth(), canvas.getHeight());
+                canvas.scale(0, 0, previewWidth, previewHeight);
                 canvas.drawBitmap(rgbFrameBitmap, 0, 0, null);
             }
-            cropToFrameTransform = new Matrix();
-            frameToCropTransform.invert(cropToFrameTransform);
         }
     }
 
@@ -149,12 +149,12 @@ public class ImgFilterController {
         int width, height;
         height = bmpOriginal.getHeight();
         width = bmpOriginal.getWidth();
-        Bitmap bmpGrayscale = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas c = new Canvas(bmpGrayscale);
+        Bitmap bmpFiltered = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(bmpFiltered);
         Paint paint = new Paint();
         //The filter used depends on the value of filterIndex
         paint.setColorFilter(FILTERS[filterIndex]);
         c.drawBitmap(bmpOriginal, 0, 0, paint);
-        return bmpGrayscale;
+        return bmpFiltered;
     }
 }

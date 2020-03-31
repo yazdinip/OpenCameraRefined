@@ -4463,13 +4463,13 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 					Log.d(TAG, "onPictureTaken");
     	    	// n.b., this is automatically run in a different thread
 				initDate();
-				if (img_filter.getFilter() != 0 && img_filter.getFiltered() != null) {
-					Bitmap bmp = img_filter.getFiltered();
-					ByteArrayOutputStream stream = new ByteArrayOutputStream();
-					bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-					data = stream.toByteArray();
-					bmp.recycle();
-				}
+//				if (img_filter.getFilter() != 0 && img_filter.getFiltered() != null) {
+//					Bitmap bmp = img_filter.getFiltered();
+//					ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//					bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+//					data = stream.toByteArray();
+//					bmp.recycle();
+//				}
 				if( !applicationInterface.onPictureTaken(data, current_date) ) {
 					if( MyDebug.LOG )
 						Log.e(TAG, "applicationInterface.onPictureTaken failed");
@@ -4478,6 +4478,7 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 				else {
 					success = true;
 				}
+				cameraSurface.setPreviewDisplay(camera_controller);
     	    }
 
 			public void onRawPictureTaken(DngCreator dngCreator, Image image) {
@@ -4837,6 +4838,7 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 						public void onPreviewFrame(byte[] data, Camera camera){
 //							CameraFrame = data;
 //							cameraSurface.detect();
+
 							img_filter.setFrame(data);
 							img_filter.processImage();
 							gesture_controller.setFrame(data);

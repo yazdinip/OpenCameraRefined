@@ -42,6 +42,7 @@ import java.util.List;
 
 
 /** Provides support for the surface used for the preview, using a SurfaceView.
+ *
  */
 public class MySurfaceView extends SurfaceView implements CameraSurface {
 	private static final String TAG = "MySurfaceView";
@@ -187,11 +188,15 @@ public class MySurfaceView extends SurfaceView implements CameraSurface {
 		Rect rect;
 		Rect dest;
 		//Draws the Filtered image on the screen
-		if(preview.img_filter.getFiltered() != null) {
+		if(preview.img_filter != null && preview.img_filter.getFiltered() != null) {
 			paint.setFilterBitmap(true);
 			Bitmap filtered = preview.img_filter.getFiltered();
 			dest = preview.img_filter.getRect();
 			canvas.drawBitmap(filtered, null, dest, null);
+		}else{
+			Bitmap filtered = preview.img_filter.getFiltered();
+			//TODO
+			if (filtered == null) Log.d("IMG", "filtered is null");
 		}
 		if (preview.gesture_controller.getSmiles() != null) {
 			for (int i = 0; i < preview.gesture_controller.getSmiles().size(); i++) {
