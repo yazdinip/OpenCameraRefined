@@ -16,6 +16,7 @@ import net.sourceforge.opencamera.tensorflow.Classifier;
 import net.sourceforge.opencamera.tensorflow.ImageUtils;
 import net.sourceforge.opencamera.tensorflow.TFLiteObjectDetectionAPIModel;
 import net.sourceforge.opencamera.tensorflow.env.Logger;
+import net.sourceforge.opencamera.ImgFilter.ImgFilterController;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,6 +41,8 @@ public class GestureController {
     private Matrix cropToFrameTransform;
     private int previewWidth;
     private int previewHeight;
+
+    public ImgFilterController img_filter;
     //////////////////////
 
     public Canvas canvas;
@@ -51,6 +54,7 @@ public class GestureController {
         //setup
         this.preview = preview;
         //initialize classifier
+        img_filter = new ImgFilterController(this.preview);
 
         try {
             this.classifier = TFLiteObjectDetectionAPIModel.create(
@@ -70,6 +74,11 @@ public class GestureController {
     }
 
     public void processImage(){
+
+
+        img_filter.setFrame(imageFrame);
+        img_filter.processImage();
+
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
@@ -96,7 +105,7 @@ public class GestureController {
                         smiles.add(recognitions.get(i));
                     } else if (recognitions.get(i).getTitle().contains("thumbup")){
                         if (thumbup.size() == 0){
-//                            filter.changeFilter();
+                            img_filter.changeFilter();
                         }
                         thumbup.add(recognitions.get(i));
                     }

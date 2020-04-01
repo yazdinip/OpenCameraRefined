@@ -188,20 +188,20 @@ public class MySurfaceView extends SurfaceView implements CameraSurface {
 		Rect rect;
 		Rect dest;
 		//Draws the Filtered image on the screen
-		if(preview.img_filter != null && preview.img_filter.getFiltered() != null) {
+		if(preview.gesture_controller.img_filter != null && preview.gesture_controller.img_filter.getFiltered() != null) {
 			paint.setFilterBitmap(true);
-			Bitmap filtered = preview.img_filter.getFiltered();
-			dest = preview.img_filter.getRect();
+			Bitmap filtered = preview.gesture_controller.img_filter.getFiltered();
+			dest = preview.gesture_controller.img_filter.getRect();
 			canvas.drawBitmap(filtered, null, dest, null);
 		}else{
-			Bitmap filtered = preview.img_filter.getFiltered();
+			Bitmap filtered = preview.gesture_controller.img_filter.getFiltered();
 			//TODO
 			if (filtered == null) Log.d("IMG", "filtered is null");
 		}
 		if (preview.gesture_controller.getSmiles() != null) {
 			for (int i = 0; i < preview.gesture_controller.getSmiles().size(); i++) {
-//				rect = preview.gesture_controller.convertRectF(preview.gesture_controller.getSmiles().get(i).getLocation());
-//				canvas.drawRect(rect, paint);
+				rect = preview.gesture_controller.convertRectF(preview.gesture_controller.getSmiles().get(i).getLocation());
+				canvas.drawRect(rect, paint);
 //				filter = Bitmap.createScaledBitmap(preview.gesture_controller.getFilter(),  rect.bottom - rect.top, rect.right - rect.left,  true);
 //				filter = RotateBitmap(filter, -90);
 //				canvas.drawBitmap(filter, (int) rect.left, (int) rect.top, paint);

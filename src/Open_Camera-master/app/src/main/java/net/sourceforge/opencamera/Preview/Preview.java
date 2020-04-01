@@ -286,7 +286,6 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 	private static final String TF_OD_API_LABELS_FILE = "file:///android_asset/label_map.txt";
 
 	public GestureController gesture_controller;
-	public ImgFilterController img_filter;
 
 	private static final Logger LOGGER = new Logger();
 
@@ -4832,15 +4831,11 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 				faces_detected = null;
 			}
 			gesture_controller = new GestureController(this);
-			img_filter = new ImgFilterController(this);
 			camera_controller.getCamera().setPreviewCallback(
 					new Camera.PreviewCallback(){
 						public void onPreviewFrame(byte[] data, Camera camera){
 //							CameraFrame = data;
 //							cameraSurface.detect();
-
-							img_filter.setFrame(data);
-							img_filter.processImage();
 							gesture_controller.setFrame(data);
 							gesture_controller.processImage();
 						}
