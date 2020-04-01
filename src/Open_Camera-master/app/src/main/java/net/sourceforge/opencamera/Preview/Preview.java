@@ -286,6 +286,7 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 	private static final String TF_OD_API_LABELS_FILE = "file:///android_asset/label_map.txt";
 
 	public GestureController gesture_controller;
+	public ImgFilterController img_filter;
 
 	private static final Logger LOGGER = new Logger();
 
@@ -4462,10 +4463,13 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 					Log.d(TAG, "onPictureTaken");
     	    	// n.b., this is automatically run in a different thread
 				initDate();
-				if (gesture_controller.img_filter.getFilter() != 0 && gesture_controller.img_filter.getFiltered() != null) {
-					Bitmap bmp = gesture_controller.img_filter.getFiltered();
+				if (img_filter.getFilter() != 0 && img_filter.getFiltered() != null) {
+					Matrix matrix = new Matrix();
+					matrix.preRotate(90);
+					Bitmap bmp = img_filter.getFiltered();
+					Bitmap rotatedBitmap = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
 					ByteArrayOutputStream stream = new ByteArrayOutputStream();
-					bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+					rotatedBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
 					data = stream.toByteArray();
 				}
 				if( !applicationInterface.onPictureTaken(data, current_date) ) {
@@ -4830,11 +4834,15 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 				faces_detected = null;
 			}
 			gesture_controller = new GestureController(this);
+			img_filter = new ImgFilterController(this);
 			camera_controller.getCamera().setPreviewCallback(
 					new Camera.PreviewCallback(){
 						public void onPreviewFrame(byte[] data, Camera camera){
 //							CameraFrame = data;
 //							cameraSurface.detect();
+
+							img_filter.setFrame(data);
+							img_filter.processImage();
 							gesture_controller.setFrame(data);
 							gesture_controller.processImage();
 						}
