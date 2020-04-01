@@ -4463,13 +4463,12 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 					Log.d(TAG, "onPictureTaken");
     	    	// n.b., this is automatically run in a different thread
 				initDate();
-//				if (img_filter.getFilter() != 0 && img_filter.getFiltered() != null) {
-//					Bitmap bmp = img_filter.getFiltered();
-//					ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//					bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-//					data = stream.toByteArray();
-//					bmp.recycle();
-//				}
+				if (img_filter.getFilter() != 0 && img_filter.getFiltered() != null) {
+					Bitmap bmp = img_filter.getFiltered();
+					ByteArrayOutputStream stream = new ByteArrayOutputStream();
+					bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+					data = stream.toByteArray();
+				}
 				if( !applicationInterface.onPictureTaken(data, current_date) ) {
 					if( MyDebug.LOG )
 						Log.e(TAG, "applicationInterface.onPictureTaken failed");
