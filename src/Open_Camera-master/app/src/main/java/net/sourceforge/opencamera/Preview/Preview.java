@@ -4462,8 +4462,8 @@ public class Preview implements SurfaceHolder.Callback, TextureView.SurfaceTextu
 					Log.d(TAG, "onPictureTaken");
     	    	// n.b., this is automatically run in a different thread
 				initDate();
-				if (img_filter.getFilter() != 0 && img_filter.getFiltered() != null) {
-					Bitmap bmp = img_filter.getFiltered();
+				if (gesture_controller.img_filter.getFilter() != 0 && gesture_controller.img_filter.getFiltered() != null) {
+					Bitmap bmp = gesture_controller.img_filter.getFiltered();
 					ByteArrayOutputStream stream = new ByteArrayOutputStream();
 					bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
 					data = stream.toByteArray();
