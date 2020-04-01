@@ -192,6 +192,9 @@ public class MySurfaceView extends SurfaceView implements CameraSurface {
 			paint.setFilterBitmap(true);
 			Bitmap filtered = preview.gesture_controller.img_filter.getFiltered();
 			dest = preview.gesture_controller.img_filter.getRect();
+			if (preview.getCameraController().isFrontFacing()){
+				filtered = RotateBitmap(filtered, 180);
+			}
 			canvas.drawBitmap(filtered, null, dest, null);
 		}else{
 			Bitmap filtered = preview.gesture_controller.img_filter.getFiltered();
