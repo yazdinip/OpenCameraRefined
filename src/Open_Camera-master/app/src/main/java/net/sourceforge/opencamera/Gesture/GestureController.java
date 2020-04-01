@@ -8,8 +8,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.AsyncTask;
-import android.util.Log;
-import android.view.View;
 
 import net.sourceforge.opencamera.Preview.Preview;
 import net.sourceforge.opencamera.tensorflow.Classifier;
@@ -31,7 +29,8 @@ public class GestureController {
 //    private Filter filter;
     private byte[] imageFrame;
     private List<Classifier.Recognition> recognitions;
-    private float minConfidence = 0.85f; // min confidence
+    private float minConfidenceSmile = 0.99f; // min confidence
+    private float minConfidenceThumb = 0.85f;
     private List<Classifier.Recognition> smiles = new ArrayList<Classifier.Recognition>();
     private List<Classifier.Recognition> thumbup = new ArrayList<Classifier.Recognition>();
     //////////////////////
@@ -42,13 +41,12 @@ public class GestureController {
     private int previewWidth;
     private int previewHeight;
 
+    private long startTime;
+
     public ImgFilterController img_filter;
     //////////////////////
 
     public Canvas canvas;
-    private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-
-    public boolean drawReady;
 
     public GestureController(Preview preview){
         //setup
@@ -69,7 +67,7 @@ public class GestureController {
         }
 
         //initialize filter
-//        filter = new Filter(preview.getResources());
+        startTime = System.nanoTime();
 
     }
 
@@ -94,21 +92,18 @@ public class GestureController {
 
     public void processRecognitions(){
         if (recognitions != null) {
-            int smileCount = 0;
-            int thumbCount = 0;
             for (int i = 0; i < recognitions.size(); i++) {
-                if (recognitions.get(i).getConfidence() >= minConfidence){
-                    if (recognitions.get(i).getTitle().contains("smile")){
-                        if (thumbup.size() == 0){
-                            captureImage();
-                        }
-                        smiles.add(recognitions.get(i));
-                    } else if (recognitions.get(i).getTitle().contains("thumbup")){
-                        if (thumbup.size() == 0){
-                            img_filter.changeFilter();
-                        }
-                        thumbup.add(recognitions.get(i));
+                if (recognitions.get(i).getConfidence() >= minConfidenceSmile && recognitions.get(i).getTitle().contains("smile")){
+                    if (thumbup.size() == 0){
+                        captureImage();
                     }
+                    smiles.add(recognitions.get(i));
+                } else if (recognitions.get(i).getConfidence() >= minConfidenceThumb && recognitions.get(i).getTitle().contains("thumbup")) {
+                    if (thumbup.size() == 0 && System.nanoTime() - startTime > 2000000000) {
+                        startTime = System.nanoTime();
+                        img_filter.changeFilter();
+                    }
+                    thumbup.add(recognitions.get(i));
                 }
             }
         }
