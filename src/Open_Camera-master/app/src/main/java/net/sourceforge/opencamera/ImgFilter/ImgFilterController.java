@@ -26,12 +26,7 @@ public class ImgFilterController {
 
     private final Preview preview;
     ////
-    private Bitmap croppedBitmap = null;
     private Bitmap rgbFrameBitmap = null;
-    private Matrix frameToCropTransform = null;
-    private Matrix cropToFrameTransform;
-    private int previewWidth;
-    private int previewHeight;
 
     /**
      * Creates a ImgFilter Controller
@@ -95,7 +90,7 @@ public class ImgFilterController {
      * @return - A Rect object that is the size of the entire preview screen
      */
     public Rect getRect(){
-        return new Rect(0, 0, filtered.getWidth()+160, filtered.getHeight()+150);
+        return new Rect(0, 0, filtered.getWidth()+400, filtered.getHeight()+300);
     }
 
     /**
@@ -114,11 +109,11 @@ public class ImgFilterController {
      * @param frame - a frame from the Camera Controller
      */
     private void loadBitmapFromView(byte[] frame) {
-        this.previewWidth = this.preview.getCurrentPreviewSize().width;
-        this.previewHeight = this.preview.getCurrentPreviewSize().height;
+        int previewWidth = this.preview.getCurrentPreviewSize().width;
+        int previewHeight = this.preview.getCurrentPreviewSize().height;
 //        Log.i("image: ", previewWidth + Integer.toString(previewHeight));
 
-        if (this.previewWidth != 0 && this.previewHeight != 0){
+        if (previewWidth != 0 && previewHeight != 0){
             boolean MAINTAIN_ASPECT = true;
 
             int cropSize = 100;
