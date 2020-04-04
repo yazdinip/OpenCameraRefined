@@ -75,6 +75,8 @@
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
 March 14, 2020 & 1.0 & Initial document\\
+\midrule
+April 4, 2020 & 2.0 & Initial document\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -509,6 +511,13 @@ changeFilter &  &  & \\
 \hline
 getFilter &  & $\mathbb{Z}$ & \\
 \hline
+\textcolor{red}{setFrame} & \textcolor{red}{$byte[]$} &  & \\
+\hline
+\textcolor{red}{processImage} & &  & \\
+\hline
+\textcolor{red}{getFiltered} & & \textcolor{red}{$Bitmap$} & \\
+\hline
+
 \end{tabular}
 
 \subsection* {Semantics}
@@ -516,10 +525,15 @@ getFilter &  & $\mathbb{Z}$ & \\
 \subsubsection* {State Variables}
 
 filterIndex : $\mathbb{Z}$ \textit{\#Which index in the FILTERS constant from the filters module is selected}
+\textcolor{red}{
+imageFrame: $byte []$  \texit{\# current camera frame} \\
+rgbFrameBitmap: $Bitmap$ \texit{\# bitMap version of camera frame}\\
+filtered: $Bitmap$ \texit{\# Filtered version of rgbFrameBitmap } \\
+}
 
 \subsubsection* {Environment Variables}
 
-None
+\textcolor{red}{preview: \textit{\# Android Camera Preview object}}
 
 \subsubsection* {State Invariant}
 
@@ -533,7 +547,7 @@ The $\%$ operator represents the mathematical modulus operator
 
 changeFilter():
 \begin{itemize}
-\item transition: $\text{filterIndex} := (\text{filterIndex} + 1) \% |FILTERS|$
+\item transition: $\text{filterIndex} := (\text{filterIndex} + 1) \% |FILTERS + 1|$
 \item output: None
 
 \end{itemize}
@@ -542,6 +556,29 @@ changeFilter():
 \begin{itemize}
 \item transition: None
 \item output: $out := \text{filterIndex}$
+\end{itemize}
+
+\noindent \textcolor{red}{setFrame($byte$[] data):}
+\begin{itemize}
+\item \textcolor{red}{transition: imageFrame:= data}
+\item \textcolor{red}{output: None}
+\item \textcolor{red}{exception: None}
+\end{itemize}
+
+\noindent \textcolor{red}{processImage():}
+\begin{itemize}
+\item \textcolor{red}{transition: \\filterIndex = 0 $\implies$ filtered := $null$ \\
+filterIndex\ \!= 0 $\implies$ filtered := setFiltered(rgbFrameBitmap)
+}
+
+\item \textcolor{red}{output: None}
+\item \textcolor{red}{exception: None}
+\end{itemize}
+
+\noindent \textcolor{red}{getFiltered():}
+\begin{itemize}
+\item \textcolor{red}{transition: None}
+\item \textcolor{red}{output: $out$ := filtered}
 \end{itemize}
 
 \newpage
@@ -560,10 +597,12 @@ OpenCV
 
 \subsubsection* {Exported Constants}
 
-GRAYSCALE: ($\mathbb{Z}$[], $\mathbb{Z}$[])\\
-RED\_FILTER: ($\mathbb{Z}$[], $\mathbb{Z}$[]) \\
-BLUE\_FILTER: ($\mathbb{Z}$[], $\mathbb{Z}$[])\\
-\textit{\# The values of the filters will be obtained from the OpenCV lookup tables. They are 2xN matrices which map a source colour of a pixel to a final colour after applying a filter. The value of N depends on the total number of possible colours}\\
+GRAYSCALE: \sout{($\mathbb{Z}$[], $\mathbb{Z}$[])} \textcolor{red}{ColorMatrixColorFilter}\\
+RED\_FILTER: \sout{($\mathbb{Z}$[], $\mathbb{Z}$[])} \textcolor{red}{ColorMatrixColorFilter} \\
+BLUE\_FILTER: \sout{($\mathbb{Z}$[], $\mathbb{Z}$[])} \textcolor{red}{ColorMatrixColorFilter}\\
+\sout{\textit{\# The values of the filters will be obtained from the OpenCV lookup tables. They are 2xN matrices which map a source colour of a pixel to a final colour after applying a filter. The value of N depends on the total number of possible colours}}\\
+\textit{\# The values of the filters are obtained from code snippets found online, 
+the type ColorMatrixColorFilter is a type built into android}\\
 FILTERS = [GRAYSCALE, RED\_FILTER, BLUE\_FILTER]\\
 
 \subsubsection* {Exported Types}
