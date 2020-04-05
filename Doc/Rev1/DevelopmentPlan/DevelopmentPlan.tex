@@ -2,6 +2,9 @@
 
 \usepackage{booktabs}
 \usepackage{tabularx}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage[normalem]{ulem}
 \usepackage{graphicx}
 
 \title{SE 3XA3: Development Plan\\OpenCameraRefined}
@@ -25,9 +28,8 @@
 \toprule
 \textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
 \midrule
-Date1 & Name(s) & Description of changes\\
-Date2 & Name(s) & Description of changes\\
-... & ... & ...\\
+1/31/2020 & Pedram Yazdinia, Zayed Sheet & Initial Document (Rev0)\\
+4/4/2020 & Pedram & Revision 1\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -42,7 +44,7 @@ This document contains the development plan for the implementation of ''OpenCame
 
 \section{Team Meeting Plan}
 
-In addition to the lab times where all members do tutorial work and improve the project, each group member is responsible for consistent presence in weekly online and personal meetings. These meetings take place every Monday and Saturday with different purposes. Saturday meetings take place to bring every person of the group uptodate while evaluating the progress done over the week. These meetings are brief and take place over online platforms(Facebook Messenger). Monday meetings provide a chance for the developers to discuss, design and implement on any aspect of the product. It is very crucial that developers personally attend these meetings. These meetings usually take around an hour, within study rooms of Thode Library. Within the group, Zayed Sheet will take control over the structure of each agenda as the group chair. He will ensure that the meeting flows as planned through agenda and that each member is informed of their “homework”. Finally, he is responsible for gathering the written statement of the decisions made. 
+In addition to the lab times where all members do tutorial work and improve the project, each group member is responsible for consistent presence in weekly online and personal meetings. These meetings take place every Monday and Saturday with different purposes. Saturday meetings take place \textcolor{red}{at 8 pm }to bring every person of the group up to date while evaluating the progress done over the week. These meetings are brief and take place over online platforms(Facebook Messenger). Monday meetings take place \textcolor{red}{at 5 pm } to provide a chance for the developers to discuss, design and implement on any aspect of the product. It is very crucial that developers personally attend these meetings. These meetings usually take around an hour, within study rooms of Thode Library. Within the group, Zayed Sheet will take control over the structure of each agenda as the group chair. He will ensure that the meeting flows as planned through agenda and that each member is informed of their “homework”. Finally, he is responsible for gathering the written statement of the decisions made. 
 
 \section{Team Communication Plan}
 
@@ -76,7 +78,7 @@ Lastly, testing will be a vital component to ensure the smoothness of the demons
 
 \section{Technology}
 
-The application will be written using Java with the Android Studio IDE. Android Studio will be used as it features a built in device emulator to allow testing to be performed on various devices and android versions. On top of this, we plan to test the application a real device which is another feature that Android Studio offers. In order to produce documentation, the IDE includes a built in JavaDoc generator which will read the JavaDoc comments that our team will have written in the code.
+The application will be written using Java with the Android Studio IDE. Android Studio will be used as it features a built in device emulator to allow testing to be performed on various devices and android versions. On top of this, we plan to test the application a real device which is another feature that Android Studio offers. In order to produce documentation, the IDE includes a built in JavaDoc generator which will read the JavaDoc comments that our team will have written in the code. \textcolor{red}{Finally, for Machine Learning applications used to detect gestures, the team has decided to use Google's Brain Team services, mainly the Tensor Flow library. It allows for training of a specific model which will then be used along with Android Neural Networks API to provide proper gesture recognition on the trained object.}
 
 \section{Coding Style}
 
@@ -93,5 +95,8 @@ Consistency between coding styles throughout the project is important in order f
 The Doc folder contains a more detailed Gantt.pdf which includes more information. 
 
 \section{Project Review}
+{\color{red}
+The project development finished on April 3rd 2020, and the team had a chance to review and reflect on the work done. In our mind, the project was a success. We set out to create an application that in its core combines the stock Android Camera applications with the popular functionalities of main stream social media applications such as Instagram and Snapchat; and we believe that we achieved our goal. Nevertheless, the project was less than we hoped and imagined. One of our weaknesses came back to the fact that many of us udnerestimated the scope of the original project. Since the project was not very new, there was alot of time consuming configuration just to get the application running on the latest frameworks. In addition, the model training requires a very large database of pictures of specific gestures until it can look stable as seen on many other applications. The pictures had to be manually taken and even then each picture had to be prepared before being processed by the Google services. On the other hand, the original project was very complex. It consists of thousands of lines and hundereds of methods and classes with advanced architecture and shortcuts which were hard to understand.  With all these tedious work that were not really part of the main development plan, the team fell behind of the schedule. However, we had our moments too. The team was able to communicate pretty well to arrive at a resolution. Since we were all very comfortable with each other, we easily asked for help. 
+}
 
 \end{document}
