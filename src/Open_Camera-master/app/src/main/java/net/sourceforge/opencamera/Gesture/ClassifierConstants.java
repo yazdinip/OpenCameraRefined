@@ -1,5 +1,10 @@
 package net.sourceforge.opencamera.Gesture;
 
+
+/**
+ * Provides classifier values for GestureController
+ * @author Faisal Jaffer
+ */
 public class ClassifierConstants {
 
     public static final int TF_OD_API_INPUT_SIZE = 300;

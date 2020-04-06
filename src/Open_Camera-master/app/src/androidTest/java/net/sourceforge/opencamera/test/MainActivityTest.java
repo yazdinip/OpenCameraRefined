@@ -30,6 +30,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 //import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.location.Location;
 import android.media.CamcorderProfile;
 import android.media.ExifInterface;
@@ -356,6 +358,70 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 				getInstrumentation().callActivityOnResume(mActivity);
 				Log.d(TAG, "3 count_cameraStartPreview: " + mPreview.count_cameraStartPreview);
 				assertTrue(mPreview.count_cameraStartPreview == 2);
+			}
+		});
+		// need to wait for UI code to finish before leaving
+		this.getInstrumentation().waitForIdleSync();
+	}
+
+	public void testGestureController() {
+		Log.d(TAG, "testGestureController");
+		setToDefault();
+
+		restart();
+		// onResume has code that must run on UI thread
+		mActivity.runOnUiThread(new Runnable() {
+			public void run() {
+//				getInstrumentation().callActivityOnPause(mActivity);
+				Log.d(TAG, "gesture controller get smiles count" + mPreview.gesture_controller.getSmiles().size());
+				assertTrue(mPreview.gesture_controller.getSmiles().size() == 0);
+				Log.d(TAG, "gesture controller get thumbs count" + mPreview.gesture_controller.getThumbup().size());
+				assertTrue(mPreview.gesture_controller.getThumbup().size() == 0);
+				Log.d(TAG, "gesture controller convertRectF");
+				RectF rect = new RectF(1.0f,1.0f,1.0f,1.0f);
+				Rect rectInt = mPreview.gesture_controller.convertRectF(rect);
+				assertTrue(rectInt.equals(new Rect(1,1,1,1)));
+			}
+		});
+		// need to wait for UI code to finish before leaving
+		this.getInstrumentation().waitForIdleSync();
+	}
+
+	public void testClassifier() {
+		Log.d(TAG, "testGestureController");
+		setToDefault();
+
+		restart();
+		// onResume has code that must run on UI thread
+		mActivity.runOnUiThread(new Runnable() {
+			public void run() {
+//				getInstrumentation().callActivityOnPause(mActivity);
+//				Log.d(TAG, "Classifier was initialized" + mPreview.gesture_controller.);
+//				assertTrue(mPreview.gesture_controller.getSmiles().size() == 0);
+				Log.d(TAG, "gesture controller get thumbs count" + mPreview.gesture_controller.getThumbup().size());
+				assertTrue(mPreview.gesture_controller.getThumbup().size() == 0);
+			}
+		});
+		// need to wait for UI code to finish before leaving
+		this.getInstrumentation().waitForIdleSync();
+	}
+
+	public void testImgFilter() {
+		Log.d(TAG, "testImgFilter");
+		setToDefault();
+
+		restart();
+		// onResume has code that must run on UI thread
+		mActivity.runOnUiThread(new Runnable() {
+			public void run() {
+				Log.d(TAG, "gesture controller filter index" + mPreview.gesture_controller.img_filter.getFilter());
+				assertTrue(mPreview.gesture_controller.img_filter.getFilter() == 0);
+				Log.d(TAG, "switching filter");
+				mPreview.gesture_controller.img_filter.changeFilter();
+				assertTrue(mPreview.gesture_controller.img_filter.getFilter() == 1);
+
+
+				getInstrumentation().callActivityOnPause(mActivity);
 			}
 		});
 		// need to wait for UI code to finish before leaving

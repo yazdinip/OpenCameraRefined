@@ -15,6 +15,8 @@ public class MainTests {
 		// other tests:
 		suite.addTest(TestSuite.createTest(MainActivityTest.class, "testPause"));
 		suite.addTest(TestSuite.createTest(MainActivityTest.class, "testStartCameraPreviewCount"));
+		suite.addTest(TestSuite.createTest(MainActivityTest.class, "testGestureController"));
+		suite.addTest(TestSuite.createTest(MainActivityTest.class, "testImgFilter"));
 		suite.addTest(TestSuite.createTest(MainActivityTest.class, "testSaveVideoMode"));
 		suite.addTest(TestSuite.createTest(MainActivityTest.class, "testSaveFocusMode"));
 		suite.addTest(TestSuite.createTest(MainActivityTest.class, "testSaveFlashTorchQuit"));
