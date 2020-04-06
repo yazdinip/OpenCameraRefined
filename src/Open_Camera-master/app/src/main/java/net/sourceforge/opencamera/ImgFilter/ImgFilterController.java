@@ -30,7 +30,7 @@ public class ImgFilterController {
 
     /**
      * Creates a ImgFilter Controller
-     * @param preview - the android camera preview
+     * @param preview the android camera preview
      */
     public ImgFilterController(Preview preview){
         this.preview = preview;
