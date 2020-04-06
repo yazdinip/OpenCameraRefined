@@ -53,7 +53,7 @@ public class GestureController {
     public Canvas canvas;
     /**
      * Creates a GestureController
-     * @param preview - the android camera preview
+     * @param preview the android camera preview
      */
     public GestureController(Preview preview){
         //setup
@@ -132,8 +132,8 @@ public class GestureController {
 
     /**
      * Converts float rectangle coordinates to int
-     * @param rect - rectangle coordinates in float
-     * @return - rectangle coordinates in int
+     * @param rect rectangle coordinates in float
+     * @return rectangle coordinates in int
      */
     public Rect convertRectF(RectF rect){
 //        cropToFrameTransform.mapRect(rect);
@@ -142,7 +142,7 @@ public class GestureController {
 
     /**
      * Returns smiles detected
-     * @return - smiles detected
+     * @return smiles detected
      */
     public List<Classifier.Recognition> getSmiles() {
         return smiles;
@@ -150,7 +150,7 @@ public class GestureController {
 
     /**
      * Returns thumbs detected
-     * @return - thumbs detected
+     * @return thumbs detected
      */
     public List<Classifier.Recognition> getThumbup() {
         return thumbup;
@@ -158,7 +158,7 @@ public class GestureController {
 
     /**
      * Sets the new frame received
-     * @param frame - current image frame
+     * @param frame current image frame
      */
     public void setFrame(byte[] frame){
         imageFrame = frame;
@@ -178,8 +178,8 @@ public class GestureController {
     }
     /**
      * Converts frame to bitmap
-     * @param frame - current frame
-     * @return - transformed bitmap
+     * @param frame current frame
+     * @return transformed bitmap
      */
     public Bitmap loadBitmapFromView(byte[] frame) {
         this.previewWidth = this.preview.getCurrentPreviewSize().width;
