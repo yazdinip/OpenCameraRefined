@@ -30,7 +30,7 @@ public class ImgFilterController {
 
     /**
      * Creates a ImgFilter Controller
-     * @param preview - the android camera preview
+     * @param preview the android camera preview
      */
     public ImgFilterController(Preview preview){
         this.preview = preview;
@@ -47,7 +47,7 @@ public class ImgFilterController {
 
     /**
      * Returns which filter the application is set to display
-     * @return - the filterIndex
+     * @return the filterIndex
      */
     public int getFilter(){
         return filterIndex;
@@ -55,7 +55,7 @@ public class ImgFilterController {
 
     /**
      * Sets the image frame from the camera preview to be processed
-     * @param frame - frame from a camera controller
+     * @param frame frame from a camera controller
      */
     public void setFrame(byte[] frame){
         imageFrame = frame;
@@ -80,14 +80,9 @@ public class ImgFilterController {
         });
     }
 
-    synchronized public void destroyFiltered(){
-        if (filtered != null) filtered.recycle();
-        filtered = null;
-    }
-
     /**
      * Returns a Rect object
-     * @return - A Rect object that is the size of the entire preview screen
+     * @return A Rect object that is the size of the entire preview screen
      */
     public Rect getRect(){
         return new Rect(0, 0, filtered.getWidth()+400, filtered.getHeight()+300);
@@ -95,18 +90,22 @@ public class ImgFilterController {
 
     /**
      * Returns the last filtered image
-     * @return - a Bitmap of the last frame that was filtered
+     * @return a Bitmap of the last frame that was filtered
      */
     public Bitmap getFiltered(){
         return filtered;
     }
 
-
     //***** Helper Method ******
+
+    private synchronized void destroyFiltered(){
+        if (filtered != null) filtered.recycle();
+        filtered = null;
+    }
 
     /**
      * Converts a frame to a Bitmap and loads it into rgbFrameBitmap
-     * @param frame - a frame from the Camera Controller
+     * @param frame a frame from the Camera Controller
      */
     private void loadBitmapFromView(byte[] frame) {
         int previewWidth = this.preview.getCurrentPreviewSize().width;
@@ -136,8 +135,8 @@ public class ImgFilterController {
 
     /**
      * Applies a filter to a image
-     * @param bmpOriginal - the orginal bitMap image
-     * @return - the original bitMap image with the corresponding filter applied.
+     * @param bmpOriginal the orginal bitMap image
+     * @return the original bitMap image with the corresponding filter applied.
      */
     private Bitmap setFiltered(Bitmap bmpOriginal) {
         ColorMatrixColorFilter[] FILTERS = FilterConstants.FILTERS;

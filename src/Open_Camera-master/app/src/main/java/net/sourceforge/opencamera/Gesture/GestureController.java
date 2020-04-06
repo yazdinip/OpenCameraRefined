@@ -21,6 +21,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Class for enabling gesture features
+ * @author Faisal Jaffer
+ */
 public class GestureController {
     private final boolean devMode = true; // make false to capture picture on smile
     private final Preview preview;
@@ -47,7 +51,10 @@ public class GestureController {
     //////////////////////
 
     public Canvas canvas;
-
+    /**
+     * Creates a GestureController
+     * @param preview the android camera preview
+     */
     public GestureController(Preview preview){
         //setup
         this.preview = preview;
@@ -70,7 +77,9 @@ public class GestureController {
         startTime = System.nanoTime();
 
     }
-
+    /**
+     * Responsible for classifying objects in an image frame
+     */
     public void processImage(){
 
 
@@ -90,6 +99,9 @@ public class GestureController {
         processRecognitions();
     }
 
+    /**
+     * Responsible for filtering recognitions
+     */
     public void processRecognitions(){
         if (recognitions != null) {
             for (int i = 0; i < recognitions.size(); i++) {
@@ -110,29 +122,51 @@ public class GestureController {
 
     }
 
+    /**
+     * Removes detections once corresponding drawings have finished
+     */
     public void doneDrawing(){
         smiles.clear();
         thumbup.clear();
     }
 
+    /**
+     * Converts float rectangle coordinates to int
+     * @param rect rectangle coordinates in float
+     * @return rectangle coordinates in int
+     */
     public Rect convertRectF(RectF rect){
-        cropToFrameTransform.mapRect(rect);
+//        cropToFrameTransform.mapRect(rect);
         return new Rect((int)rect.left, (int)rect.top, (int)rect.right, (int)rect.bottom);
     }
 
+    /**
+     * Returns smiles detected
+     * @return smiles detected
+     */
     public List<Classifier.Recognition> getSmiles() {
         return smiles;
     }
 
+    /**
+     * Returns thumbs detected
+     * @return thumbs detected
+     */
     public List<Classifier.Recognition> getThumbup() {
         return thumbup;
     }
 
-
+    /**
+     * Sets the new frame received
+     * @param frame current image frame
+     */
     public void setFrame(byte[] frame){
         imageFrame = frame;
     }
 
+    /**
+     * Triggers capture of image
+     */
     public void captureImage(){
         if (!preview.isOnTimer() && !devMode) {
             preview.takePicturePressed();
@@ -142,7 +176,11 @@ public class GestureController {
     public void showFilter(){
 
     }
-
+    /**
+     * Converts frame to bitmap
+     * @param frame current frame
+     * @return transformed bitmap
+     */
     public Bitmap loadBitmapFromView(byte[] frame) {
         this.previewWidth = this.preview.getCurrentPreviewSize().width;
         this.previewHeight = this.preview.getCurrentPreviewSize().height;
