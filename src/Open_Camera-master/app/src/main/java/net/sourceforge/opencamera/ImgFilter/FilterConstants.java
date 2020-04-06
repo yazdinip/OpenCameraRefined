@@ -7,7 +7,7 @@ import android.graphics.ColorMatrixColorFilter;
  * Provides filter values for image filters
  * @author Dominik Buszowiecki
  */
-public class FilterConstants {
+class FilterConstants {
 
     static ColorMatrixColorFilter GRAYSCALE = getGrayscale();
     static ColorMatrixColorFilter RED_FILTER = getRedFilter();
