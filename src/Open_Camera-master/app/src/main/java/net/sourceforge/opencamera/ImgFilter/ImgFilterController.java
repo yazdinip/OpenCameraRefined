@@ -80,11 +80,6 @@ public class ImgFilterController {
         });
     }
 
-    synchronized public void destroyFiltered(){
-        if (filtered != null) filtered.recycle();
-        filtered = null;
-    }
-
     /**
      * Returns a Rect object
      * @return - A Rect object that is the size of the entire preview screen
@@ -101,8 +96,12 @@ public class ImgFilterController {
         return filtered;
     }
 
-
     //***** Helper Method ******
+
+    private synchronized void destroyFiltered(){
+        if (filtered != null) filtered.recycle();
+        filtered = null;
+    }
 
     /**
      * Converts a frame to a Bitmap and loads it into rgbFrameBitmap
