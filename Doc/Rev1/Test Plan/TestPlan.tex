@@ -281,9 +281,35 @@ Type: \textcolor{red}{Manual, Static, Functional}
 
 \subsection{Tests for Nonfunctional Requirements}
 
-\subsubsection{Performance of gesture detection}
-		
-\paragraph{Performance measured through speed and reliability}
+\subsubsection{\textcolor{red}{Usability}}
+\begin{enumerate}
+
+\item{\textcolor{red}{test-ease-of-use}\\}
+Type: \textcolor{red}{Manual, Static, Functional}
+					
+\textcolor{red}{Initial State: User has opened the OpenCamera application.}
+				
+\textcolor{red}{Input/Condition: User is told: "smiling will automatically capture a photo, and a thumbs up will switch between filters"}
+					
+\textcolor{red}{Output/Result: The system is able to detect the gesture and perform relevant action.}
+					
+\textcolor{red}{How test will be performed: A user will be selected, who hasn't used this application before, and will be instructed with the following: "smiling will automatically capture a photo, and a thumbs up will switch between filters". Test will pass once the user can successfully perform these actions.}
+
+\item{\textcolor{red}{test-ease-of-learning}\\}
+Type: \textcolor{red}{Manual, Static, Functional}
+					
+\textcolor{red}{Initial State: User has opened the OpenCamera application.}
+				
+\textcolor{red}{Input/Condition: User smiles or shows thumbs up.}
+					
+\textcolor{red}{Output/Result: The system is able to detect the gesture and perform relevant action.}
+					
+\textcolor{red}{How test will be performed: A user will be selected, who hasn't used this application before and will be tested for intuitiveness of the feature before giving instructions.}
+\end{enumerate}
+
+
+
+\subsubsection{Performance \sout{of gesture detection}}
 
 \begin{enumerate}
 
@@ -310,6 +336,51 @@ Input: Bitmap image of a gesture
 Output: Detection of the gesture in the image under 200ms.
 					
 How test will be performed: After initializing the Inception model, we feed in an image with a gesture. Then measure the time it takes for the model to make a classification.
+
+\item{\textcolor{red}{ test-garbage}\\}
+
+Type: \textcolor{red}{Manual, Static, Functional}
+					
+\textcolor{red}{Initial State: 
+    User has opened the OpenCamera application.}
+					
+\textcolor{red}{Input: User points camera at random objects}
+					
+\textcolor{red}{Output: Only smiles and thumbs up are the only 2 classes detected }
+					
+\textcolor{red}{How test will be performed: A tester will hold the Android device running our version of the OpenCamera application and verify that upon pointing the camera at different objects, only the trained objects are classified.}
+
+\end{enumerate}
+
+\subsubsection{\textcolor{red}{Operational and Environment}}
+\begin{enumerate}
+
+\item{\textcolor{red}{test-different-devices}\\}
+Type: \textcolor{red}{Manual, Static, Functional}
+					
+\textcolor{red}{Initial State: User has opened the OpenCamera application.}
+				
+\textcolor{red}{Input/Condition: User performs the actions in the Functional Requirements.}
+					
+\textcolor{red}{Output/Result: The user should be able to successfully use the features.}
+					
+\textcolor{red}{How test will be performed: A tester will perform this test on devices with the following configurations: [5 inch phone running Android API 23, 5.5 inch phone running Android API 25 and 6 inch phone running Android API 27]. The tester shall confirm the successful use of all features.}
+
+\end{enumerate}
+
+\subsubsection{\textcolor{red}{Maintainability}}
+\begin{enumerate}
+
+\item{\textcolor{red}{test-newer-versions}\\}
+Type: \textcolor{red}{Manual, Static, Functional}
+					
+\textcolor{red}{Initial State: User has opened the OpenCamera application.}
+				
+\textcolor{red}{Input/Condition: User performs the actions in the Functional Requirements.}
+					
+\textcolor{red}{Output/Result: The user should be able to successfully use the features.}
+					
+\textcolor{red}{How test will be performed: A tester will perform this test on devices with the following configurations: [5 inch phone running Android API 23, 5.5 inch phone running Android API 25 and 6 inch phone running Android API 27]. The tester shall confirm the successful use of all features.}
 
 \end{enumerate}
 
