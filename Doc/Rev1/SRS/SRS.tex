@@ -1,0 +1,588 @@
+\documentclass[12pt, titlepage]{article}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{amstext}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{extarrows}
+\usepackage{setspace}
+\usepackage[round]{natbib}
+\usepackage{xcolor}
+\usepackage{soul}
+\usepackage[section]{placeins}
+\usepackage{float}
+\usepackage[utf8]{inputenc}
+\usepackage[normalem]{ulem}
+\usepackage{float}
+\usepackage{geometry}                		
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=red,
+    urlcolor=blue
+}
+\usepackage[round]{natbib}
+\usepackage{mdframed}
+
+\newmdenv[linecolor=black]{reqbox}
+\newcommand{\term}[1]{\textbf{#1}}
+
+\newcommand{\reqref}[2]{\hyperref[#1Counter#2]{#1#2}}
+\newcommand{\countup}[1]{\phantomsection\addtocounter{#1}{1}\arabic{#1}\label{#1\arabic{#1}}}
+
+
+\title{SE 3XA3: Software Requirements Specification\\OpenCameraRefined}
+
+\author{Group \#211, CAMERACREW
+		\\ Faisal Jaffer, jaffem1
+		\\ Dominik Buszowiecki, buszowid
+		\\ Pedram Yazdinia, yazdinip
+		\\ Zayed Sheet, sheetz
+}
+
+\date{\today}
+
+%\input{../Comments}
+
+\begin{document}
+
+\maketitle
+
+\pagenumbering{roman}
+\tableofcontents
+\listoftables
+\listoffigures
+
+\begin{table}[bp]
+\caption{\bf Revision History}
+\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
+\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
+\midrule
+02/09/2020 & 1.0 & Initial requirements specification\\
+04/06/2020 & 2.0 & Revision 1\\ 
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\newpage
+
+\pagenumbering{arabic}
+
+\section{Project Drivers}
+
+\subsection{The Purpose of the Project}
+
+The purpose of OpenCameraRefined is to improve the accessibility of features in the OpenCamera application. By adding the ability to capture images hands-free, and the ability to have filters while maintaining the same clean UI, the team is focused to attract more users to the refined application. 
+
+\subsection{The Stakeholders}
+
+\subsubsection{The Client}
+
+\begin{itemize}
+\item Dr. Asghar Bokhari
+\item TAs
+\end{itemize}
+
+\subsubsection{The Customers}
+
+\begin{itemize}
+\item In this project, the customers include the clients as well. This is because the project is not set to be publicly published in an environment such as Google Store. In that case, the target customers would include students, teenagers and young adults (ages 13 - 25) who have frequent use for their Camera applications. These people are the same demographic who tend to have higher use for extra functionalities such as filters and image detection. 
+\end{itemize}
+
+\subsubsection{Other Stakeholders}
+
+\begin{itemize}
+\item Core developer team of OpenCameraRefined
+\item Other developers collaborating on the open source Open Camera application
+\end{itemize}
+
+\subsection{Mandated Constraints}
+\subsubsection{Solution Constraints}
+{\color{red}
+\textbf{Description:} The product shall be developed in Android. \\
+\textbf{Rationale:} Since the existing implementation is in Android, the expansion of the system is also written in Android.\\
+\textbf{Fit Criterion:} The product shall be tested using Junit and Android Studio. \\
+\\
+\textbf{Description:} The product shall be compatible with Android 4.0 or later.\\
+\textbf{Rationale:} The majority of Android Devices around the globe operate on V4.0 or later (API 24 or later).\\
+\textbf{Fit Criterion:} The product simulation shall take place using Android Virtual Device running 4.0. \\
+\\
+\textbf{Description:} The product requires a Camera enabled cell phone.\\
+\textbf{Rationale:} As an Image Capture application, the application requires a Camera for the main input stream.\\
+\textbf{Fit Criterion:} As part of the product testing, the application shall run one of one the Camera enabled devices from the developer team. \\
+
+}
+\subsubsection{Implementation Environment of the Current System}
+{\color{red}
+The product in development will be installed on the target Android device through Android Studio setup process or if agreed by the developer team, it will be installed through Google Store. }
+\subsubsection{Partner or Collaborative Applications}
+{\color{red}
+The product is mainly developed using Android Studio as it will also automatcially take care of the most of the configuration left. The Android API target is 24 or later. The main companion libraries and frameworks come from Google's Machine Learning services, namely TensorFlow and TensorFlow Lite. It is important to mention, that all these frameworks are automatically configured when the application is installed on any device.
+}
+\subsubsection{Anticipated Workplace Environment}
+{\color{red}
+N/A}
+\subsubsection{Schedule Constraints}
+{\color{red} The schedule constraint  is given in the SFWRENG 3XA3 Course Outline, where a deadline is given for each of the design documents. The same schedule is applied to the Proof of Concept Demonstration, Pitch, Final Presentation and finally the source code.  
+}
+\subsubsection{Budget Constraints}
+{\color{red}N/A}
+\subsection{Naming Conventions and Terminology}
+%{\color{red}}
+\begin{enumerate}
+\item  TFLite:  TensorFlowLite is a machine learning framework used to train models to predict smiling faces.
+\item Bounding Box:  A square box displayed in the camera view around the faces detected
+\item OpenCV:  A framework that provides image manipulation functions.
+\end{enumerate}
+
+\subsection{Relevant Facts and Assumptions}
+{\color{red} With OpenCameraRefined the team was focused on brining a more accessible application to the users, as a result the assumptions made for the user characteristics were reduced as much as possible. A few assumptions exist nevertheless, namely user must be able to have the mental and physical capacity to do simple tasks such as Smiling, Clicking the touch Screen, and showing thumbs up. The final constraint would be the hardware constraint which is the requirement of a Camera enabled Android Device. }
+
+\section{Functional Requirements}
+
+\subsection{The Scope of the Work and the Product}
+
+\subsubsection{The Context of the Work}
+{\color{red} As an Android Application, the architecture of the product is very strict and complex. Android system initiates its program within an Activity starting with a call on onCreate() callback method. There is a sequence of callback methods that start up an activity and a sequence of callback methods that tear down an activity. This model is loosely based on MVC architecture with the controller being the Activity class, View being the resources and widgets and model being the entities or Classes with main Business Logic. This design creates a consistent and pleasant user experience. Regardless of whether the user comes back to the app several minutes after they've last closed it or several days later, they instantly see a user's information that the app persists locally. 
+}
+\subsubsection{Work Partitioning}
+\begin{table}[h!]
+\begin{tabular}{| m{3cm} | m{6cm}| m{8cm} |}
+\hline
+\textbf{Event Name} &
+  \textbf{Input and Output} &
+  \textbf{Summary} \\ \hline
+1. Image Capture through Smile &
+  image preview (in), recognition model (in), captured image (out) &
+  Uses the recognition object from gestureController to classify the preview \\ \hline
+2. Filter Change through Thumbs Up &
+  image preview (in), filter matrix (in), recognition model (in), modified preview (out) &
+  Uses the recognition object to classify the thumbs up and the filter constants to apply the desired filter \\ \hline
+3. Image Capture with Filter applied &
+  modified preview (in), captured image (out) &
+  Uses the modified preview to save the picture to keep the effects of the filter \\ \hline
+\end{tabular}
+\caption{Work Partitioning }
+\end{table}
+
+%\begin{table}[h!]
+%\begin{center}
+%\begin{tabular}{|l|l|}
+%\hline
+%Event Number & Summary of BUC                                                                                                                      \\ \hline
+%1            & \begin{tabular}[c]{@{}l@{}}Create an object detection function in the camera app that can\\ detect a user and gestures\end{tabular} \\ \hline
+%2            & Create designs of filters that can be applied to a user/setting                                                                     \\ \hline
+%3            & \begin{tabular}[c]{@{}l@{}}Create an editing function that will have a palette of filters that\\ the user can apply\end{tabular}    \\ \hline
+%4            & Finishing edits to the project                                                                                                      \\ \hline
+%\end{tabular}
+%\caption{\label{tab:table-name}Work Partitioning Part 1}
+%\end{center}
+%\end{table}
+
+
+%\begin{table}[h!]
+%\begin{center}
+%\begin{tabular}{|l|l|l|l|}
+%\hline
+%Event Number & Event Name                & Input                      & Output       \\ \hline
+%1            & Object Detection Creation & Developer Code, TensorFlow & Phone Screen \\ \hline
+%2            & Camera Filter Design      & Photoshop                  & Screen       \\ \hline
+%3            & Camera Filter Application & Filter, Developer Code     & Phone Screen \\ \hline
+%4            & Camera Final Edits        & Developer Code             & Phone Screen \\ \hline
+%\end{tabular}
+%\caption{\label{tab:table-name}Work Partitioning Part 2}
+%\end{center}
+%\end{table}
+
+\subsubsection{Individual Product Use Cases}
+{\color{red}
+\begin{enumerate}[{UC}1.]
+\item The user captures an image by smiling at the camera. \\
+\item The user changes the filter by clicking the filter button.\\
+\item The user applies a filter by showing a thumbs up toward the camera.
+\item The user changes the current filter using thumbs up detection.
+\item The user captures an image with the filter applied. 
+\item The user zooms in and out onto an object.
+\item The user captures an image using the main on-screen capture button.
+\item The user views the saved pictures, regardless of the process of capture and the presence of filters. 
+\end{enumerate}
+}
+% \begin{table}[h!]
+% \begin{center}
+% \begin{tabular}{|l|l|l|l|}
+% \hline
+% Use Case  & Trigger & Pre-Condition & Outcome  \\ \hline
+% User wants to capture an image from far & Smiling face in the view of camera  &  User has feature turned on & Image is captured \\ \hline
+% User wants to add a filter &   & . & .   \\\hline
+
+% \end{tabular}
+% \caption{\label{tab:table-name}Sub-tasks}
+% \end{center}
+% \end{table}
+%\begin{table}[h!]
+%\begin{center}
+%\begin{tabular}{|l|l|l|l|}
+%\hline
+%Use Case                                                                          & Trigger                                                                      & Pre-Condition                                                        & Outcome                                                                        \\ \hline
+%\begin{tabular}[c]{@{}l@{}}User wants to capture\\ an image from far\end{tabular} & \begin{tabular}[c]{@{}l@{}}Smiling face in view\\ of the camera\end{tabular} & \begin{tabular}[c]{@{}l@{}}User has feature\\ turned on\end{tabular} & Image is captured                                                              \\ \hline
+%\begin{tabular}[c]{@{}l@{}}User wants to add a\\ filter\end{tabular}              & User selects a filter                                                        & \begin{tabular}[c]{@{}l@{}}User has selected\\ a filter\end{tabular} & \begin{tabular}[c]{@{}l@{}}Filter is applied to\\ the camera view\end{tabular} \\ \hline
+%\end{tabular}
+%\caption{\label{tab:table-name}Use Cases}
+%\end{center}
+%\end{table}
+
+
+\subsection{Functional Requirements}
+\begin{enumerate}[{VP}1.]
+	\item \sout{User} 
+	\begin{enumerate}[{BE1}.1]
+	    \item \sout{The user wants to take a picture using a gesture.}
+	    \begin{enumerate}
+	        \item \sout{The system shall detect the target object. }
+	        \item \sout{The system shall "look" for the selected gesture.}
+	        \item \sout{The system shall save the taken picture. }
+	        \item \sout{The system shall allow the user to zoom in and out. }
+	        \item \sout{The system shall allow the user to change the resolution.}
+	        \item \sout{The system shall allow the user to apply a filter in "real-time".}
+	    \end{enumerate}
+	    
+	    \item \sout{The user wants to apply a "real time" filter.}
+	    \begin{enumerate}
+	        \item \sout{The system must display a menu of filters}
+	        \item \sout{The system must allow the user to select from the menu of filters.}
+	        \item \sout{The system must show a preview of a selected filter.}
+	        \item \sout{The system must allow the user to close the filters menu.}
+	        \item \sout{They system must detect and place the filter in the correct context. }
+	    \end{enumerate}
+	    
+	    \item \sout{The user wants to edit a saved picture.}
+	    \begin{enumerate}
+            \item \sout{The system must allow the user to simply preview the original picture.}
+            \item \sout{The system must allow the user to change the properties of the picture such as contrast.}
+            \item \sout{The system shall create a copy of the original picture before each edition.}
+            \item \sout{The system shall offer a menu of after effects that can be reversed. }
+	    \end{enumerate}
+	\end{enumerate} 
+\end{enumerate} 
+{\color{red}
+\begin{enumerate}[{REQ}1.]
+\item The system must allow the user to capture (save) a picture by Smiling at the Camera.
+\item The system must be able to detect the face of the user, and distinguish between Smiling and not-Smiling.
+\item They system must allow the user to view the saved picture. 
+\item The system must allow the user to perform simple modifications on the saved picture. 
+\item The system must be able to detect a thumbs up. 
+\item The system must allow the user to apply or change the current filter through the filter button allocated in the UI. 
+\item The system must allow the user to apply or change the current filter through thumbs up gestrue detection.
+\item If a filter is applied, the system must save the picture with the filter applied.
+\item The system must allow the user to zoom in or out with the filter applied.
+\item The system must allow the user to switch from the Rear Camera to the Front Camera with the same filter applied, if any. 
+\item The system must allow the user to take a picture with the main capture button.
+\item If a filter applied, the system must allow the user to capture the filtered view with the smile detection. 
+\item The system must use auto focus in any scenario where the user requests a picture capture regardless of the process or the context of the preview.
+\end{enumerate}
+}
+
+\section{Non-functional Requirements}
+
+%	\begin{itemize}
+%		\item {\color{red}}
+%	\end{itemize}
+%{\color{red}N/A}
+
+
+\subsection{Look and Feel Requirements}
+\subsubsection{Appearance Requirements}
+\begin{enumerate}[{NF}.]
+	\item The overall look and feel will remain unchanged from the original Open Camera application. \textcolor{red}{The additional features shall seamlessly integrate with the existing interface in a way that majority of users dont notice any change.}
+	\begin{itemize}
+		\item \textcolor{red}{A simple questionnaire link can be given to users after a month of use where they can rate their satisfaction with the UI along a spectrum. 80\% of the users need to rate the UI score higher than the average of the spectrum. }
+	\end{itemize}
+\end{enumerate}
+
+\subsubsection {Style Requirments}
+{\color{red}N/A}
+
+\subsection{Usability and Humanity Requirements}
+\subsubsection{Ease of Use Requirments}
+\begin{enumerate}[{NF}. ]
+	\item The ease of use of the existing features will remain unchanged. 
+	\begin{itemize}
+		\item {\color{red} Users can be asked during the first few times of new use with the application to rate the ease of use of the new features added. }
+	\end{itemize}
+\end{enumerate}
+
+
+\subsubsection{Personalization and Internationalization Requirements}
+{\color{red}N/A}
+
+
+\subsubsection{Learning Requirements}
+\begin{enumerate}[{NF}.]
+	\item \textcolor{red}{The user shall need no learning assistance in "Smile Capture" and Gesture based Filter change.}
+	\begin{itemize}
+		\item {\color{red}A study of the user requests for additional assistance through help button included from the original project should show that 90 \% of users do not request for further help once the new features are deployed. }
+	\end{itemize}
+\end{enumerate}
+
+\subsubsection{Understandability and Politeness Requirements}
+{\color{red}N/A}
+
+\subsubsection{Accessibility Requirements}
+{\color{red}N/A}
+
+\subsection{Performance Requirements}
+
+
+\subsubsection{Speed and Latency Requirements}
+	\begin{enumerate}[{NF}.]
+		\item \sout{The performance of the existing features must not be affected by the additional features being added.} \textcolor{red}{When filters are applied, the preview frame rate should not drop substantially and the preview should be still usable.}
+		\begin{itemize}
+			\item \textcolor{red}{Test cases processed at the end of development can constantly check the frame rate of preview and assert that at any moment, the frame rate does not drop below 20 frame rates per second. }
+		\end{itemize}
+		\item \sout{Saving a photo that is being edited shall take no more than 5 seconds.} \textcolor{red}{Capturing and saving an image with real time filters applied shall take as minimal time as possible.}
+		\begin{itemize}
+		\item \textcolor{red}{There are multiple way to measure the time between image capture command and actual image capture. Using "TAGS" in Andoid Studio is one way where we measure the time down to millisecond. The time different should be less than 2500 millisecond.  }
+		\end{itemize}
+
+		\item Real time camera filters shall be activated immediately after the user selects one, \textcolor{red}{either through buttons in UI or gesture detection. }
+		\begin{itemize}
+			\item \textcolor{red}{20 Instances of filter application through filter button trigger or gesture detection trigger should result in 100 \% of test cases taking less than 500 milliseconds to apply the filters. }
+		\end{itemize}
+		
+	\end{enumerate}
+
+
+
+\subsubsection{Safety-Critical Requirements}
+{\color{red}N/A}
+
+\subsubsection{Precision or Accuracy Requirements}
+\begin{enumerate}[{NF}.]
+	\item If a photo is being taken using the gesture feature, the app shall detect the gesture in most of the scenarios.
+	\begin{itemize} 
+		\item \textcolor{red}{The application gesture detection can be tested in 40 different scenarios incuding different lightings, different faces and generally different environemnts. The detection should be successful in at least 85 \% of the scenarios. }
+	\end{itemize}
+\end{enumerate}
+
+\subsubsection{Reliability and Availability Requirements}
+\begin{enumerate}[{NF}.]
+	\item \textcolor{red}{The product shall be available to use for the customer at any given time for any extended eriod of time.}
+	\begin{itemize}
+		\item \textcolor{red}{A study of users usage after the first month can show the reports of incurred problems including any times where the application has crashed. The study should show that the 0 \% of crash reports have taken place before the expected availability time of 5 hours.}
+	\end{itemize}
+\end{enumerate}
+
+\subsubsection{Robustness Requirements}
+\begin{enumerate}[{NF}.]
+	\item \textcolor{red}{The application's false detection should remain as low as possible, in order to prevent false image captures and extra storage usage.}
+	\begin{itemize}
+		\item \textcolor{red}{100 images of smiling and non-smiling faces should be represented to the camera. Eventhough the model might not be perfect, the non-smiling image detection should be less than 10 \% of the presented volume.}
+	\end{itemize}
+\end{enumerate}
+
+\subsubsection{Capacity Requirements}
+{\color{red}N/A}
+
+\subsubsection{Scalabillity or Extensibillity Requirements}
+\begin{enumerate}[{NF}.]
+	\item \textcolor{red}{The project shall easily allow for addition of new trained models where it would allow the camera to detect new gestures other than thumbs up and smiling.}
+	\begin{itemize}
+		\item \textcolor{red}{20 pre-trained models should simply be added to the gesture controller. The application should be asked to classify the items that the models were trained with, and resutls should show that in every case, the addition of new models work as expected based on how good the model is trained.}
+	\end{itemize}
+\end{enumerate}
+
+\subsubsection{Longevity Requirements}
+{\color{red}N/A}
+
+
+\subsection{Operational and Environmental Requirements}
+
+\subsubsection{Expected Physical Environment}
+\begin{enumerate}[{NF}.]
+	\item The product shall be operable in any location provided that the camera is functional on the users device.
+	\begin{itemize}
+		\item \textcolor{red}{The application must be able to function and installed on 95 \% of Android devices that provide Camera functionalities with the minimum processing powers. }
+	\end{itemize}
+\end{enumerate}
+
+\subsubsection{Requirements for Interacting with Adjacent Systems}
+{\color{red}N/A}
+
+\subsubsection{Productization Requirements}
+\begin{enumerate}[{NF}.]
+	\item \textcolor{red}{The product must be available to download on a public GitLab repository and installed thorugh Android Studio. Further developments could present the application in an APK form where users can easily deploy the new features. }
+	\begin{itemize}
+		\item \textcolor{red}{The git repositroy is public and includes instructions on how to clone and install the application through Android Studio. }
+	\end{itemize}
+\end{enumerate}
+
+\subsubsection{Release Requirements}
+{\color{red}N/A}
+
+\subsection{Maintainability and Support Requirements}
+
+\subsubsection{Maintenance Requirements}
+\begin{enumerate}[{NF}.]
+	\item The hardware and software support for the application shall remain unchanged from the original application. 
+	\begin{itemize}
+		\item \textcolor{red}{Using Android Virtual Device, we can install the original applciation on 20 different devices. The new features should then be deployed and tested again for their functionalities. 100 \% of devices should not have conflic with the new installations.}
+	\end{itemize}
+\end{enumerate}
+
+\subsubsection{Supportabillity Requirements}
+{\color{red}N/A}
+
+\subsubsection{Adaptability Requirements}
+\begin{enumerate}[{NF}.]
+	\item \sout{Maintenance as a result of the additional features shall be kept minimal.} \textcolor{red}{The application must be completely functional after each update associated with Android or any of the adjacent frameworks and dependencies. }
+	\begin{itemize}
+		\item \textcolor{red}{After two years of application release, the team should study the number of users that have stopped using the application after an Android update. The number of users should be less than 3 \% of the entire users. }
+	\end{itemize}
+\end{enumerate}
+
+\subsection{Security Requirements}
+
+\subsubsection{Access Requirements}
+\begin{enumerate}[{NF}.]
+	\item \sout{The application shall be available to download by the general public.} \textcolor{red}{The product should not be dependent on any file or module that is recognized by Google Play Store or different Antiviruses as a malicious file.  }
+	\begin{itemize}
+		\item \textcolor{red}{Upon each update, the developer team can scan the entire project for viruses or mishandled security protocols within the system. The scan result must yield in 100 \% clean files.  }
+	\end{itemize}
+\end{enumerate}
+\subsubsection{Integrity Requirements}
+{\color{red}N/A}
+
+\subsubsection{Privacy Requirements}
+\begin{enumerate}[{NF}.]
+	\item \sout{The app shall not transmit any user data or user photos to a external source unless authorized. }
+\end{enumerate}
+{\color{red}N/A}
+
+\subsubsection{Audit Requirements}
+{\color{red}N/A}
+
+\subsubsection{Immunity Requirements}
+{\color{red}N/A}
+
+
+\subsection{Cultural and Political Requirements}
+
+\subsubsection{Cultural Requirements}
+\begin{enumerate}[{NF}.]
+	\item \sout{This product shall not offend any religious or ethnic group. }
+\end{enumerate}
+{\color{red}N/A}
+
+\subsubsection{Political Requirements}
+{\color{red}N/A}
+
+\subsection{Legal Requirements}
+
+\subsubsection{Compliance Requirements}
+\begin{enumerate}[{NF}.]
+	\item \sout{The application shall conform to all applicable laws and regulations. }
+\end{enumerate}
+{\color{red}N/A}
+
+\subsubsection{Standards Requirements}
+{\color{red}N/A}
+
+\subsection{Health and Safety Requirements}
+\begin{enumerate}[{NF}.]
+	\item \sout{The gestures required to take a photo shall be subtle and not endanger those around the user.}
+\end{enumerate}
+{\color{red}N/A}
+
+
+\section{Project Issues}
+
+\subsection{Open Issues}
+
+Documentation
+\begin{itemize}
+\item The original project git lacks proper documentation.
+\end{itemize}
+
+\subsection{Off-the-Shelf Solutions}
+\begin{itemize}
+ \item Smile Capture
+
+\subitem An Android application that only lets you capture an image when a smiling face is in view. This application does not have any UI buttons but only a camera view.
+
+
+
+\item Native Android Camera Application
+
+\subitem This is the native camera application that has a hidden feature in the settings. It lets the user smile to capture a picture.
+
+\end{itemize}
+
+\subsection{New Problems}
+
+\sout{A new problem might arise when a user wants to capture an image without smiling. This might create accessibility issues where the user would have to turn off the feature.} \textcolor{red}{One of the consequences of the new features is the added processing power it takes to transform each picture through the desired filter.  In addition, since optimizing these new features is out of the current scope of work, the frame rate of preview with the filters added will be reduced. This extra processing also means extra storage and addition of power usage in the phone. These are polishing problems that if the development on the application continues outside of the course plan, they can be properly optimized and fixed.  }
+
+\subsection{Tasks}
+
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+Task & Assignee & Timeline  \\\hline
+Import TF + OpenCV and refactor & Software Engineers &   Feb 5th  \\\hline
+Model Training  &  Software Engineers  &  Feb 8th   \\\hline
+UI Face Bounding Box Implementation  &  Software Engineers  &  Feb 10th   \\\hline
+PoC  &  Software Engineers  &  Feb 11th   \\\hline
+PoC Review  &  Client  &  Feb 11th   \\\hline
+Live Filter Implementation  &  Software Engineers  &   Feb 16th  \\\hline
+Unit Testing  &  Software Engineers  &   Feb 21st  \\\hline
+\end{tabular}
+\caption{\label{tab:table-name}Sub-tasks}
+\end{center}
+\end{table}
+
+Further information and details can be found within the \href{https://gitlab.cas.mcmaster.ca/yazdinip/opencamerarefined/-/blob/master/ProjectSchedule/Gantt.pdf}{Gantt Chart}.
+
+\subsection{Migration to the New Product}
+
+None. The model trained to detect different gestures and faces will have a general understanding and will be exported in terms of weights in the APK deployed to each device. Therefore no special migration needed to export to different devices. 
+
+\subsection{Risks}
+
+\textcolor{red}{The only risks involved with the project are risks that come with the usage of Google’s services. Most of these services are very fluid and they are constantly evolving. In many cases, the free service might turn into a paid membership or they might revamp the structure of the project forcing the developer team to change the way the services are being used as well. Some smaller risks that have to be considered are complexity of the project, difficulty of testing and finally bad programming practices. }
+
+\subsection{Costs}
+
+\textcolor{red}{There are no costs associated with developing the application, as it is a course project. The system will be developed with 0 \$ spending and the only possible spending would be used on Advanced Machine Learning services that we require in order to train the detector. Other than that, the only cost considered is the time and effort that has to be put on this which the team has came up with ways to minimize the difference between contribution so that everyone contributes the same amount more or less. }
+
+\subsection{User Documentation and Training}
+
+None. The new features added will have intuitive user flow and easy to understand icons to help user navigate the application.
+
+\subsection{Waiting Room}
+
+\textcolor{red}{One of the main features that was part of the original development plan of the team, was addition of animal filters to the face detection. Basically, that meant that very similar to popular applications such as Instagram and Snapchat, the user would be able to animate its appearance using a specific filter in real time. Although, early developments included the feature, since the model was not perfectly trained it was decided to hold off on the feature. Such a feature requires a very sophisticated the model and it was in our own interest to focus on the primary functions first and then decide to develop this feature further.}
+
+\subsection{Ideas for Solutions}
+\begin{enumerate}
+\item TFLite + OpenCV
+\begin{itemize}
+\item Tensorflow lite is a framework used to make ML predictions on device. It trains the model on a computer with a dedicated GPU and then saves that model into weights and an inference that can be recompiled on the mobile device to make predictions. In our solution this method can be trained on a wide variety of images with smiling faces and various of gestures to make a highly accurate prediction. This model can be imported into the OpenCamera application where the camera view will be fed in as the input image. The output from the model will assign a label with an accuracy percentage. We will accept any prediction that is made over 85\%. OpenCV can be used to add live filters into the app. This framework has built in functions that convert a BGR image into gray-scale and allow other image manipulations. 
+\end{itemize}
+
+
+\item Face Detector API
+\begin{itemize}
+\item FaceDetector API is built into Android 6.0 and later to help find faces in images. Since it is built into the OS, it is highly optimized and is pre-trained on Googles servers for high accuracy. Although it is highly effeicnt at finding faces, it offers APIs that can distinguish between a smiling and a normal face. Also it lacks support for detecting other gestures like a 'thumbs-up'.
+\end{itemize}
+
+\end{enumerate}
+
+\end{document}
