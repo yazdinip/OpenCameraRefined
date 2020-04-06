@@ -3,10 +3,11 @@
 *.log
 *.out
 *.pag
-*.pdf
 !*MooOinkQuack.pdf
 *.pdfsync
 *.toc
 *.synctex*
 *.bbl
 *.blg
+*.lot
+*.lof
