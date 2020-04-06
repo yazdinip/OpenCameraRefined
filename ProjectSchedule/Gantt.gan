@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2020-03-07" view-index="1" gantt-divider-location="374" resource-divider-location="300" version="2.8.10" locale="en_US">
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2020-03-03" view-index="1" gantt-divider-location="374" resource-divider-location="300" version="2.8.10" locale="en_US">
     <description/>
     <view zooming-state="default:2" id="gantt-chart">
         <field id="tpd3" name="Name" width="211" order="0"/>
@@ -183,7 +183,7 @@
         <task id="266" name="PRESENTATION: Final Demo" color="#ff0000" meeting="true" start="2020-04-01" duration="0" complete="100" thirdDate="2020-01-30" thirdDate-constraint="0" expand="true">
             <depend id="285" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="285" name="Documentation Rev1" color="#0000cc" meeting="false" start="2020-04-01" duration="5" complete="67" thirdDate="2020-02-06" thirdDate-constraint="0" priority="4" expand="true">
+        <task id="285" name="Documentation Rev1" color="#0000cc" meeting="false" start="2020-04-01" duration="5" complete="100" thirdDate="2020-02-06" thirdDate-constraint="0" priority="4" expand="true">
             <depend id="284" type="2" difference="0" hardness="Strong"/>
             <task id="315" name="Team Discussion" color="#8cb6ce" meeting="false" start="2020-04-01" duration="1" complete="100" thirdDate="2020-02-06" thirdDate-constraint="0" expand="true">
                 <depend id="287" type="2" difference="0" hardness="Rubber"/>
@@ -196,21 +196,21 @@
             </task>
             <task id="338" name="Revise Problem Statement" color="#8cb6ce" meeting="false" start="2020-04-02" duration="1" complete="100" thirdDate="2020-04-01" thirdDate-constraint="0" expand="true"/>
             <task id="287" name="Revise MIS" color="#8cb6ce" meeting="false" start="2020-04-02" duration="1" complete="100" thirdDate="2020-02-06" thirdDate-constraint="0" expand="true"/>
-            <task id="291" name="Revise SRS" color="#8cb6ce" meeting="false" start="2020-04-02" duration="2" complete="50" thirdDate="2020-04-02" thirdDate-constraint="0" expand="true"/>
+            <task id="291" name="Revise SRS" color="#8cb6ce" meeting="false" start="2020-04-02" duration="2" complete="100" thirdDate="2020-04-02" thirdDate-constraint="0" expand="true"/>
             <task id="344" name="Revise Test Plan" color="#8cb6ce" meeting="false" start="2020-04-02" duration="1" complete="100" thirdDate="2020-04-02" thirdDate-constraint="0" expand="true">
                 <depend id="290" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="290" name="Complete Test Report" color="#8cb6ce" meeting="false" start="2020-04-03" duration="3" complete="50" thirdDate="2020-04-02" thirdDate-constraint="0" expand="true"/>
-            <task id="289" name="Revise MG" color="#8cb6ce" meeting="false" start="2020-04-05" duration="1" complete="0" thirdDate="2020-04-02" thirdDate-constraint="0" expand="true"/>
-            <task id="292" name="Update Gantt Chart" color="#8cb6ce" meeting="false" start="2020-04-05" duration="1" complete="90" thirdDate="2020-02-06" thirdDate-constraint="0" expand="true"/>
+            <task id="290" name="Complete Test Report" color="#8cb6ce" meeting="false" start="2020-04-03" duration="3" complete="100" thirdDate="2020-04-02" thirdDate-constraint="0" expand="true"/>
+            <task id="289" name="Revise MG" color="#8cb6ce" meeting="false" start="2020-04-05" duration="1" complete="100" thirdDate="2020-04-02" thirdDate-constraint="0" expand="true"/>
+            <task id="292" name="Update Gantt Chart" color="#8cb6ce" meeting="false" start="2020-04-05" duration="1" complete="100" thirdDate="2020-02-06" thirdDate-constraint="0" expand="true"/>
         </task>
-        <task id="284" name="DUE: Final Documenation" color="#ff3300" meeting="true" start="2020-04-06" duration="0" complete="0" thirdDate="2020-04-06" thirdDate-constraint="0" expand="true"/>
+        <task id="284" name="DUE: Final Documenation" color="#ff3300" meeting="true" start="2020-04-06" duration="0" complete="100" thirdDate="2020-04-06" thirdDate-constraint="0" expand="true"/>
     </tasks>
     <resources>
-        <resource id="0" name="Dominik Buszowiecki" function="Default:0" contacts="" phone=""/>
-        <resource id="1" name="Zayed Sheet" function="Default:0" contacts="" phone=""/>
-        <resource id="2" name="Pedram Yazdinia" function="Default:0" contacts="" phone=""/>
-        <resource id="3" name="Faisal Jaffer" function="Default:0" contacts="" phone=""/>
+        <resource id="0" name="Dominik Buszowiecki" function="1" contacts="" phone=""/>
+        <resource id="1" name="Zayed Sheet" function="1" contacts="" phone=""/>
+        <resource id="2" name="Pedram Yazdinia" function="1" contacts="" phone=""/>
+        <resource id="3" name="Faisal Jaffer" function="1" contacts="" phone=""/>
     </resources>
     <allocations>
         <allocation task-id="4" resource-id="0" function="Default:0" responsible="true" load="100.0"/>
@@ -298,4 +298,7 @@
     <vacations/>
     <previous/>
     <roles roleset-name="Default"/>
+    <roles>
+        <role id="1" name="Developer"/>
+    </roles>
 </project>
