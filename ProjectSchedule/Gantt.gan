@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2020-03-03" view-index="1" gantt-divider-location="374" resource-divider-location="300" version="2.8.10" locale="en_US">
+<?xml version="1.0" encoding="UTF-8"?><project name="OpenCameraRefined" company="CameraCrew" webLink="https://gitlab.cas.mcmaster.ca/yazdinip/opencamerarefined" view-date="2020-03-03" view-index="0" gantt-divider-location="374" resource-divider-location="300" version="2.8.10" locale="en_US">
     <description/>
     <view zooming-state="default:2" id="gantt-chart">
         <field id="tpd3" name="Name" width="211" order="0"/>
@@ -126,17 +126,18 @@
                 <depend id="125" type="2" difference="0" hardness="Strong"/>
                 <depend id="127" type="2" difference="0" hardness="Rubber"/>
             </task>
-            <task id="125" name="Gesture Feature" color="#000000" meeting="false" start="2020-03-17" duration="3" complete="100" thirdDate="2020-03-17" thirdDate-constraint="0" expand="true">
-                <task id="146" name="Import Tensorflow into project" color="#66ffff" meeting="false" start="2020-03-17" duration="1" complete="100" thirdDate="2020-03-17" thirdDate-constraint="0" expand="true">
+            <task id="125" name="Gesture Feature" color="#000000" meeting="false" start="2020-03-15" duration="3" complete="100" thirdDate="2020-03-17" thirdDate-constraint="0" expand="true">
+                <task id="146" name="Import Tensorflow into project" color="#66ffff" meeting="false" start="2020-03-15" duration="1" complete="100" thirdDate="2020-03-17" thirdDate-constraint="0" expand="true">
                     <depend id="129" type="2" difference="0" hardness="Strong"/>
+                    <task id="521" name="Implement Classifer Module" color="#66ffff" meeting="false" start="2020-03-15" duration="1" complete="100" thirdDate="2020-03-15" thirdDate-constraint="0" expand="true"/>
                 </task>
-                <task id="129" name="Implement Gesture Controller Module" color="#66ffff" meeting="false" start="2020-03-18" duration="1" complete="100" thirdDate="2020-03-17" thirdDate-constraint="0" expand="true">
+                <task id="129" name="Implement Classifier Constants Module" color="#66ffff" meeting="false" start="2020-03-16" duration="1" complete="100" thirdDate="2020-03-17" thirdDate-constraint="0" expand="true">
                     <depend id="140" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="140" name="Implement Gesture Controller Module" color="#66ffff" meeting="false" start="2020-03-19" duration="1" complete="100" thirdDate="2020-03-19" thirdDate-constraint="0" expand="true">
+                <task id="140" name="Implement Gesture Controller Module" color="#66ffff" meeting="false" start="2020-03-17" duration="1" complete="100" thirdDate="2020-03-19" thirdDate-constraint="0" expand="true">
                     <depend id="192" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="192" name="BE1.1 Implemented" color="#8cb6ce" meeting="true" start="2020-03-20" duration="0" complete="100" thirdDate="2020-03-17" thirdDate-constraint="0" expand="true">
+                <task id="192" name="Implement Classifer Module" color="#8cb6ce" meeting="true" start="2020-03-18" duration="0" complete="100" thirdDate="2020-03-17" thirdDate-constraint="0" expand="true">
                     <depend id="307" type="2" difference="0" hardness="Strong"/>
                 </task>
             </task>
