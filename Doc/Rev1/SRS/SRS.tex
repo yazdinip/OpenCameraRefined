@@ -274,18 +274,70 @@ N/A}
 {\color{red}
 \begin{enumerate}[{REQ}1.]
 \item The system must allow the user to capture (save) a picture by Smiling at the Camera.
+	\begin{itemize}
+		\item \textbf{Rationale:} \textcolor{red}{The image capture through smile will make image capture more accessible to different people.}
+		\item \textbf{Fit Criterion:}  \textcolor{red}{Everytime a smile detection happens, a white box appears around the screen indicating the picture capture.}
+	\end{itemize}
 \item The system must be able to detect the face of the user, and distinguish between Smiling and not-Smiling.
+	\begin{itemize}
+		\item \textbf{Rationale:}  \textcolor{red}{As one of the main functionalities of the application, the system must take a picture only when it is smiling or otherwise it would constantly take pictures as soon as a face appears.}
+		\item \textbf{Fit Criterion:}  \textcolor{red}{A red box will apear around the face of the user when a smiling face is detected.}
+	\end{itemize}
 \item They system must allow the user to view the saved picture. 
+	\begin{itemize}
+		\item \textbf{Rationale:}   \textcolor{red}{The user's ability to the see the saved picture goes back to the core functionality of the camera.}
+		\item \textbf{Fit Criterion:}   \textcolor{red}{Each captured image through new functionalities should be visible through any file manager or gallery applications. }
+	\end{itemize}
 \item The system must allow the user to perform simple modifications on the saved picture. 
+	\begin{itemize}
+		\item \textbf{Rationale:}  \textcolor{red}{Modern users are interested in tweaking the image to look better for many different purposes.}
+		\item \textbf{Fit Criterion:}   \textcolor{red}{Modifications must be visible by any other means of access to the file.}
+	\end{itemize}
 \item The system must be able to detect a thumbs up. 
+	\begin{itemize}
+		\item \textbf{Rationale:}  \textcolor{red}{As one of the more important new features being added to the camera, the thumbs up makes filter change more accessible for people.}
+		\item \textbf{Fit Criterion:}   \textcolor{red}{A green border should appear around the thumbs up once detected by the camera and given a two second rest before detecting again. }
+	\end{itemize}
 \item The system must allow the user to apply or change the current filter through the filter button allocated in the UI. 
+	\begin{itemize}
+		\item \textbf{Rationale:}  \textcolor{red}{This is for times where users find the thumbs up simply too much effort to change the filter.}
+		\item \textbf{Fit Criterion:}   \textcolor{red}{The filters appeared on screen should immediately change by every button press.}
+	\end{itemize}
 \item The system must allow the user to apply or change the current filter through thumbs up gestrue detection.
-\item If a filter is applied, the system must save the picture with the filter applied.
+	\begin{itemize}
+		\item \textbf{Rationale:}  \textcolor{red}{The thumbs up detection should be good enough to only work on a thumbs up and not on other hand gestures that may resemble a thumbs up. }
+		\item \textbf{Fit Criterion:}   \textcolor{red}{Every filter change should come with a rest period where the controller confirms the change in filter.}
+	\end{itemize}
+\item If a filter is applied, the system must save the picture with the filter applied. 
+	\begin{itemize}
+		\item \textbf{Rationale:}  \textcolor{red}{Addition of filters is only practical if the user can captrue the picture with the filter applied.}
+		\item \textbf{Fit Criterion:}   \textcolor{red}{The new saved file should be accessible by any other means of access.}
+	\end{itemize}
 \item The system must allow the user to zoom in or out with the filter applied.
+	\begin{itemize}
+		\item \textbf{Rationale:}  \textcolor{red}{Without the basic functionalities, the new features might not seem as enticing any more.}
+		\item \textbf{Fit Criterion:}   \textcolor{red}{The user can verify the picture zoom by reviewing the photo.}
+	\end{itemize}
 \item The system must allow the user to switch from the Rear Camera to the Front Camera with the same filter applied, if any. 
+	\begin{itemize}
+		\item \textbf{Rationale:}  \textcolor{red}{It is important that the functionalities can be accessed in both cameras as many people use both cameras very frequently.}
+		\item \textbf{Fit Criterion:}   \textcolor{red}{The actual data from both cameras enter from the same stream which then can be modified to detect and capture. }
+	\end{itemize}
 \item The system must allow the user to take a picture with the main capture button.
+	\begin{itemize}
+		\item \textbf{Rationale:}  \textcolor{red}{This is the user finds the smile capture not applicable to its situation and it desires to capture a filtered or non-filtered preview in the fastest way possible.}
+		\item \textbf{Fit Criterion:}   \textcolor{red}{The captured file should be accessible from any image viewer.}
+	\end{itemize}
 \item If a filter applied, the system must allow the user to capture the filtered view with the smile detection. 
+	\begin{itemize}
+		\item \textbf{Rationale:}  \textcolor{red}{This is where we require our functionalities to cooperate and produce a greater functionality.}
+		\item \textbf{Fit Criterion:}   \textcolor{red}{The captured file should be accessible from any image viewer, confirming the filter applied.}
+	\end{itemize}
 \item The system must use auto focus in any scenario where the user requests a picture capture regardless of the process or the context of the preview.
+	\begin{itemize}
+		\item \textbf{Rationale:}  \textcolor{red}{Very similar to zoom, auto focus is a very important functionality that substantially improves picture qualities.}
+		\item \textbf{Fit Criterion:}   \textcolor{red}{No matter of the filter applied, the user must be able to take clear pictures from different distances with auto focus on.}
+	\end{itemize}
 \end{enumerate}
 }
 
