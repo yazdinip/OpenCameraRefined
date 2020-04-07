@@ -76,7 +76,7 @@
 \midrule
 March 14, 2020 & 1.0 & Initial document\\
 \midrule
-April 4, 2020 & 2.0 & Filter Controller Updated\\
+April 6, 2020 & 2.0 & Filter Controller Updated, Added Hardware Hiding Module\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -480,11 +480,11 @@ None
 
 \newpage
 
-\section* {\sout{Filter Module}\textcolor{red}{ImgFilterController Module}}
+\section* {\sout{Filter Module}\textcolor{red}{Image Filter Controller Module}}
 
 \subsection*{Module}
 
-Filter
+\sout{Filter}\textcolor{red}{ImgFilterController}
 
 \subsection* {Uses}
 
@@ -499,13 +499,15 @@ N/A
 
 \subsubsection* {Exported Types}
 
-N/A
+ImgFilterController = ?
 
 \subsubsection* {Exported Access Programs}
 
 \begin{tabular}{| l | l | l | l |}
 \hline
 \textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+\hline
+\textcolor{red}{ImgFilterController} & & \textcolor{red}{ImgFilterController} & \\
 \hline
 changeFilter &  &  & \\
 \hline
@@ -545,7 +547,13 @@ The $\%$ operator represents the mathematical modulus operator
 
 \subsubsection* {Access Routine Semantics}
 
-changeFilter():
+ImgFilterController():
+\begin{itemize}
+\item transition: $\text{filterIndex} := 0$
+\item output: $self$
+\end{itemize}
+
+\noindent changeFilter():
 \begin{itemize}
 \item transition: $\text{filterIndex} := (\text{filterIndex} + 1) \% |FILTERS + 1|$
 \item output: None
@@ -567,8 +575,9 @@ changeFilter():
 
 \noindent \textcolor{red}{processImage():}
 \begin{itemize}
-\item \textcolor{red}{transition: \\filterIndex = 0 $\implies$ filtered := $null$ \\
-filterIndex\ \!= 0 $\implies$ filtered := setFiltered(rgbFrameBitmap)
+\item \textcolor{red}{transition: rgbFrameBitmap := \textit{\# frame gets converted to Bitmap and placed into rgbFrameBitmap, bitmapFromByte(frame) is called}  \\
+filterIndex = 0 $\implies$ filtered := $null$ \\
+filterIndex\ != 0 $\implies$ filtered := setFiltered(rgbFrameBitmap)
 }
 
 \item \textcolor{red}{output: None}
@@ -579,6 +588,15 @@ filterIndex\ \!= 0 $\implies$ filtered := setFiltered(rgbFrameBitmap)
 \begin{itemize}
 \item \textcolor{red}{transition: None}
 \item \textcolor{red}{output: $out$ := filtered}
+\end{itemize}
+
+\subsection*{Local Functions}
+
+\noindent bitmapFromByte($byte$[] data):
+\begin{itemize}
+\item transition: rgbFrameBitmap := ImageUtils.convertYUV420SPToARGB8888(data)
+\item output: None
+\item exception: None\\
 \end{itemize}
 
 \newpage
@@ -624,6 +642,109 @@ None
 None
 
 \newpage
+
+\textcolor{red}{\section* {Hardware Hiding Module}}
+
+\subsection*{Module}
+
+\textcolor{red}{Preview}
+
+\subsection* {Uses}
+
+\textcolor{red}{
+GestureController\\
+ImgFilterController\\
+Android.Camera
+}
+
+\subsection* {Syntax}
+
+\subsubsection* {Exported Constants}
+
+\textcolor{red}{N/A}
+
+
+\subsubsection* {Exported Types}
+
+\textcolor{red}{N/A}
+
+\subsubsection* {Exported Access Programs}
+
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+\hline
+\textcolor{red}{startCameraPreview} & &  & \\
+\hline
+\textcolor{red}{pausePreview} & & & \\
+\hline
+\textcolor{red}{onPictureTaken} & \textcolor{red}{$byte[]$} & & \\
+\hline
+\textcolor{red}{getCameraId} & & \textcolor{red}{$\mathbb{Z}$} & \\
+\hline
+\textcolor{red}{closeCamera} & & & \\
+\hline
+
+\end{tabular}
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+
+\textcolor{red}{gesture\_controller : GestureController\\
+img\_filter : ImgFilterController
+}
+\subsubsection* {Environment Variables}
+
+\textcolor{red}{camera\_controller: \textit{\# Android Camera}}
+
+\subsubsection* {State Invariant}
+
+None
+
+\subsubsection* {Assumptions}
+
+None
+
+\subsubsection* {Access Routine Semantics}
+
+
+\textcolor{red}{startCameraPreview()}: 
+\begin{itemize}
+\item \textcolor{red}{transition: gesture\_controller, img\_filter := GestureController(), ImgFilterController() \\
+        camera\_controller.getCamera().setPreviewCallback(F) 
+        }
+        
+        \textcolor{red}{\textit{\# The callback function (F) will continually pass the frame from the camera to the gesture and img filter controllers to be processed}}
+\item \textcolor{red}{output: None}
+
+\end{itemize}
+
+\noindent \textcolor{red}{pausePreview()}:
+\begin{itemize}
+\item \textcolor{red}{transition: camera\_controller.stopPreview()}
+\item \textcolor{red}{output: None}
+
+\end{itemize}
+
+\noindent \textcolor{red}{onPictureTaken($byte[]$ data):}
+\begin{itemize}
+\item \textcolor{red}{transition: \\img\_filter.getFilter $!= 0 \implies $ \textit{\#Retrieve filtered version of camera frame as bitmap (img\_filter.getFiltered()), convert to data[], save to storage}\\
+img\_filter.getFilter $= 0 \implies$ \textit{\# save data parameter to storage}}
+\item \textcolor{red}{output: None}
+\end{itemize}
+
+\noindent \textcolor{red}{getCameraId()}:
+\begin{itemize}
+\item \textcolor{red}{transition: None}
+\item \textcolor{red}{output: $out := \text{camera\_controller.getCameraId()}$ \textit{\# Helps differentiate between front facing and rear camera}}
+\end{itemize}
+
+\noindent \textcolor{red}{closeCamera()}:
+\begin{itemize}
+\item \textcolor{red}{transition: camera\_controller.release()}
+\item \textcolor{red}{output: None}
+\end{itemize}
 
 
 
