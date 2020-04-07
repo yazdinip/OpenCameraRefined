@@ -299,7 +299,7 @@ N/A}
 
 \subsection{Look and Feel Requirements}
 \subsubsection{Appearance Requirements}
-\begin{enumerate}[{NF}.]
+\begin{enumerate}[{ARL}1.]
 	\item The overall look and feel will remain unchanged from the original Open Camera application. \textcolor{red}{The additional features shall seamlessly integrate with the existing interface in a way that majority of users dont notice any change.}
 	\begin{itemize}
 		\item \textcolor{red}{A simple questionnaire link can be given to users after a month of use where they can rate their satisfaction with the UI along a spectrum. 80\% of the users need to rate the UI score higher than the average of the spectrum. }
@@ -311,7 +311,7 @@ N/A}
 
 \subsection{Usability and Humanity Requirements}
 \subsubsection{Ease of Use Requirments}
-\begin{enumerate}[{NF}. ]
+\begin{enumerate}[{EU}1. ]
 	\item The ease of use of the existing features will remain unchanged. 
 	\begin{itemize}
 		\item {\color{red} Users can be asked during the first few times of new use with the application to rate the ease of use of the new features added. }
@@ -324,7 +324,7 @@ N/A}
 
 
 \subsubsection{Learning Requirements}
-\begin{enumerate}[{NF}.]
+\begin{enumerate}[{LR}1.]
 	\item \textcolor{red}{The user shall need no learning assistance in "Smile Capture" and Gesture based Filter change.}
 	\begin{itemize}
 		\item {\color{red}A study of the user requests for additional assistance through help button included from the original project should show that 90 \% of users do not request for further help once the new features are deployed. }
@@ -341,7 +341,7 @@ N/A}
 
 
 \subsubsection{Speed and Latency Requirements}
-	\begin{enumerate}[{NF}.]
+	\begin{enumerate}[{SL}1.]
 		\item \sout{The performance of the existing features must not be affected by the additional features being added.} \textcolor{red}{When filters are applied, the preview frame rate should not drop substantially and the preview should be still usable.}
 		\begin{itemize}
 			\item \textcolor{red}{Test cases processed at the end of development can constantly check the frame rate of preview and assert that at any moment, the frame rate does not drop below 20 frame rates per second. }
@@ -364,7 +364,7 @@ N/A}
 {\color{red}N/A}
 
 \subsubsection{Precision or Accuracy Requirements}
-\begin{enumerate}[{NF}.]
+\begin{enumerate}[{PA}1.]
 	\item If a photo is being taken using the gesture feature, the app shall detect the gesture in most of the scenarios.
 	\begin{itemize} 
 		\item \textcolor{red}{The application gesture detection can be tested in 40 different scenarios incuding different lightings, different faces and generally different environemnts. The detection should be successful in at least 85 \% of the scenarios. }
@@ -372,7 +372,7 @@ N/A}
 \end{enumerate}
 
 \subsubsection{Reliability and Availability Requirements}
-\begin{enumerate}[{NF}.]
+\begin{enumerate}[{RA}1.]
 	\item \textcolor{red}{The product shall be available to use for the customer at any given time for any extended eriod of time.}
 	\begin{itemize}
 		\item \textcolor{red}{A study of users usage after the first month can show the reports of incurred problems including any times where the application has crashed. The study should show that the 0 \% of crash reports have taken place before the expected availability time of 5 hours.}
@@ -380,7 +380,7 @@ N/A}
 \end{enumerate}
 
 \subsubsection{Robustness Requirements}
-\begin{enumerate}[{NF}.]
+\begin{enumerate}[{RR}1.]
 	\item \textcolor{red}{The application's false detection should remain as low as possible, in order to prevent false image captures and extra storage usage.}
 	\begin{itemize}
 		\item \textcolor{red}{100 images of smiling and non-smiling faces should be represented to the camera. Eventhough the model might not be perfect, the non-smiling image detection should be less than 10 \% of the presented volume.}
@@ -391,7 +391,7 @@ N/A}
 {\color{red}N/A}
 
 \subsubsection{Scalabillity or Extensibillity Requirements}
-\begin{enumerate}[{NF}.]
+\begin{enumerate}[{SE}1.]
 	\item \textcolor{red}{The project shall easily allow for addition of new trained models where it would allow the camera to detect new gestures other than thumbs up and smiling.}
 	\begin{itemize}
 		\item \textcolor{red}{20 pre-trained models should simply be added to the gesture controller. The application should be asked to classify the items that the models were trained with, and resutls should show that in every case, the addition of new models work as expected based on how good the model is trained.}
@@ -405,7 +405,7 @@ N/A}
 \subsection{Operational and Environmental Requirements}
 
 \subsubsection{Expected Physical Environment}
-\begin{enumerate}[{NF}.]
+\begin{enumerate}[{EP}1.]
 	\item The product shall be operable in any location provided that the camera is functional on the users device.
 	\begin{itemize}
 		\item \textcolor{red}{The application must be able to function and installed on 95 \% of Android devices that provide Camera functionalities with the minimum processing powers. }
@@ -416,7 +416,7 @@ N/A}
 {\color{red}N/A}
 
 \subsubsection{Productization Requirements}
-\begin{enumerate}[{NF}.]
+\begin{enumerate}[{PRE}1.]
 	\item \textcolor{red}{The product must be available to download on a public GitLab repository and installed thorugh Android Studio. Further developments could present the application in an APK form where users can easily deploy the new features. }
 	\begin{itemize}
 		\item \textcolor{red}{The git repositroy is public and includes instructions on how to clone and install the application through Android Studio. }
@@ -429,7 +429,7 @@ N/A}
 \subsection{Maintainability and Support Requirements}
 
 \subsubsection{Maintenance Requirements}
-\begin{enumerate}[{NF}.]
+\begin{enumerate}[{MR}1.]
 	\item The hardware and software support for the application shall remain unchanged from the original application. 
 	\begin{itemize}
 		\item \textcolor{red}{Using Android Virtual Device, we can install the original applciation on 20 different devices. The new features should then be deployed and tested again for their functionalities. 100 \% of devices should not have conflic with the new installations.}
@@ -440,7 +440,7 @@ N/A}
 {\color{red}N/A}
 
 \subsubsection{Adaptability Requirements}
-\begin{enumerate}[{NF}.]
+\begin{enumerate}[{ARM}1.]
 	\item \sout{Maintenance as a result of the additional features shall be kept minimal.} \textcolor{red}{The application must be completely functional after each update associated with Android or any of the adjacent frameworks and dependencies. }
 	\begin{itemize}
 		\item \textcolor{red}{After two years of application release, the team should study the number of users that have stopped using the application after an Android update. The number of users should be less than 3 \% of the entire users. }
@@ -450,7 +450,7 @@ N/A}
 \subsection{Security Requirements}
 
 \subsubsection{Access Requirements}
-\begin{enumerate}[{NF}.]
+\begin{enumerate}[{ARS}1.]
 	\item \sout{The application shall be available to download by the general public.} \textcolor{red}{The product should not be dependent on any file or module that is recognized by Google Play Store or different Antiviruses as a malicious file.  }
 	\begin{itemize}
 		\item \textcolor{red}{Upon each update, the developer team can scan the entire project for viruses or mishandled security protocols within the system. The scan result must yield in 100 \% clean files.  }
@@ -460,7 +460,7 @@ N/A}
 {\color{red}N/A}
 
 \subsubsection{Privacy Requirements}
-\begin{enumerate}[{NF}.]
+\begin{enumerate}[{PRS}1.]
 	\item \sout{The app shall not transmit any user data or user photos to a external source unless authorized. }
 \end{enumerate}
 {\color{red}N/A}
@@ -475,7 +475,7 @@ N/A}
 \subsection{Cultural and Political Requirements}
 
 \subsubsection{Cultural Requirements}
-\begin{enumerate}[{NF}.]
+\begin{enumerate}[{CRC}1.]
 	\item \sout{This product shall not offend any religious or ethnic group. }
 \end{enumerate}
 {\color{red}N/A}
@@ -486,7 +486,7 @@ N/A}
 \subsection{Legal Requirements}
 
 \subsubsection{Compliance Requirements}
-\begin{enumerate}[{NF}.]
+\begin{enumerate}[{CRL}1.]
 	\item \sout{The application shall conform to all applicable laws and regulations. }
 \end{enumerate}
 {\color{red}N/A}
@@ -495,7 +495,7 @@ N/A}
 {\color{red}N/A}
 
 \subsection{Health and Safety Requirements}
-\begin{enumerate}[{NF}.]
+\begin{enumerate}[{HS}1.]
 	\item \sout{The gestures required to take a photo shall be subtle and not endanger those around the user.}
 \end{enumerate}
 {\color{red}N/A}
