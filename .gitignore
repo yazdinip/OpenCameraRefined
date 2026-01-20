@@ -1,0 +1,34 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.iml
+
+# Logs
+*.log
+
+# Data artifacts
+data/raw/
+data/interim/
+data/tmp/
+data/cache/
+
+# Results scratch
+results/tmp/
+
+# Android / Gradle
+**/build/
+**/.gradle/
+local.properties
+*.apk
+*.aab
+*.ap_
+*.keystore
+*.jks
+
+# Misc
+*.tmp
+*.bak

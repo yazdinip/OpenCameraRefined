@@ -1,1 +1,9 @@
-LICENSE Information
+Licensing and Attribution
+
+This repository includes the Open Camera codebase, which is licensed under
+GPL-3.0. The full license text is available at:
+software/opencamera/gpl-3.0.txt
+
+Research documentation, protocols, and artifacts in this repository are
+provided for academic and evaluation use. If you plan to reuse or redistribute
+them outside of this context, contact the maintainers to confirm permissions.
