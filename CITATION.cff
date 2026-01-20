@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+title: "OpenCameraRefined Research"
+message: "If you use this work, please cite it."
+type: software
+authors:
+  - family-names: Jaffer
+    given-names: Faisal
+  - family-names: Buszowiecki
+    given-names: Dominik
+  - family-names: Yazdinia
+    given-names: Pedram
+  - family-names: Sheet
+    given-names: Zayed
+version: "0.1.0"
+date-released: "2026-01-20"
