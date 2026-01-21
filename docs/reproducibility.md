@@ -12,6 +12,13 @@ Create a new folder in `experiments/` for each run with:
 - `config.json` or equivalent settings
 - `metrics.csv` or `metrics.json` outputs
 
+## Baseline audits
+The resource audit is run with:
+`python scripts/resource_audit.py --config configs/resource_audit.json`
+
+Outputs are stored in `results/resource_audit.json` and
+`data/derived/resource_audit.csv`.
+
 ## Determinism and variance
 - Note any non-deterministic components (auto exposure, focus behavior).
 - Repeat runs across at least two devices.

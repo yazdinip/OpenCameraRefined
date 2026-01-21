@@ -23,6 +23,14 @@ with clear documentation, experiment tracking, and reproducibility guidance.
 2. `cd software/opencamera`
 3. `./gradlew assembleDebug` (Windows: `gradlew.bat assembleDebug`)
 
+## Baseline audit
+Run the resource inventory to capture the current asset footprint:
+`python scripts/resource_audit.py --config configs/resource_audit.json`
+
+Outputs:
+- `results/resource_audit.json`
+- `data/derived/resource_audit.csv`
+
 ## Reproducibility
 See `docs/reproducibility.md` for experiment logging, environment capture, and
 data-handling expectations.
