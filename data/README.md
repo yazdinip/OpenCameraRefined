@@ -2,7 +2,7 @@
 
 This directory stores data artifacts. Do not commit raw participant data.
 
-Suggested structure:
-- `data/raw/` local-only captures and logs
-- `data/processed/` sanitized datasets for sharing
-- `data/derived/` aggregates used in figures and tables
+Current artifacts:
+- `data/derived/resource_audit.csv` directory-level counts from the resource audit
+
+Raw and sensitive data should remain outside of version control.

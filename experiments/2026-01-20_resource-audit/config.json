@@ -1,0 +1,5 @@
+{
+  "res_dir": "software/opencamera/app/src/main/res",
+  "output_json": "results/resource_audit.json",
+  "output_csv": "data/derived/resource_audit.csv"
+}
